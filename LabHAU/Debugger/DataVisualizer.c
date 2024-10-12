@@ -11,7 +11,7 @@ void DV_VIPlot(const vi_cxt_t *pCxt)
     int i;
     
     for(i=0; i<38; i++)
-        DV_PortWrite(*pCxt->Raw++);
+        DV_PortWrite(pCxt->Raw[i]);
 }
 
 void DV_SpeedPlot_Init(speed_cxt_t *pCxt)
@@ -25,5 +25,5 @@ void DV_SpeedPlot(const speed_cxt_t *pCxt)
     int i;
     
     for(i=0; i<34; i++)
-        DV_PortWrite(*pCxt->Raw++);
+        DV_PortWrite(pCxt->Raw[i]);
 }

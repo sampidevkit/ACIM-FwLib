@@ -1,8 +1,8 @@
-#include "TickTimer.h"
+#include "Tick.h"
 
 static simple_fnc_t CbFnc=NULL;
 
-public bool Tick_Timer_Is_Over(tick_timer_t *pTick, tick_t Time, tick_timer_type_t TickType) // <editor-fold defaultstate="collapsed" desc="Check tick over microsecond">
+public bool Tick_Is_Over(tick_timer_t *pTick, tick_t Time, tick_timer_type_t TickType) // <editor-fold defaultstate="collapsed" desc="Check tick over microsecond">
 {
     if(pTick->Timeout)
     {
@@ -15,10 +15,10 @@ public bool Tick_Timer_Is_Over(tick_timer_t *pTick, tick_t Time, tick_timer_type
         else
             pTick->Duration=TICK_PER_SEC*Time;
 
-        pTick->Start=Tick_Timer_Get_TickVal();
+        pTick->Start=Tick_Get_TickVal();
     }
 
-    if((Tick_Timer_Get_TickVal()-pTick->Start)>=pTick->Duration)
+    if((Tick_Get_TickVal()-pTick->Start)>=pTick->Duration)
     {
         pTick->Timeout=1;
         return 1;
@@ -30,7 +30,7 @@ public bool Tick_Timer_Is_Over(tick_timer_t *pTick, tick_t Time, tick_timer_type
 public void Delay(tick_t Time, tick_timer_type_t TickType) // <editor-fold defaultstate="collapsed" desc="Delay">
 {
     tick_t Duration;
-    tick_t Start=Tick_Timer_Get_TickVal();
+    tick_t Start=Tick_Get_TickVal();
 
     if(TickType==US)
         Duration=TICK_PER_US*Time;
@@ -40,14 +40,14 @@ public void Delay(tick_t Time, tick_timer_type_t TickType) // <editor-fold defau
     else
         Duration=TICK_PER_SEC*Time;
 
-    while((Tick_Timer_Get_TickVal()-Start)<Duration)
+    while((Tick_Get_TickVal()-Start)<Duration)
     {
         if(CbFnc)
             CbFnc();
     }
 } // </editor-fold>
 
-public void Tick_Timer_SetFncCallInDelay(simple_fnc_t pFnc)
+public void Tick_SetFncCallInDelay(simple_fnc_t pFnc)
 {
     CbFnc=pFnc;
 }

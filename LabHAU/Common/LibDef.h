@@ -64,4 +64,9 @@ typedef const char*                 far_string_t;
 #define NO_INIT                     __attribute__((section(".no_init")))
 #define SECTION(a)                  __attribute__((__section__(a)))
 
+#define __make_str(str) #str
+#define __make_xstr(str) __make_str(str)
+
+typedef void (*simple_fnc_t) (void);
+
 #endif

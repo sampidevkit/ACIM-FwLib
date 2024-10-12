@@ -1,8 +1,8 @@
 #ifndef DATAVISUALIZER_H
 #define DATAVISUALIZER_H
 
-#include "Common/LibDef.h"
-#include "Project_Cfg.h"
+#include "../Common/LibDef.h"
+#include "config/labHau/labHau_Cfg.h"
 
 typedef union {
     uint8_t Raw[40];
@@ -15,8 +15,8 @@ typedef union {
         uint32_t Vv;
         uint32_t Vw;
         int32_t Iu;
-        int32_t Iu;
-        int32_t Iu;
+        int32_t Iv;
+        int32_t Iw;
         int32_t Temp;
         uint8_t Footer;
         uint8_t Rfu1;
@@ -33,8 +33,8 @@ typedef union {
         uint32_t Vv;
         uint32_t Vw;
         int32_t Iu;
-        int32_t Iu;
-        int32_t Iu;
+        int32_t Iv;
+        int32_t Iw;
         int32_t Temp;
         int32_t Speed;
         uint8_t Footer;
