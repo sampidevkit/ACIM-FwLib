@@ -22,7 +22,7 @@ typedef enum {
     US,
     MS,
     SEC
-} tick_timer_type_t;
+} tick_type_t;
 
 typedef struct {
     tick_t Start;
@@ -33,13 +33,13 @@ typedef struct {
     volatile bool Timeout;
     tick_t Start;
     tick_t Duration;
-} __attribute_packed__ tick_timer_t;
+} __attribute_packed__ tick_cxt_t;
 
 public void Tick_SetFncCallInDelay(simple_fnc_t pFnc);
-public void Delay(tick_t Time, tick_timer_type_t TickType); // Do not use in multi-task mode
-public bool Tick_Is_Over(tick_timer_t *pTick, tick_t Time, tick_timer_type_t TickType);
+public void Delay(tick_t Time, tick_type_t TickType); // Do not use in multi-task mode
+public bool Tick_Is_Over(tick_cxt_t *pTick, tick_t Time, tick_type_t TickType);
 
-static inline void Tick_Reset(tick_timer_t *pTick) {
+static inline void Tick_Reset(tick_cxt_t *pTick) {
     pTick->Timeout = 1;
 }
 
@@ -48,7 +48,6 @@ static inline tick_t Tick_Get_TickVal(void) {
 }
 
 #define Tick_Init(cb)                   Tick_SetFncCallInDelay(cb)
-#define Tick_Reset(x)                   Tick_Reset(&(x))
 #define Delay_Us(Time)                  Delay(Time, US)
 #define delay_us(t)                     Delay_Us(t)
 #define __delay_us(t)                   Delay_Us(t)
@@ -67,9 +66,6 @@ static inline tick_t Tick_Get_TickVal(void) {
 #define Tick_GetTimeSec()               (Tick_Get_TickVal() / TICK_PER_SEC)
 #define Tick_Is_Over_Ms(pTick, Time)    Tick_Is_Over(&pTick, Time, MS)
 #define Tick_Is_Over_Sec(pTick, Time)   Tick_Is_Over(&pTick, Time, SEC)
-#define Elapse_Create(name, t)          do{name.Start=Tick_Get_TickVal(); name.Duration=t*TICK_PER_MS;}while(0)
-#define Elapse_Get(name)                ((Tick_Get_TickVal()-name.Start)>name.Duration?1:0)
-#define Elapse_Update(name)             name.Start=Tick_Get_TickVal()
 
 #define Tick_Get()                      (_CP0_GET_COUNT())
 #define Tick_GetUs(ms)                  (ms*TICK_PER_US)

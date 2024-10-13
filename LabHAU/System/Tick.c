@@ -2,7 +2,7 @@
 
 static simple_fnc_t CbFnc=NULL;
 
-public bool Tick_Is_Over(tick_timer_t *pTick, tick_t Time, tick_timer_type_t TickType) // <editor-fold defaultstate="collapsed" desc="Check tick over microsecond">
+public bool Tick_Is_Over(tick_cxt_t *pTick, tick_t Time, tick_type_t TickType) // <editor-fold defaultstate="collapsed" desc="Check tick over microsecond">
 {
     if(pTick->Timeout)
     {
@@ -27,7 +27,7 @@ public bool Tick_Is_Over(tick_timer_t *pTick, tick_t Time, tick_timer_type_t Tic
     return 0;
 } // </editor-fold>
 
-public void Delay(tick_t Time, tick_timer_type_t TickType) // <editor-fold defaultstate="collapsed" desc="Delay">
+public void Delay(tick_t Time, tick_type_t TickType) // <editor-fold defaultstate="collapsed" desc="Delay">
 {
     tick_t Duration;
     tick_t Start=Tick_Get_TickVal();

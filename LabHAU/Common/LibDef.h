@@ -68,5 +68,6 @@ typedef const char*                 far_string_t;
 #define __make_xstr(str) __make_str(str)
 
 typedef void (*simple_fnc_t) (void);
+typedef void (*callback_fnc_t)(uint32_t status, uintptr_t context);
 
 #endif
