@@ -2,7 +2,7 @@
 #define	SIXSTEP_H
 
 #include "../Common/LibDef.h"
-#include "config/labHau/labHau_Cfg.h"
+#include "config/labhau/labhau_cfg.h"
 
 typedef struct {
     void (*Start)(void);

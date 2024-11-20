@@ -2,7 +2,7 @@
 #define	THREEPHASEPWM_H
 
 #include "../Common/LibDef.h"
-#include "config/labHau/labHau_Cfg.h"
+#include "config/labhau/labhau_cfg.h"
 
 typedef enum {
     PWM_U,

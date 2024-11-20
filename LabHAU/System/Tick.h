@@ -2,7 +2,7 @@
 #define TICK_H
 
 #include "../Common/LibDef.h"
-#include "config/labHau/labHau_Cfg.h"
+#include "config/labhau/labhau_cfg.h"
 
 #ifndef TICK_PER_SEC
 #define TICK_PER_SEC 60000000 // Clock source of core timer
