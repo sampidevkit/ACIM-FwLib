@@ -2,6 +2,6 @@
 #define	MOTORS_H
 
 #include "Common/LibDef.h"
-#include "config/labhau/labhau_cfg.h"
+#include "labhau_cfg.h"
 
 #endif

@@ -1,8 +1,8 @@
 #ifndef DATAVISUALIZER_H
 #define DATAVISUALIZER_H
 
-#include "../Common/LibDef.h"
-#include "config/labhau/labhau_cfg.h"
+#include "Common/LibDef.h"
+#include "labhau_cfg.h"
 
 typedef union {
     uint8_t Raw[40];
