@@ -9,13 +9,13 @@ typedef struct {
     const uint32_t Rbot; // Top divider resistor
     const uint32_t Rtop; // Bottom divider resistor
     int32_t Iir; // IIR filter buffer
-    int32_t Val; // Real voltage in mV unit
+    int32_t Val; // Present ADC value
 } vol_cxt_t;
 
 typedef struct {
     const uint32_t Gain; // Vol/Vol gain 
     int32_t Iir; // IIR filter buffer
-    int32_t Val; // Real current in mA unit
+    int32_t Val; // Present ADC value
 } cur_cxt_t;
 
 typedef struct {

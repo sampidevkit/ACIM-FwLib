@@ -76,9 +76,9 @@
 #pragma config POSCMOD =    EC
 #pragma config OSCIOFNC =   OFF
 #pragma config FCKSM =      CSECME
-#pragma config WDTPS =      PS1048576
+#pragma config WDTPS =      PS2048
 #pragma config WDTSPGM =    STOP
-#pragma config FWDTEN =     OFF
+#pragma config FWDTEN =     ON
 #pragma config WINDIS =     NORMAL
 #pragma config FWDTWINSZ =  WINSZ_25
 #pragma config DMTCNT =     DMT31
@@ -94,14 +94,14 @@
 #pragma config UPLLEN =     ON
 
 /*** DEVCFG3 ***/
-#pragma config USERID =     0xffff
-#pragma config FUSBIDIO2 =   ON
-#pragma config FVBUSIO2 =  ON
+#pragma config USERID =     0x3072
+#pragma config FUSBIDIO2 =   OFF
+#pragma config FVBUSIO2 =  OFF
 #pragma config PGL1WAY =    ON
 #pragma config PMDL1WAY =   ON
 #pragma config IOL1WAY =    ON
-#pragma config FUSBIDIO1 =   ON
-#pragma config FVBUSIO1 =  ON
+#pragma config FUSBIDIO1 =   OFF
+#pragma config FVBUSIO1 =  OFF
 #pragma config PWMLOCK =  OFF
 
 /*** BF1SEQ ***/
@@ -212,9 +212,9 @@ void SYS_Initialize ( void* data )
 	GPIO_Initialize();
 
     CORETIMER_Initialize();
-    QEI1_Initialize();
-
     ADCHS_Initialize();
+
+    QEI1_Initialize();
 
 	UART1_Initialize();
 

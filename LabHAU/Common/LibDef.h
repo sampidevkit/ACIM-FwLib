@@ -15,6 +15,12 @@ typedef int8_t                      rslt_t;
 typedef struct tm                   tm_t;
 typedef const char*                 far_string_t;
 
+typedef struct
+{
+    int32_t num; // numerator
+    int32_t den; // denominator
+} fraction_t;
+
 #define public
 #define private static
 
