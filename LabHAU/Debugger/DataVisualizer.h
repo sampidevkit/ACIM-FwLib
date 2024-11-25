@@ -4,52 +4,23 @@
 #include "Common/LibDef.h"
 #include "labhau_cfg.h"
 
-typedef union {
-    uint8_t Raw[40];
+typedef struct {
+    uint8_t Raw[14];
+} __attribute_packed__ plot_cxt_t;
 
-    struct {
-        uint8_t Header;
-        uint32_t Vdc;
-        uint32_t Idc;
-        uint32_t Vu;
-        uint32_t Vv;
-        uint32_t Vw;
-        int32_t Iu;
-        int32_t Iv;
-        int32_t Iw;
-        int32_t Temp;
-        uint8_t Footer;
-        uint8_t Rfu1;
-        uint8_t Rfu2;
-    };
-} __attribute_packed__ vi_cxt_t;
+typedef struct
+{
+    int head;
+    int tail;
+} __attribute_packed__ plot_ring_buff_t;
 
-typedef union {
-    uint8_t Raw[36];
-
-    struct {
-        uint8_t Header;
-        uint32_t Vu;
-        uint32_t Vv;
-        uint32_t Vw;
-        int32_t Iu;
-        int32_t Iv;
-        int32_t Iw;
-        int32_t Temp;
-        int32_t Speed;
-        uint8_t Footer;
-        uint8_t Rfu1;
-        uint8_t Rfu2;
-    };
-} speed_cxt_t;
-
-/* **************************************************************** Prototype */
-void DV_PortWrite(uint8_t c);
 /* ************************************************************************** */
-void DV_VIPlot_Init(vi_cxt_t *pCxt);
-void DV_VIPlot(const vi_cxt_t *pCxt);
+void DV_Init(void);
 
-void DV_SpeedPlot_Init(speed_cxt_t *pCxt);
-void DV_SpeedPlot(const speed_cxt_t *pCxt);
+// Current plot: Input[0:2]=[Iu, Iv, Iw]
+// Voltage plot: Input[0:2]=[Vu, Vv, Vw]
+// Speed plot: Input[0:2]=[SpeedSet, SpeedEst, SpeedReal]
+void DV_Plot(int32_t Input0, int32_t Input1, int32_t Input2);
+void DV_Tasks(void);
 
 #endif

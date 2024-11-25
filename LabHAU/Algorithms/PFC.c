@@ -1,5 +1,8 @@
 #include "PFC.h"
 
+pfc_ui_cxt_t PfcUiCxt;
+static volatile int PfcCnt;
+
 #ifndef USE_MY_PFC_ALGORITHM
 pfc_inputs_t PfcInputs;
 pfc_outputs_t PfcOutputs;
