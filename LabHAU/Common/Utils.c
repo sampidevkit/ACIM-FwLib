@@ -1269,24 +1269,24 @@ public uint8_t BCD2Dec(uint8_t bcdvalue) // <editor-fold defaultstate="collapsed
 
 // <editor-fold defaultstate="collapsed" desc="Filters">
 
-public uint16_t iir(uint32_t *prev, uint16_t current, uint8_t hardness) // <editor-fold defaultstate="collapsed" desc="IIR Filter">
+public int16_t iir(int32_t *prev, int16_t current, uint8_t hardness) // <editor-fold defaultstate="collapsed" desc="IIR Filter">
 {
-    uint32_t ir;
-    uint32_t tmp;
+    int32_t ir;
+    int32_t tmp;
 
-    tmp=current<<4; //current*16;
+    tmp=(int32_t)current*16;
 
     if(tmp > *prev)
     {
         ir=(tmp- *prev) >> (hardness-1);
-        *prev+=(ir>>1); //ir/2;
+        *prev+=(ir/2);
     }
     else
     {
         ir=(*prev-tmp) >> (hardness-1);
-        *prev-=(ir>>1); //ir/2;
+        *prev-=(ir/2);
     }
 
-    return (uint16_t) (*prev>>4); //(*prev/16);
+    return (int16_t) (*prev/16);
 } // </editor-fold>
 // </editor-fold>

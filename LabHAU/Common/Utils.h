@@ -90,5 +90,5 @@ public uint8_t Calc_DayOfWeek(uint32_t Day, uint32_t Month, uint32_t Year);
 public uint8_t Dec2BCD(uint8_t hexvalue);
 public uint8_t BCD2Dec(uint8_t bcdvalue);
 
-public uint16_t iir(uint32_t *prev, uint16_t current, uint8_t hardness);
+public int16_t iir(int32_t *prev, int16_t current, uint8_t hardness);
 #endif

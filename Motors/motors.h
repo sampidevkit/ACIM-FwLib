@@ -31,8 +31,10 @@ typedef struct // Motor parameters in integer value
 } motor_ipara_t;
 
 extern const motor_fpara_t MotorFParameters;
+extern const motor_fpara_t myMotorFParameters;
 extern motor_ipara_t MotorIParameters;
 
 void Motor_Init(void);
+void Motor_myInit(void);
 
 #endif

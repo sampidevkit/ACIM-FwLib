@@ -1,55 +1,85 @@
 #include "MC.h"
 
-inv_ui_cxt_t InvUiCxt;
-static volatile int InvCnt;
+
+mc_inputs_t McInputs;
+mc_outputs_t McOutputs;
+static int InvCnt;
 
 static void InvAdc_IntCb(uint32_t ch, uintptr_t pt)
 {
-    EVIC_SourceDisable(INT_SOURCE_ADC_DATA0);
-    EVIC_SourceStatusClear(INT_SOURCE_ADC_DATA0);
-    InvUiCxt.PhaseU.Cur.Val=iir(&InvUiCxt.PhaseU.Cur.Iir, (uint16_t) ADCHS_ChannelResultGet(ADCHS_CH0), INV_IIR_FILTER_HARDNESS);
-    InvUiCxt.PhaseU.Vol.Val=iir(&InvUiCxt.PhaseU.Vol.Iir, (uint16_t) ADCHS_ChannelResultGet(ADCHS_CH2), INV_IIR_FILTER_HARDNESS);
-    InvUiCxt.PhaseV.Cur.Val=iir(&InvUiCxt.PhaseV.Cur.Iir, (uint16_t) ADCHS_ChannelResultGet(ADCHS_CH1), INV_IIR_FILTER_HARDNESS);
-    InvUiCxt.PhaseV.Vol.Val=iir(&InvUiCxt.PhaseV.Vol.Iir, (uint16_t) ADCHS_ChannelResultGet(ADCHS_CH7), INV_IIR_FILTER_HARDNESS);
-    InvUiCxt.Power.Cur.Val=iir(&InvUiCxt.Power.Cur.Iir, (uint16_t) ADCHS_ChannelResultGet(ADCHS_CH9), INV_IIR_FILTER_HARDNESS);
-    InvUiCxt.Power.Vol.Val=iir(&InvUiCxt.Power.Vol.Iir, (uint16_t) ADCHS_ChannelResultGet(ADCHS_CH10), INV_IIR_FILTER_HARDNESS);
+    INV_ADC_InterruptDisable();
+    INV_ADC_InterruptClear();
+    InvUiCxt.PhaseU.Cur.Val=iir(&InvUiCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
+    InvUiCxt.PhaseU.Vol.Val=iir(&InvUiCxt.PhaseU.Vol.Iir, (int16_t) INV_ADC_GetVuChannel(), INV_IIR_FILTER_HARDNESS);
+    InvUiCxt.PhaseV.Cur.Val=iir(&InvUiCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
+    InvUiCxt.PhaseV.Vol.Val=iir(&InvUiCxt.PhaseV.Vol.Iir, (int16_t) INV_ADC_GetVvChannel(), INV_IIR_FILTER_HARDNESS);
+    InvUiCxt.Power.Cur.Val=iir(&InvUiCxt.Power.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
+    InvUiCxt.Power.Vol.Val=iir(&InvUiCxt.Power.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
 
-    if(++PfcCnt>=INV_IIR_FILTER_HARDNESS)
+    if(++InvCnt>=INV_IIR_FILTER_HARDNESS)
     {
-        float tmp;
+        int32_t tmp;
 
-        PfcCnt=0;
-        tmp=InvUiCxt.PhaseU.Cur.Val;
+        InvCnt=0;
+        // I=Vsh/Rsh=Vo/gain/Rsh
+        // =Vo/(gain*Rsh)
+        // =(Adc*Vref/Reso)/(gain*Rsh)
+        // =(Adc*Vref)/(Reso*gain*Rsh)
+        InvUiCxt.PhaseU.Cur.Val*=InvUiCxt.AdcVref;
 
         MC_Process();
     }
 
-    EVIC_SourceStatusClear(INT_SOURCE_ADC_DATA0);
-    EVIC_SourceEnable(INT_SOURCE_ADC_DATA0);
+    INV_ADC_InterruptClear();
+    INV_ADC_InterruptEnable();
 }
 
 static void InvPwm_IntCb(uint32_t ch, uintptr_t pt)
 {
-    MCPWM_Stop();
+    INV_PWM_Disable();
     VDC_Disable();
     DevMode_Enable();
     LedErr_On();
     printf("\r\nPWM Fault has occurred");
 }
 
-#ifndef USE_MY_MOTOR_CONTROL_ALGORITHM
-mc_inputs_t McInputs;
-mc_outputs_t McOutputs;
-
 void MC_Init(void)
 {
+    InvCnt=0;
 
+    InvUiCxt.PhaseU.Cur.Iir=0;
+    InvUiCxt.PhaseU.Vol.Iir=0;
+
+    InvUiCxt.PhaseV.Cur.Iir=0;
+    InvUiCxt.PhaseV.Vol.Iir=0;
+
+    InvUiCxt.Power.Cur.Iir=0;
+    InvUiCxt.Power.Vol.Iir=0;
+
+    INV_ADC_InterruptDisable();
+    INV_ADC_InterruptClear();
+    INV_ADC_SetCallback(InvAdc_IntCb);
+    INV_ADC_InterruptEnable();
+
+    INV_PWM_Disable();
+    INV_PWM_InterruptDisable();
+    INV_PWM_InterruptClear();
+    INV_PWM_SetCallback(InvPwm_IntCb);
+    INV_PWM_InterruptEnable();
+    INV_PWM_Start();
+
+#ifdef USE_MY_MOTOR_CONTROL_ALGORITHM
+    MC_myInit();
+#endif
+
+    printf("\r\n%s done", __FUNCTION__);
 }
 
 void MC_Process(void)
 {
-
-}
+#ifdef USE_MY_MOTOR_CONTROL_ALGORITHM
+    MC_myProcess();
 #else
-#warning "You are using customize motor control algotithm"
+
 #endif
+}

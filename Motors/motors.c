@@ -1,17 +1,16 @@
 #include "motors.h"
 
-#ifndef USE_MY_MOTOR_PARAMETERS
-
 const motor_fpara_t MotorFParameters={
-    
+
 };
 
 motor_ipara_t MotorIParameters;
 
 void Motor_Init(void)
 {
-    
-}
+#ifdef USE_MY_MOTOR_PARAMETERS
+    Motor_myInit();
 #else
-#warning "You are using customize motor parameters"
+    printf("\r\n%s done", __FUNCTION__);
 #endif
+}
