@@ -11,24 +11,28 @@ void DV_Init(void)
     printf("\r\n%s done", __FUNCTION__);
 }
 
-void DV_Plot(int32_t Input0, int32_t Input1, int32_t Input2)
+void DV_PlotData(const void *Input0, const void *Input1, const void *Input2)
 {
+    uint32_t *pD0=(uint32_t *) Input0;
+    uint32_t *pD1=(uint32_t *) Input1;
+    uint32_t *pD2=(uint32_t *) Input2;
+
     DvData[DvBuff.tail].Raw[0]=0x03;
 
-    DvData[DvBuff.tail].Raw[1]=(uint8_t) (Input0>>24);
-    DvData[DvBuff.tail].Raw[2]=(uint8_t) (Input0>>16);
-    DvData[DvBuff.tail].Raw[3]=(uint8_t) (Input0>>8);
-    DvData[DvBuff.tail].Raw[4]=(uint8_t) (Input0);
+    DvData[DvBuff.tail].Raw[1]=(uint8_t) (*pD0>>24);
+    DvData[DvBuff.tail].Raw[2]=(uint8_t) (*pD0>>16);
+    DvData[DvBuff.tail].Raw[3]=(uint8_t) (*pD0>>8);
+    DvData[DvBuff.tail].Raw[4]=(uint8_t) (*pD0);
 
-    DvData[DvBuff.tail].Raw[5]=(uint8_t) (Input1>>24);
-    DvData[DvBuff.tail].Raw[6]=(uint8_t) (Input1>>16);
-    DvData[DvBuff.tail].Raw[7]=(uint8_t) (Input1>>8);
-    DvData[DvBuff.tail].Raw[8]=(uint8_t) (Input1);
+    DvData[DvBuff.tail].Raw[5]=(uint8_t) (*pD1>>24);
+    DvData[DvBuff.tail].Raw[6]=(uint8_t) (*pD1>>16);
+    DvData[DvBuff.tail].Raw[7]=(uint8_t) (*pD1>>8);
+    DvData[DvBuff.tail].Raw[8]=(uint8_t) (*pD1);
 
-    DvData[DvBuff.tail].Raw[9]=(uint8_t) (Input2>>24);
-    DvData[DvBuff.tail].Raw[10]=(uint8_t) (Input2>>16);
-    DvData[DvBuff.tail].Raw[11]=(uint8_t) (Input2>>8);
-    DvData[DvBuff.tail].Raw[12]=(uint8_t) (Input2);
+    DvData[DvBuff.tail].Raw[9]=(uint8_t) (*pD2>>24);
+    DvData[DvBuff.tail].Raw[10]=(uint8_t) (*pD2>>16);
+    DvData[DvBuff.tail].Raw[11]=(uint8_t) (*pD2>>8);
+    DvData[DvBuff.tail].Raw[12]=(uint8_t) (*pD2);
 
     DvData[DvBuff.tail].Raw[13]=0xFC;
 
