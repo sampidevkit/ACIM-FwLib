@@ -6,20 +6,57 @@ inv_ui_cxt_t InvUiCxt={
     .AdcVref=3300, // mV
     .AdcReso=4096, // 12bit
 
-    .PhaseU.Cur.Gain=200,
-    .PhaseU.Cur.Rshunt=10, //mOhm
-    .PhaseU.Vol.Rbot=3000,
-    .PhaseU.Vol.Rtop=11,
+    /* Ish=Vsh/Rsh=(Vo/ampli_gain)/Rsh
+          =Vo/(ampli_gain*Rsh)
+          =(AdcVal*AdcVref/AdcReso)/(ampli_gain*Rsh)
+          =(AdcVal*AdcVref)/(AdcReso*ampli_gain*Rsh)
+    Gain=AdcVref/(AdcReso*ampli_gain*Rsh)
+    => Ish=AdcVal*Gain    */
 
-    .PhaseV.Cur.Gain=200,
-    .PhaseV.Cur.Rshunt=10, //mOhm
-    .PhaseV.Vol.Rbot=3000,
-    .PhaseV.Vol.Rtop=11,
+    /* Vin=(Vdiv/Rbot)*(Rtop+Rbot)
+       Vdiv=AdcVal*AdcVref/AdcReso
+    => Vin=(AdcVal*AdcVref/(AdcReso*Rbot))*(Rtop+Rbot)
+    Gain=AdcVref*(Rtop+Rbot)/(AdcReso*Rbot)
+    Vin=AdcVal*Gain     */
 
-    .Power.Cur.Gain=50,
-    .Power.Cur.Rshunt=10, //mOhm
-    .Power.Vol.Rbot=3000,
-    .Power.Vol.Rtop=11
+    // Rsh=0.01Ohm
+    // ampli_gain=200
+    // Gain=3300/(4096*200*0.01)=825/2048
+    .PhaseU.Cur.Gain.num=825,
+    .PhaseU.Cur.Gain.den=2048,
+    .PhaseU.Cur.Gain.val=(float) (825/2048),
+    // Rtop=300k
+    // Rbot=1.1k
+    // Gain=3300*(300k+1.1k)/(300k*1.1k)=3011/1000
+    .PhaseU.Vol.Gain.num=3011,
+    .PhaseU.Vol.Gain.num=1000,
+    .PhaseU.Vol.Gain.val=(float) (3011/1000),
+
+    // Rsh=0.01Ohm
+    // ampli_gain=200
+    // Gain=3300/(4096*200*0.01)=825/2048
+    .PhaseV.Cur.Gain.num=825,
+    .PhaseV.Cur.Gain.den=2048,
+    .PhaseV.Cur.Gain.val=(float) (825/2048),
+    // Rtop=300k
+    // Rbot=1.1k
+    // Gain=3300*(300k+1.1k)/(300k*1.1k)=3011/1000
+    .PhaseV.Vol.Gain.num=3011,
+    .PhaseV.Vol.Gain.num=1000,
+    .PhaseV.Vol.Gain.val=(float) (3011/1000),
+
+    // Rsh=0.005Ohm
+    // ampli_gain=50
+    // Gain=3300/(4096*50*0.005)=825/256
+    .Source.Cur.Gain.num=825,
+    .Source.Cur.Gain.den=256,
+    .Source.Cur.Gain.val=(float) (825/256),
+    // Rtop=300k
+    // Rbot=1.1k
+    // Gain=3300*(300k+1.1k)/(300k*1.1k)=3011/1000
+    .Source.Vol.Gain.num=3011,
+    .Source.Vol.Gain.num=1000,
+    .Source.Vol.Gain.val=(float) (3011/1000),
 };
 
 /* ******************************************************************* System */

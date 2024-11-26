@@ -11,15 +11,15 @@
 #include <xc.h>
 #include <sys/attribs.h>
 
-typedef int8_t                      rslt_t;
-typedef struct tm                   tm_t;
-typedef const char*                 far_string_t;
+typedef int8_t rslt_t;
+typedef struct tm tm_t;
+typedef const char* far_string_t;
 
-typedef struct
-{
+typedef struct {
     int32_t num; // numerator
     int32_t den; // denominator
-} fraction_t;
+    float val; // val=num/den 
+} fraction_t, gain_t;
 
 #define public
 #define private static

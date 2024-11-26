@@ -6,15 +6,13 @@
 #include "Common/Utils.h"
 
 typedef struct {
-    const int32_t Rbot; // Top divider resistor
-    const int32_t Rtop; // Bottom divider resistor
+    const gain_t Gain; // Gain to convert ADC to real voltage
     int32_t Iir; // IIR filter buffer
     int32_t Val; // Present ADC value
 } inv_vol_cxt_t;
 
 typedef struct {
-    const int32_t Gain; // Vol/Vol gain
-    const int32_t Rshunt; // mOhm
+    const gain_t Gain; // Gain to convert ADC to real current
     int32_t Iir; // IIR filter buffer
     int32_t Val; // Present ADC value
 } inv_cur_cxt_t;
@@ -27,7 +25,7 @@ typedef struct {
 typedef struct {
     const int32_t AdcVref; // ADC Vref
     const int32_t AdcReso; // ADC resolution
-    inv_src_cxt_t Power; // Inverter power source context
+    inv_src_cxt_t Source; // Inverter power source context
     inv_phase_cxt_t PhaseU; // Inverter phase U context
     inv_phase_cxt_t PhaseV; // Inverter phase V context
 } inv_ui_cxt_t;
