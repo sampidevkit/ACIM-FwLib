@@ -1,4 +1,5 @@
 #include "MC.h"
+#include "Debugger/DataVisualizer.h"
 
 mc_inputs_t McInputs;
 mc_outputs_t McOutputs;
@@ -79,7 +80,7 @@ void MC_Init(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
 
     InvUiCxt.Source.Cur.Iir=0;
     InvUiCxt.Source.Vol.Iir=0;
-
+    
     INV_ADC_InterruptDisable();
     INV_ADC_InterruptClear();
     INV_ADC_SetCallback(InvAdc_IntCb);
@@ -99,7 +100,7 @@ void MC_Init(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
 
     for(i=0; i<42; i++)
     {
-        float tmp=SinTable42[i]*(float) INV_PWM_GetDutyMax();
+        float tmp=SinTable42[i]*(float) InvUiCxt.PwmDutyMax;
 
         DutyTable42[i]=(uint16_t) tmp;
     }
@@ -112,8 +113,11 @@ void MC_Init(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
 void MC_Process(void) // <editor-fold defaultstate="collapsed" desc="Motor controller process">
 {
 #ifdef USE_MY_MOTOR_CONTROL_ALGORITHM
+#warning "You are using MC_myProcess()"
     MC_myProcess();
-#elif defined(USE_MC_FREE_RUN)
+#else
+#warning "Your MC_myProcess() has NOT been called in this option"
+#if defined(USE_MC_FREE_RUN)
     static int u=0;
     int v, w;
     int sz=42, sz13=14; // 42/3
@@ -135,7 +139,9 @@ void MC_Process(void) // <editor-fold defaultstate="collapsed" desc="Motor contr
 
     if(++u>=sz)
         u=0;
-#else
-
+    
+    //DV_Plot(McInputs.PhaseU.I, McInputs.PhaseV.I, McInputs.PhaseW.I);
+    DV_Plot(McOutputs.DutyU, McOutputs.DutyV, McOutputs.DutyW);
+#endif
 #endif
 } // </editor-fold>

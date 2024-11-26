@@ -51,7 +51,6 @@ void INV_ADC_InterruptEnable(void);
 void INV_ADC_InterruptDisable(void);
 void INV_ADC_InterruptClear(void);
 /* ****************************************************************** INV PWM */
-uint16_t INV_PWM_GetDutyMax(void);
 void INV_PWM_SetDuty(uint16_t DutyU, uint16_t DutyV, uint16_t DutyW);
 void INV_PWM_SetCallback(void (*callback) (uint32_t status, uintptr_t context));
 void INV_PWM_InterruptEnable(void);

@@ -3,6 +3,7 @@
 #include "Algorithms/MC.h"
 
 inv_ui_cxt_t InvUiCxt={
+    .PwmDutyMax=3000, // See in MCPWM_PrimaryPeriodGet()
     .AdcVref=3300, // mV
     .AdcReso=4096, // 12bit
 
@@ -243,11 +244,6 @@ void INV_ADC_InterruptClear(void)
 }
 
 /* ****************************************************************** INV PWM */
-uint16_t INV_PWM_GetDutyMax(void)
-{
-    return MCPWM_PrimaryPeriodGet();
-}
-
 void INV_PWM_SetDuty(uint16_t DutyU, uint16_t DutyV, uint16_t DutyW)
 {
     MCPWM_ChannelPrimaryDutySet(MCPWM_CH_12, DutyU);

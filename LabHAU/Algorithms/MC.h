@@ -23,6 +23,7 @@ typedef struct {
 } inv_phase_cxt_t, inv_src_cxt_t;
 
 typedef struct {
+    const uint16_t PwmDutyMax; // Max PWM duty
     const int32_t AdcVref; // ADC Vref
     const int32_t AdcReso; // ADC resolution
     inv_src_cxt_t Source; // Inverter power source context
@@ -59,5 +60,24 @@ void MC_Init(void);
 void MC_myInit(void);
 void MC_Process(void);
 void MC_myProcess(void);
+
+/* ************************************************************************** */
+#define McIs    McInputs.Source.I
+#define McIu    McInputs.PhaseU.I
+#define McIv    McInputs.PhaseV.I
+#define McIw    McInputs.PhaseW.I
+
+#define McUs    McInputs.Source.U
+#define McUu    McInputs.PhaseU.U
+#define McUv    McInputs.PhaseV.U
+#define McUw    McInputs.PhaseW.U
+
+#define McSpeed McInputs.Speed
+
+#define McDutyU McOutputs.DutyU
+#define McDutyV McOutputs.DutyV
+#define McDutyW McOutputs.DutyW
+
+#define McDutyMax InvUiCxt.PwmDutyMax
 
 #endif
