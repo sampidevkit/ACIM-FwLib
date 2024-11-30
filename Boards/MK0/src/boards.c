@@ -26,25 +26,36 @@ inv_ui_cxt_t InvUiCxt={
     .PhaseU.Cur.Gain.num=825,
     .PhaseU.Cur.Gain.den=2048,
     .PhaseU.Cur.Gain.val=(float) (825/2048),
+    .PhaseU.Cur.Offset.num=1,
+    .PhaseU.Cur.Offset.den=1,
+    .PhaseU.Cur.Offset.val=1.0,
     // Rtop=300k
     // Rbot=1.1k
     // Gain=3300*(300k+1.1k)/(300k*1.1k)=3011/1000
     .PhaseU.Vol.Gain.num=3011,
     .PhaseU.Vol.Gain.num=1000,
     .PhaseU.Vol.Gain.val=(float) (3011/1000),
-
+    .PhaseU.Vol.Offset.num=1,
+    .PhaseU.Vol.Offset.den=1,
+    .PhaseU.Vol.Offset.val=1.0,
     // Rsh=0.01Ohm
     // ampli_gain=200
     // Gain=3300/(4096*200*0.01)=825/2048
     .PhaseV.Cur.Gain.num=825,
     .PhaseV.Cur.Gain.den=2048,
     .PhaseV.Cur.Gain.val=(float) (825/2048),
+    .PhaseV.Cur.Offset.num=1,
+    .PhaseV.Cur.Offset.den=1,
+    .PhaseV.Cur.Offset.val=1.0,
     // Rtop=300k
     // Rbot=1.1k
     // Gain=3300*(300k+1.1k)/(300k*1.1k)=3011/1000
     .PhaseV.Vol.Gain.num=3011,
     .PhaseV.Vol.Gain.num=1000,
     .PhaseV.Vol.Gain.val=(float) (3011/1000),
+    .PhaseV.Vol.Offset.num=1,
+    .PhaseV.Vol.Offset.den=1,
+    .PhaseV.Vol.Offset.val=1.0,
 
     // Rsh=0.005Ohm
     // ampli_gain=50
@@ -52,12 +63,18 @@ inv_ui_cxt_t InvUiCxt={
     .Source.Cur.Gain.num=825,
     .Source.Cur.Gain.den=256,
     .Source.Cur.Gain.val=(float) (825/256),
+    .Source.Cur.Offset.num=1,
+    .Source.Cur.Offset.den=1,
+    .Source.Cur.Offset.val=1.0,
     // Rtop=300k
     // Rbot=1.1k
     // Gain=3300*(300k+1.1k)/(300k*1.1k)=3011/1000
     .Source.Vol.Gain.num=3011,
     .Source.Vol.Gain.num=1000,
     .Source.Vol.Gain.val=(float) (3011/1000),
+    .Source.Vol.Offset.num=1,
+    .Source.Vol.Offset.den=1,
+    .Source.Vol.Offset.val=1.0
 };
 
 /* ******************************************************************* System */
