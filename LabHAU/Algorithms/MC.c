@@ -23,35 +23,45 @@ static void InvAdc_IntCb(uint32_t ch, uintptr_t pt) // <editor-fold defaultstate
 {
     INV_ADC_InterruptDisable();
     INV_ADC_InterruptClear();
-    InvUiCxt.PhaseU.Cur.Val=iir(&InvUiCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
-    InvUiCxt.PhaseU.Vol.Val=iir(&InvUiCxt.PhaseU.Vol.Iir, (int16_t) INV_ADC_GetVuChannel(), INV_IIR_FILTER_HARDNESS);
-    InvUiCxt.PhaseV.Cur.Val=iir(&InvUiCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
-    InvUiCxt.PhaseV.Vol.Val=iir(&InvUiCxt.PhaseV.Vol.Iir, (int16_t) INV_ADC_GetVvChannel(), INV_IIR_FILTER_HARDNESS);
-    InvUiCxt.Source.Cur.Val=iir(&InvUiCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
-    InvUiCxt.Source.Vol.Val=iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
 
     if(++McCount>=INV_IIR_FILTER_HARDNESS)
     {
+        InvUiCxt.PhaseU.Cur.Val=iir(&InvUiCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
+        InvUiCxt.PhaseU.Vol.Val=iir(&InvUiCxt.PhaseU.Vol.Iir, (int16_t) INV_ADC_GetVuChannel(), INV_IIR_FILTER_HARDNESS);
+        InvUiCxt.PhaseV.Cur.Val=iir(&InvUiCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
+        InvUiCxt.PhaseV.Vol.Val=iir(&InvUiCxt.PhaseV.Vol.Iir, (int16_t) INV_ADC_GetVvChannel(), INV_IIR_FILTER_HARDNESS);
+        InvUiCxt.Source.Cur.Val=iir(&InvUiCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
+        InvUiCxt.Source.Vol.Val=iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
+
 #if(1) // Use FPU
-        McInputs.Source.I=(int32_t) ((float) InvUiCxt.Source.Cur.Val*InvUiCxt.Source.Cur.Gain.val); // mA
-        McInputs.Source.U=(int32_t) ((float) InvUiCxt.Source.Vol.Val*InvUiCxt.Source.Vol.Gain.val); // mV
-        McInputs.PhaseU.I=(int32_t) ((float) InvUiCxt.PhaseU.Cur.Val*InvUiCxt.PhaseU.Cur.Gain.val); // mA
-        McInputs.PhaseU.U=(int32_t) ((float) InvUiCxt.PhaseU.Vol.Val*InvUiCxt.PhaseU.Vol.Gain.val); // mV
-        McInputs.PhaseV.I=(int32_t) ((float) InvUiCxt.PhaseV.Cur.Val*InvUiCxt.PhaseV.Cur.Gain.val); // mA
-        McInputs.PhaseV.U=(int32_t) ((float) InvUiCxt.PhaseV.Vol.Val*InvUiCxt.PhaseV.Vol.Gain.val); // mV
+        McInputs.Source.I=(int32_t) ((float) InvUiCxt.Source.Cur.Val*InvUiCxt.Source.Cur.Gain.val-(float) InvUiCxt.Source.Cur.Offset); // mA
+        McInputs.Source.U=(int32_t) ((float) InvUiCxt.Source.Vol.Val*InvUiCxt.Source.Vol.Gain.val-(float) InvUiCxt.Source.Vol.Offset); // mV
+        McInputs.PhaseU.I=(int32_t) ((float) InvUiCxt.PhaseU.Cur.Val*InvUiCxt.PhaseU.Cur.Gain.val-(float) InvUiCxt.PhaseU.Cur.Offset); // mA
+        McInputs.PhaseU.U=(int32_t) ((float) InvUiCxt.PhaseU.Vol.Val*InvUiCxt.PhaseU.Vol.Gain.val-(float) InvUiCxt.PhaseU.Vol.Offset); // mV
+        McInputs.PhaseV.I=(int32_t) ((float) InvUiCxt.PhaseV.Cur.Val*InvUiCxt.PhaseV.Cur.Gain.val-(float) InvUiCxt.PhaseV.Cur.Offset); // mA
+        McInputs.PhaseV.U=(int32_t) ((float) InvUiCxt.PhaseV.Vol.Val*InvUiCxt.PhaseV.Vol.Gain.val-(float) InvUiCxt.PhaseV.Vol.Offset); // mV
 #else
-        McInputs.Source.I=(InvUiCxt.Source.Cur.Val*InvUiCxt.Source.Cur.Gain.num)/InvUiCxt.Source.Cur.Gain.den; // mA
-        McInputs.Source.U=(InvUiCxt.Source.Vol.Val*InvUiCxt.Source.Vol.Gain.num)/InvUiCxt.Source.Vol.Gain.den; // mV
-        McInputs.PhaseU.I=(InvUiCxt.PhaseU.Cur.Val*InvUiCxt.PhaseU.Cur.Gain.num)/InvUiCxt.PhaseU.Cur.Gain.den; // mA
-        McInputs.PhaseU.U=(InvUiCxt.PhaseU.Vol.Val*InvUiCxt.PhaseU.Vol.Gain.num)/InvUiCxt.PhaseU.Vol.Gain.den; // mV
-        McInputs.PhaseV.I=(InvUiCxt.PhaseV.Cur.Val*InvUiCxt.PhaseV.Cur.Gain.num)/InvUiCxt.PhaseV.Cur.Gain.den; // mA
-        McInputs.PhaseV.U=(InvUiCxt.PhaseV.Vol.Val*InvUiCxt.PhaseV.Vol.Gain.num)/InvUiCxt.PhaseV.Vol.Gain.den; // mV
+        McInputs.Source.I=(InvUiCxt.Source.Cur.Val*InvUiCxt.Source.Cur.Gain.num)/InvUiCxt.Source.Cur.Gain.den-InvUiCxt.Source.Cur.Offset; // mA
+        McInputs.Source.U=(InvUiCxt.Source.Vol.Val*InvUiCxt.Source.Vol.Gain.num)/InvUiCxt.Source.Vol.Gain.den-InvUiCxt.Source.Vol.Offset; // mV
+        McInputs.PhaseU.I=(InvUiCxt.PhaseU.Cur.Val*InvUiCxt.PhaseU.Cur.Gain.num)/InvUiCxt.PhaseU.Cur.Gain.den-InvUiCxt.PhaseU.Cur.Offset; // mA
+        McInputs.PhaseU.U=(InvUiCxt.PhaseU.Vol.Val*InvUiCxt.PhaseU.Vol.Gain.num)/InvUiCxt.PhaseU.Vol.Gain.den-InvUiCxt.PhaseU.Vol.Offset; // mV
+        McInputs.PhaseV.I=(InvUiCxt.PhaseV.Cur.Val*InvUiCxt.PhaseV.Cur.Gain.num)/InvUiCxt.PhaseV.Cur.Gain.den-InvUiCxt.PhaseV.Cur.Offset; // mA
+        McInputs.PhaseV.U=(InvUiCxt.PhaseV.Vol.Val*InvUiCxt.PhaseV.Vol.Gain.num)/InvUiCxt.PhaseV.Vol.Gain.den-InvUiCxt.PhaseV.Vol.Offset; // mV
 #endif
         McInputs.PhaseW.I=-McInputs.PhaseU.I-McInputs.PhaseV.I;
         McInputs.PhaseW.U=-McInputs.PhaseU.U-McInputs.PhaseV.U;
         McInputs.Speed=INV_ENC_GetSpeed();
         MC_Process();
         McCount=0;
+    }
+    else
+    {
+        iir(&InvUiCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
+        iir(&InvUiCxt.PhaseU.Vol.Iir, (int16_t) INV_ADC_GetVuChannel(), INV_IIR_FILTER_HARDNESS);
+        iir(&InvUiCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
+        iir(&InvUiCxt.PhaseV.Vol.Iir, (int16_t) INV_ADC_GetVvChannel(), INV_IIR_FILTER_HARDNESS);
+        iir(&InvUiCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
+        iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
     }
 
     INV_PWM_SetDuty(McOutputs.DutyU, McOutputs.DutyV, McOutputs.DutyW);
@@ -80,7 +90,7 @@ void MC_Init(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
 
     InvUiCxt.Source.Cur.Iir=0;
     InvUiCxt.Source.Vol.Iir=0;
-    
+
     INV_ADC_InterruptDisable();
     INV_ADC_InterruptClear();
     INV_ADC_SetCallback(InvAdc_IntCb);
@@ -139,7 +149,7 @@ void MC_Process(void) // <editor-fold defaultstate="collapsed" desc="Motor contr
 
     if(++u>=sz)
         u=0;
-    
+
     //DV_Plot(McInputs.PhaseU.I, McInputs.PhaseV.I, McInputs.PhaseW.I);
     DV_Plot(McOutputs.DutyU, McOutputs.DutyV, McOutputs.DutyW);
 #endif

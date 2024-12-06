@@ -56,7 +56,13 @@ void INV_PWM_SetCallback(void (*callback) (uint32_t status, uintptr_t context));
 void INV_PWM_InterruptEnable(void);
 void INV_PWM_InterruptDisable(void);
 void INV_PWM_InterruptClear(void);
-void INV_PWM_Start(void);
-void INV_PWM_Disable(void);
+void INV_PWM_Start(void); // enable all PWM channels
+void INV_PWM_U_Enable(void); // enable PWM channel U
+void INV_PWM_V_Enable(void); // enable PWM channel V
+void INV_PWM_W_Enable(void); // enable PWM channel W
+void INV_PWM_Disable(void); // disable all PWM channels
+void INV_PWM_U_Disable(void); // disable PWM channel U
+void INV_PWM_V_Disable(void); // disable PWM channel V
+void INV_PWM_W_Disable(void); // disable PWM channel W
 
 #endif

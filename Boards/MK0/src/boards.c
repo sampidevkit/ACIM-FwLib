@@ -12,69 +12,68 @@ inv_ui_cxt_t InvUiCxt={
           =(AdcVal*AdcVref/AdcReso)/(ampli_gain*Rsh)
           =(AdcVal*AdcVref)/(AdcReso*ampli_gain*Rsh)
     Gain=AdcVref/(AdcReso*ampli_gain*Rsh)
-    => Ish=AdcVal*Gain    */
+    => Ish=AdcVal*Gain-Ioffset
+    Ioffset=Voffset/(ampli_gain*Rsh) */
 
     /* Vin=(Vdiv/Rbot)*(Rtop+Rbot)
        Vdiv=AdcVal*AdcVref/AdcReso
     => Vin=(AdcVal*AdcVref/(AdcReso*Rbot))*(Rtop+Rbot)
     Gain=AdcVref*(Rtop+Rbot)/(AdcReso*Rbot)
-    Vin=AdcVal*Gain     */
+    Vin=AdcVal*Gain-Voffset */
 
-    // Rsh=0.01Ohm
+    // Rsh=0.001Ohm
     // ampli_gain=200
-    // Gain=3300/(4096*200*0.01)=825/2048
-    .PhaseU.Cur.Gain.num=825,
-    .PhaseU.Cur.Gain.den=2048,
-    .PhaseU.Cur.Gain.val=(float) (825/2048),
-    .PhaseU.Cur.Offset.num=1,
-    .PhaseU.Cur.Offset.den=1,
-    .PhaseU.Cur.Offset.val=1.0,
+    // Voffset=2500mV
+    // Gain=3300/(4096*200*0.001)=4125/1024
+    // Ioffset=2500/(200*0.001)=12500 (mA)
+    .PhaseU.Cur.Gain.num=4125,
+    .PhaseU.Cur.Gain.den=1024,
+    .PhaseU.Cur.Gain.val=(float) (4125/1024),
+    .PhaseU.Cur.Offset=12500,
     // Rtop=300k
     // Rbot=1.1k
     // Gain=3300*(300k+1.1k)/(300k*1.1k)=3011/1000
+    // Offset=0V
     .PhaseU.Vol.Gain.num=3011,
     .PhaseU.Vol.Gain.num=1000,
     .PhaseU.Vol.Gain.val=(float) (3011/1000),
-    .PhaseU.Vol.Offset.num=1,
-    .PhaseU.Vol.Offset.den=1,
-    .PhaseU.Vol.Offset.val=1.0,
-    // Rsh=0.01Ohm
+    .PhaseU.Vol.Offset=0,
+
+    // Rsh=0.001Ohm
     // ampli_gain=200
-    // Gain=3300/(4096*200*0.01)=825/2048
+    // Voffset=2500mV
+    // Gain=3300/(4096*200*0.001)=4125/1024
+    // Ioffset=2500/(200*0.001)=12500 (mA)
     .PhaseV.Cur.Gain.num=825,
     .PhaseV.Cur.Gain.den=2048,
     .PhaseV.Cur.Gain.val=(float) (825/2048),
-    .PhaseV.Cur.Offset.num=1,
-    .PhaseV.Cur.Offset.den=1,
-    .PhaseV.Cur.Offset.val=1.0,
+    .PhaseV.Cur.Offset=0,
     // Rtop=300k
     // Rbot=1.1k
     // Gain=3300*(300k+1.1k)/(300k*1.1k)=3011/1000
+    // Offset=0V
     .PhaseV.Vol.Gain.num=3011,
     .PhaseV.Vol.Gain.num=1000,
     .PhaseV.Vol.Gain.val=(float) (3011/1000),
-    .PhaseV.Vol.Offset.num=1,
-    .PhaseV.Vol.Offset.den=1,
-    .PhaseV.Vol.Offset.val=1.0,
+    .PhaseV.Vol.Offset=0,
 
     // Rsh=0.005Ohm
     // ampli_gain=50
+    // Voffset=0mV
     // Gain=3300/(4096*50*0.005)=825/256
+    // Ioffset=0 (mA))
     .Source.Cur.Gain.num=825,
     .Source.Cur.Gain.den=256,
     .Source.Cur.Gain.val=(float) (825/256),
-    .Source.Cur.Offset.num=1,
-    .Source.Cur.Offset.den=1,
-    .Source.Cur.Offset.val=1.0,
+    .Source.Cur.Offset=0,
     // Rtop=300k
     // Rbot=1.1k
     // Gain=3300*(300k+1.1k)/(300k*1.1k)=3011/1000
+    // Offset=0V
     .Source.Vol.Gain.num=3011,
     .Source.Vol.Gain.num=1000,
     .Source.Vol.Gain.val=(float) (3011/1000),
-    .Source.Vol.Offset.num=1,
-    .Source.Vol.Offset.den=1,
-    .Source.Vol.Offset.val=1.0
+    .Source.Vol.Offset=0
 };
 
 /* ******************************************************************* System */
@@ -293,9 +292,40 @@ void INV_PWM_Start(void)
     MCPWM_Start();
 }
 
+void INV_PWM_U_Enable(void)
+{
+    MCPWM_ChannelPinsOwnershipEnable(MCPWM_CH_12);
+}
+
+void INV_PWM_V_Enable(void)
+{
+    MCPWM_ChannelPinsOwnershipEnable(MCPWM_CH_5);
+}
+
+void INV_PWM_W_Enable(void)
+{
+    MCPWM_ChannelPinsOwnershipEnable(MCPWM_CH_6);
+}
+
 void INV_PWM_Disable(void)
 {
-    MCPWM_ChannelPinsOwnershipDisable(MCPWM_CH_1);
-    MCPWM_ChannelPinsOwnershipDisable(MCPWM_CH_2);
-    MCPWM_ChannelPinsOwnershipDisable(MCPWM_CH_3);
+    MCPWM_ChannelPinsOwnershipDisable(MCPWM_CH_12);
+    MCPWM_ChannelPinsOwnershipDisable(MCPWM_CH_5);
+    MCPWM_ChannelPinsOwnershipDisable(MCPWM_CH_6);
+    MCPWM_Stop();
+}
+
+void INV_PWM_U_Disable(void)
+{
+    MCPWM_ChannelPinsOwnershipDisable(MCPWM_CH_12);
+}
+
+void INV_PWM_V_Disable(void)
+{
+    MCPWM_ChannelPinsOwnershipDisable(MCPWM_CH_5);
+}
+
+void INV_PWM_W_Disable(void)
+{
+    MCPWM_ChannelPinsOwnershipDisable(MCPWM_CH_6);
 }

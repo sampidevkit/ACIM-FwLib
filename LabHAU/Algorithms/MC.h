@@ -7,7 +7,7 @@
 
 typedef struct {
     const gain_t Gain; // Gain to convert ADC to real voltage
-    const fraction_t Offset; // Offset value 
+    int32_t Offset; // Offset value 
     int32_t Iir; // IIR filter buffer
     int32_t Val; // Present ADC value
 } inv_vol_cxt_t, inv_cur_cxt_t;
