@@ -3,20 +3,20 @@
 
 mc_inputs_t McInputs;
 mc_outputs_t McOutputs;
-static int McCount;
+static volatile int McCount;
 
 #ifdef USE_MC_FREE_RUN
-static const float SinTable42[42]={
-    0.500, 0.425, 0.352, 0.283, 0.218, 0.159,
-    0.108, 0.066, 0.034, 0.012, 0.001, 0.002,
-    0.013, 0.036, 0.068, 0.111, 0.162, 0.221,
-    0.286, 0.356, 0.429, 0.504, 0.579, 0.652,
-    0.721, 0.786, 0.844, 0.894, 0.936, 0.968,
-    0.989, 0.999, 0.998, 0.986, 0.963, 0.929,
-    0.886, 0.835, 0.775, 0.710, 0.640, 0.566
+static const uint16_t dutyTable[42]={
+    1499, 1274, 1055, 848, 653, 476, 323, 197,
+    101, 35, 2, 5, 38, 107, 203, 332,
+    485, 662, 857, 1067, 1286, 1511, 1736, 1955,
+    2162, 2357, 2531, 2681, 2807, 2903, 2966, 2996,
+    2993, 2957, 2888, 2786, 2657, 2504, 2324, 2129,
+    1919, 1697
 };
 
-static uint16_t DutyTable42[42];
+static int u=0;
+static int cnt=0;
 #endif
 
 static void InvAdc_IntCb(uint32_t ch, uintptr_t pt) // <editor-fold defaultstate="collapsed" desc="ADC interrupt callback">
@@ -26,6 +26,7 @@ static void InvAdc_IntCb(uint32_t ch, uintptr_t pt) // <editor-fold defaultstate
 
     if(++McCount>=INV_IIR_FILTER_HARDNESS)
     {
+        McCount=0;
         InvUiCxt.PhaseU.Cur.Val=iir(&InvUiCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
         InvUiCxt.PhaseU.Vol.Val=iir(&InvUiCxt.PhaseU.Vol.Iir, (int16_t) INV_ADC_GetVuChannel(), INV_IIR_FILTER_HARDNESS);
         InvUiCxt.PhaseV.Cur.Val=iir(&InvUiCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
@@ -34,12 +35,19 @@ static void InvAdc_IntCb(uint32_t ch, uintptr_t pt) // <editor-fold defaultstate
         InvUiCxt.Source.Vol.Val=iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
 
 #if(1) // Use FPU
-        McInputs.Source.I=(int32_t) ((float) InvUiCxt.Source.Cur.Val*InvUiCxt.Source.Cur.Gain.val-(float) InvUiCxt.Source.Cur.Offset); // mA
-        McInputs.Source.U=(int32_t) ((float) InvUiCxt.Source.Vol.Val*InvUiCxt.Source.Vol.Gain.val-(float) InvUiCxt.Source.Vol.Offset); // mV
-        McInputs.PhaseU.I=(int32_t) ((float) InvUiCxt.PhaseU.Cur.Val*InvUiCxt.PhaseU.Cur.Gain.val-(float) InvUiCxt.PhaseU.Cur.Offset); // mA
-        McInputs.PhaseU.U=(int32_t) ((float) InvUiCxt.PhaseU.Vol.Val*InvUiCxt.PhaseU.Vol.Gain.val-(float) InvUiCxt.PhaseU.Vol.Offset); // mV
-        McInputs.PhaseV.I=(int32_t) ((float) InvUiCxt.PhaseV.Cur.Val*InvUiCxt.PhaseV.Cur.Gain.val-(float) InvUiCxt.PhaseV.Cur.Offset); // mA
-        McInputs.PhaseV.U=(int32_t) ((float) InvUiCxt.PhaseV.Vol.Val*InvUiCxt.PhaseV.Vol.Gain.val-(float) InvUiCxt.PhaseV.Vol.Offset); // mV
+        //        McInputs.Source.I=(int32_t) ((float) InvUiCxt.Source.Cur.Val*InvUiCxt.Source.Cur.Gain.val-(float) InvUiCxt.Source.Cur.Offset); // mA
+        //        McInputs.Source.U=(int32_t) ((float) InvUiCxt.Source.Vol.Val*InvUiCxt.Source.Vol.Gain.val-(float) InvUiCxt.Source.Vol.Offset); // mV
+        //        McInputs.PhaseU.I=(int32_t) ((float) InvUiCxt.PhaseU.Cur.Val*InvUiCxt.PhaseU.Cur.Gain.val-(float) InvUiCxt.PhaseU.Cur.Offset); // mA
+        //        McInputs.PhaseU.U=(int32_t) ((float) InvUiCxt.PhaseU.Vol.Val*InvUiCxt.PhaseU.Vol.Gain.val-(float) InvUiCxt.PhaseU.Vol.Offset); // mV
+        //        McInputs.PhaseV.I=(int32_t) ((float) InvUiCxt.PhaseV.Cur.Val*InvUiCxt.PhaseV.Cur.Gain.val-(float) InvUiCxt.PhaseV.Cur.Offset); // mA
+        //        McInputs.PhaseV.U=(int32_t) ((float) InvUiCxt.PhaseV.Vol.Val*InvUiCxt.PhaseV.Vol.Gain.val-(float) InvUiCxt.PhaseV.Vol.Offset); // mV
+
+        McInputs.Source.I=(int32_t) InvUiCxt.Source.Cur.Val;
+        McInputs.Source.U=(int32_t) InvUiCxt.Source.Vol.Val;
+        McInputs.PhaseU.I=(int32_t) InvUiCxt.PhaseU.Cur.Val;
+        McInputs.PhaseU.U=(int32_t) InvUiCxt.PhaseU.Vol.Val;
+        McInputs.PhaseV.I=(int32_t) InvUiCxt.PhaseV.Cur.Val;
+        McInputs.PhaseV.U=(int32_t) InvUiCxt.PhaseV.Vol.Val;
 #else
         McInputs.Source.I=(InvUiCxt.Source.Cur.Val*InvUiCxt.Source.Cur.Gain.num)/InvUiCxt.Source.Cur.Gain.den-InvUiCxt.Source.Cur.Offset; // mA
         McInputs.Source.U=(InvUiCxt.Source.Vol.Val*InvUiCxt.Source.Vol.Gain.num)/InvUiCxt.Source.Vol.Gain.den-InvUiCxt.Source.Vol.Offset; // mV
@@ -48,11 +56,11 @@ static void InvAdc_IntCb(uint32_t ch, uintptr_t pt) // <editor-fold defaultstate
         McInputs.PhaseV.I=(InvUiCxt.PhaseV.Cur.Val*InvUiCxt.PhaseV.Cur.Gain.num)/InvUiCxt.PhaseV.Cur.Gain.den-InvUiCxt.PhaseV.Cur.Offset; // mA
         McInputs.PhaseV.U=(InvUiCxt.PhaseV.Vol.Val*InvUiCxt.PhaseV.Vol.Gain.num)/InvUiCxt.PhaseV.Vol.Gain.den-InvUiCxt.PhaseV.Vol.Offset; // mV
 #endif
-        McInputs.PhaseW.I=-McInputs.PhaseU.I-McInputs.PhaseV.I;
+        McInputs.PhaseW.I=McInputs.Source.I-McInputs.PhaseU.I-McInputs.PhaseV.I;
         McInputs.PhaseW.U=-McInputs.PhaseU.U-McInputs.PhaseV.U;
         McInputs.Speed=INV_ENC_GetSpeed();
         MC_Process();
-        McCount=0;
+        INV_PWM_SetDuty(McOutputs.DutyU, McOutputs.DutyV, McOutputs.DutyW);
     }
     else
     {
@@ -64,7 +72,6 @@ static void InvAdc_IntCb(uint32_t ch, uintptr_t pt) // <editor-fold defaultstate
         iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
     }
 
-    INV_PWM_SetDuty(McOutputs.DutyU, McOutputs.DutyV, McOutputs.DutyW);
     INV_ADC_InterruptClear();
     INV_ADC_InterruptEnable();
 } // </editor-fold>
@@ -102,18 +109,16 @@ void MC_Init(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
     INV_PWM_SetCallback(InvPwm_IntCb);
     INV_PWM_InterruptEnable();
     INV_PWM_Start();
+    INV_PWM_U_Enable();
+    INV_PWM_V_Enable();
+    INV_PWM_W_Enable();
 
 #ifdef USE_MY_MOTOR_CONTROL_ALGORITHM
     MC_myInit();
 #elif defined(USE_MC_FREE_RUN)
-    int i;
-
-    for(i=0; i<42; i++)
-    {
-        float tmp=SinTable42[i]*(float) InvUiCxt.PwmDutyMax;
-
-        DutyTable42[i]=(uint16_t) tmp;
-    }
+    u=0;
+    cnt=0;
+    DevMode_Disable();
 #else
 #endif
 
@@ -128,30 +133,33 @@ void MC_Process(void) // <editor-fold defaultstate="collapsed" desc="Motor contr
 #else
 #warning "Your MC_myProcess() has NOT been called in this option"
 #if defined(USE_MC_FREE_RUN)
-    static int u=0;
-    int v, w;
-    int sz=42, sz13=14; // 42/3
+    if(++cnt>=(19/INV_IIR_FILTER_HARDNESS)) // 20000us/50us/42=19
+    {
+        int v, w;
+        int sz=42, sz13=14;
 
-    McOutputs.DutyU=DutyTable42[u];
-    v=u+sz13;
+        cnt=0;
+        McOutputs.DutyU=dutyTable[u];
+        v=u+sz13;
 
-    if(v>=sz)
-        v=v-sz;
+        if(v>=sz)
+            v=v-sz;
 
-    McOutputs.DutyV=DutyTable42[v];
+        McOutputs.DutyV=dutyTable[v];
 
-    w=v+sz13;
+        w=v+sz13;
 
-    if(w>=sz)
-        w=w-sz;
+        if(w>=sz)
+            w=w-sz;
 
-    McOutputs.DutyW=DutyTable42[w];
+        McOutputs.DutyW=dutyTable[w];
 
-    if(++u>=sz)
-        u=0;
+        if(++u>=sz)
+            u=0;
 
-    //DV_Plot(McInputs.PhaseU.I, McInputs.PhaseV.I, McInputs.PhaseW.I);
-    DV_Plot(McOutputs.DutyU, McOutputs.DutyV, McOutputs.DutyW);
+        //DV_Plot(McOutputs.DutyU, McOutputs.DutyV, McOutputs.DutyW);
+        DV_Plot(McInputs.PhaseU.I, McInputs.PhaseV.I, McInputs.PhaseW.I);
+    }
 #endif
 #endif
 } // </editor-fold>

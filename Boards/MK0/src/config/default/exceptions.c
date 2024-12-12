@@ -119,7 +119,10 @@ void __attribute__((noreturn, weak)) _general_exception_handler ( void )
     Refer to the MIPs Software User's manual */
     exception_code = ((_CP0_GET_CAUSE() & 0x0000007CU) >> 2U);
     exception_address = _CP0_GET_EPC();
-
+    printf("\r\n\r\n%s", __FUNCTION__);
+    printf("\r\n->Code: %08X", exception_code);
+    printf("\r\n->Address: %08X\r\n", exception_address);
+    
     while (true)
     {
         #if defined(__DEBUG) || defined(__DEBUG_D) && defined(__XC32)
@@ -145,7 +148,10 @@ void __attribute__((noreturn, weak)) _bootstrap_exception_handler(void)
     Refer to the MIPs Software User's manual */
     exception_code = (_CP0_GET_CAUSE() & 0x0000007CU) >> 2U;
     exception_address = _CP0_GET_EPC();
-
+    printf("\r\n\r\n%s", __FUNCTION__);
+    printf("\r\n->Code: %08X", exception_code);
+    printf("\r\n->Address: %08X\r\n", exception_address);
+    
     while (true)
     {
         #if defined(__DEBUG) || defined(__DEBUG_D) && defined(__XC32)

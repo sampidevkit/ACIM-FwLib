@@ -69,7 +69,7 @@
 void UART2_FAULT_Handler (void);
 void UART2_RX_Handler (void);
 void UART2_TX_Handler (void);
-void ADC_DATA3_Handler (void);
+void ADC_DATA0_Handler (void);
 void PWM12_Handler (void);
 
 
@@ -93,9 +93,9 @@ void __ISR(_UART2_TX_VECTOR, ipl1SRS) UART2_TX_Handler (void)
     UART2_TX_InterruptHandler();
 }
 
-void __ISR(_ADC_DATA3_VECTOR, ipl2SRS) ADC_DATA3_Handler (void)
+void __ISR(_ADC_DATA0_VECTOR, ipl2SRS) ADC_DATA0_Handler (void)
 {
-    ADC_DATA3_InterruptHandler();
+    ADC_DATA0_InterruptHandler();
 }
 
 void __ISR(_PWM12_VECTOR, ipl3SRS) PWM12_Handler (void)

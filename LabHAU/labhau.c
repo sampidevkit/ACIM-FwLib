@@ -27,9 +27,9 @@ int main(void)
 
                 if(Tick_Is_Over_Ms(Tick, 3000))
                 {
+                    DV_Init();
                     Motor_Init(); // Load Motor parameters
                     MC_Init();
-                    DV_Init();
                     DoNext++;
                 }
                 break;

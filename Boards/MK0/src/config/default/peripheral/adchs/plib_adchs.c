@@ -74,14 +74,14 @@ void ADCHS_Initialize(void)
 
     ADC7CFG = DEVADC7;
 
-    ADCCON1 = 0x6e0000U;
+    ADCCON1 = 0x7e0000U;
     ADCCON2 = 0x100001U;
     ADCCON3 = 0x0U;
 
     ADCTRGMODE = 0x5690000U;
 
-    ADCTRG1 = 0xe0e0e0eU; 
-    ADCTRG2 = 0xe0eU; 
+    ADCTRG1 = 0x1e1e1e1eU; 
+    ADCTRG2 = 0x1e1eU; 
     ADCTRG3 = 0xa0e0eU; 
     ADCTRG4 = 0x0U; 
     ADCTRG5 = 0x0U; 
@@ -103,10 +103,10 @@ void ADCHS_Initialize(void)
 
 
 /* Result interrupt enable */
-ADCGIRQEN1 = 0x8U;
+ADCGIRQEN1 = 0x1U;
 ADCGIRQEN2 = 0x0U;
 /* Interrupt Enable */
-IEC3SET = 0x2000U;
+IEC3SET = 0x400U;
 IEC4SET = 0x0U;
 
 
@@ -301,15 +301,15 @@ bool ADCHS_EOSStatusGet(void)
     return (bool)(ADCCON2bits.EOSRDY);
 }
 
-void __attribute__((used)) ADC_DATA3_InterruptHandler(void)
+void __attribute__((used)) ADC_DATA0_InterruptHandler(void)
 {
-    if (ADCHS_CallbackObj[3].callback_fn != NULL)
+    if (ADCHS_CallbackObj[0].callback_fn != NULL)
     {
-        uintptr_t context = ADCHS_CallbackObj[3].context;
-        ADCHS_CallbackObj[3].callback_fn(ADCHS_CH3, context);
+        uintptr_t context = ADCHS_CallbackObj[0].context;
+        ADCHS_CallbackObj[0].callback_fn(ADCHS_CH0, context);
     }
 
 
-    IFS3CLR = _IFS3_AD1D3IF_MASK;
+    IFS3CLR = _IFS3_AD1D0IF_MASK;
 }
 
