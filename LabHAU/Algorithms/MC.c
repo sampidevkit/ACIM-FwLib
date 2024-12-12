@@ -19,7 +19,7 @@ static int u=0;
 static int cnt=0;
 #endif
 
-static void InvAdc_IntCb(uint32_t ch, uintptr_t pt) // <editor-fold defaultstate="collapsed" desc="ADC interrupt callback">
+static void InvAdc_IntCb(uintptr_t pt) // <editor-fold defaultstate="collapsed" desc="ADC interrupt callback">
 {
     INV_ADC_InterruptDisable();
     INV_ADC_InterruptClear();
@@ -35,19 +35,19 @@ static void InvAdc_IntCb(uint32_t ch, uintptr_t pt) // <editor-fold defaultstate
         InvUiCxt.Source.Vol.Val=iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
 
 #if(1) // Use FPU
-        //        McInputs.Source.I=(int32_t) ((float) InvUiCxt.Source.Cur.Val*InvUiCxt.Source.Cur.Gain.val-(float) InvUiCxt.Source.Cur.Offset); // mA
-        //        McInputs.Source.U=(int32_t) ((float) InvUiCxt.Source.Vol.Val*InvUiCxt.Source.Vol.Gain.val-(float) InvUiCxt.Source.Vol.Offset); // mV
-        //        McInputs.PhaseU.I=(int32_t) ((float) InvUiCxt.PhaseU.Cur.Val*InvUiCxt.PhaseU.Cur.Gain.val-(float) InvUiCxt.PhaseU.Cur.Offset); // mA
-        //        McInputs.PhaseU.U=(int32_t) ((float) InvUiCxt.PhaseU.Vol.Val*InvUiCxt.PhaseU.Vol.Gain.val-(float) InvUiCxt.PhaseU.Vol.Offset); // mV
-        //        McInputs.PhaseV.I=(int32_t) ((float) InvUiCxt.PhaseV.Cur.Val*InvUiCxt.PhaseV.Cur.Gain.val-(float) InvUiCxt.PhaseV.Cur.Offset); // mA
-        //        McInputs.PhaseV.U=(int32_t) ((float) InvUiCxt.PhaseV.Vol.Val*InvUiCxt.PhaseV.Vol.Gain.val-(float) InvUiCxt.PhaseV.Vol.Offset); // mV
+        McInputs.Source.I=(int32_t) ((float) InvUiCxt.Source.Cur.Val*InvUiCxt.Source.Cur.Gain.val-(float) InvUiCxt.Source.Cur.Offset); // mA
+        McInputs.Source.U=(int32_t) ((float) InvUiCxt.Source.Vol.Val*InvUiCxt.Source.Vol.Gain.val-(float) InvUiCxt.Source.Vol.Offset); // mV
+        McInputs.PhaseU.I=(int32_t) ((float) InvUiCxt.PhaseU.Cur.Val*InvUiCxt.PhaseU.Cur.Gain.val-(float) InvUiCxt.PhaseU.Cur.Offset); // mA
+        McInputs.PhaseU.U=(int32_t) ((float) InvUiCxt.PhaseU.Vol.Val*InvUiCxt.PhaseU.Vol.Gain.val-(float) InvUiCxt.PhaseU.Vol.Offset); // mV
+        McInputs.PhaseV.I=(int32_t) ((float) InvUiCxt.PhaseV.Cur.Val*InvUiCxt.PhaseV.Cur.Gain.val-(float) InvUiCxt.PhaseV.Cur.Offset); // mA
+        McInputs.PhaseV.U=(int32_t) ((float) InvUiCxt.PhaseV.Vol.Val*InvUiCxt.PhaseV.Vol.Gain.val-(float) InvUiCxt.PhaseV.Vol.Offset); // mV
 
-        McInputs.Source.I=(int32_t) InvUiCxt.Source.Cur.Val;
-        McInputs.Source.U=(int32_t) InvUiCxt.Source.Vol.Val;
-        McInputs.PhaseU.I=(int32_t) InvUiCxt.PhaseU.Cur.Val;
-        McInputs.PhaseU.U=(int32_t) InvUiCxt.PhaseU.Vol.Val;
-        McInputs.PhaseV.I=(int32_t) InvUiCxt.PhaseV.Cur.Val;
-        McInputs.PhaseV.U=(int32_t) InvUiCxt.PhaseV.Vol.Val;
+        //        McInputs.Source.I=(int32_t) InvUiCxt.Source.Cur.Val;
+        //        McInputs.Source.U=(int32_t) InvUiCxt.Source.Vol.Val;
+        //        McInputs.PhaseU.I=(int32_t) InvUiCxt.PhaseU.Cur.Val;
+        //        McInputs.PhaseU.U=(int32_t) InvUiCxt.PhaseU.Vol.Val;
+        //        McInputs.PhaseV.I=(int32_t) InvUiCxt.PhaseV.Cur.Val;
+        //        McInputs.PhaseV.U=(int32_t) InvUiCxt.PhaseV.Vol.Val;
 #else
         McInputs.Source.I=(InvUiCxt.Source.Cur.Val*InvUiCxt.Source.Cur.Gain.num)/InvUiCxt.Source.Cur.Gain.den-InvUiCxt.Source.Cur.Offset; // mA
         McInputs.Source.U=(InvUiCxt.Source.Vol.Val*InvUiCxt.Source.Vol.Gain.num)/InvUiCxt.Source.Vol.Gain.den-InvUiCxt.Source.Vol.Offset; // mV
@@ -158,7 +158,7 @@ void MC_Process(void) // <editor-fold defaultstate="collapsed" desc="Motor contr
             u=0;
 
         //DV_Plot(McOutputs.DutyU, McOutputs.DutyV, McOutputs.DutyW);
-        DV_Plot(McInputs.PhaseU.I, McInputs.PhaseV.I, McInputs.PhaseW.I);
+        //DV_Plot(McInputs.PhaseU.I, McInputs.PhaseV.I, McInputs.PhaseW.I);
     }
 #endif
 #endif

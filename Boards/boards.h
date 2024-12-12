@@ -46,7 +46,7 @@ uint16_t INV_ADC_GetIvChannel(void);
 uint16_t INV_ADC_GetVuChannel(void);
 uint16_t INV_ADC_GetVvChannel(void);
 uint16_t INV_ADC_GetSpeedRef(void);
-void INV_ADC_SetCallback(void (*callback)(uint32_t channel, uintptr_t context));
+void INV_ADC_SetCallback(void (*callback)(uintptr_t context));
 void INV_ADC_InterruptEnable(void);
 void INV_ADC_InterruptDisable(void);
 void INV_ADC_InterruptClear(void);

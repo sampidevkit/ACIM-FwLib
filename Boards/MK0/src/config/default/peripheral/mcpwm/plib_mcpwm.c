@@ -93,20 +93,20 @@ void MCPWM_Initialize (void)
     /*  PENH  = 1 */
     /*  PENL  = 1 */
     /*  FLTPOL  = 1  */
-    /*  FLTSRC  = 15  */
+    /*  FLTSRC  = 0  */
     /*  CLDAT  = 0b00 */
     /*  CLMOD  = 0 */
     /*  CLPOL  = 0  */
     /*  CLSRC  = 0  */
-    IOCON5 = 0x7dc000;
+    IOCON5 = 0x5c000;
 
     PDC5 = 1000;
     SDC5 = 500;
     PHASE5 = 0;
 
     /* Dead Time */
-    DTR5 = 120;
-    ALTDTR5 = 120;
+    DTR5 = 76;
+    ALTDTR5 = 76;
 
     /* Trigger Generator */
     TRGCON5 = 0x400;
@@ -150,20 +150,20 @@ void MCPWM_Initialize (void)
     /*  PENH  = 1 */
     /*  PENL  = 1 */
     /*  FLTPOL  = 1  */
-    /*  FLTSRC  = 15  */
+    /*  FLTSRC  = 0  */
     /*  CLDAT  = 0b00 */
     /*  CLMOD  = 0 */
     /*  CLPOL  = 0  */
     /*  CLSRC  = 0  */
-    IOCON6 = 0x7dc000;
+    IOCON6 = 0x5c000;
 
     PDC6 = 1000;
     SDC6 = 500;
     PHASE6 = 0;
 
     /* Dead Time */
-    DTR6 = 120;
-    ALTDTR6 = 120;
+    DTR6 = 76;
+    ALTDTR6 = 76;
 
     /* Trigger Generator */
     TRGCON6 = 0x400;
@@ -207,20 +207,20 @@ void MCPWM_Initialize (void)
     /*  PENH  = 1 */
     /*  PENL  = 1 */
     /*  FLTPOL  = 1  */
-    /*  FLTSRC  = 15  */
+    /*  FLTSRC  = 0  */
     /*  CLDAT  = 0b00 */
     /*  CLMOD  = 0 */
     /*  CLPOL  = 0  */
     /*  CLSRC  = 0  */
-    IOCON12 = 0x7dc000;
+    IOCON12 = 0x5c000;
 
     PDC12 = 1000;
     SDC12 = 500;
     PHASE12 = 0;
 
     /* Dead Time */
-    DTR12 = 120;
-    ALTDTR12 = 120;
+    DTR12 = 76;
+    ALTDTR12 = 76;
 
     /* Trigger Generator */
     TRGCON12 = 0x400;

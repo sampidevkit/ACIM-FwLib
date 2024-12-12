@@ -42,6 +42,14 @@ int main(void)
                 {
                     ClrWdt();
                     LedRun_Toggle();
+#if(1)
+                    printf("\r\nVDC=%d", McInputs.Source.U);
+                    printf("\r\nIDC=%d", McInputs.Source.I);
+                    printf("\r\nIU=%d", McInputs.PhaseU.I);
+                    printf("\r\nIV=%d", McInputs.PhaseV.I);
+                    printf("\r\nVU=%d", McInputs.PhaseU.U);
+                    printf("\r\nVV=%d\r\n", McInputs.PhaseV.U);
+#endif
                 }
                 break;
         }

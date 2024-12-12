@@ -69,7 +69,7 @@
 void UART2_FAULT_Handler (void);
 void UART2_RX_Handler (void);
 void UART2_TX_Handler (void);
-void ADC_DATA0_Handler (void);
+void ADC_EOS_Handler (void);
 void PWM12_Handler (void);
 
 
@@ -78,27 +78,27 @@ void PWM12_Handler (void);
 // Section: System Interrupt Vector definitions
 // *****************************************************************************
 // *****************************************************************************
-void __ISR(_UART2_FAULT_VECTOR, ipl1SRS) UART2_FAULT_Handler (void)
+void __attribute__((used)) __ISR(_UART2_FAULT_VECTOR, ipl1SRS) UART2_FAULT_Handler (void)
 {
     UART2_FAULT_InterruptHandler();
 }
 
-void __ISR(_UART2_RX_VECTOR, ipl1SRS) UART2_RX_Handler (void)
+void __attribute__((used)) __ISR(_UART2_RX_VECTOR, ipl1SRS) UART2_RX_Handler (void)
 {
     UART2_RX_InterruptHandler();
 }
 
-void __ISR(_UART2_TX_VECTOR, ipl1SRS) UART2_TX_Handler (void)
+void __attribute__((used)) __ISR(_UART2_TX_VECTOR, ipl1SRS) UART2_TX_Handler (void)
 {
     UART2_TX_InterruptHandler();
 }
 
-void __ISR(_ADC_DATA0_VECTOR, ipl2SRS) ADC_DATA0_Handler (void)
+void __attribute__((used)) __ISR(_ADC_EOS_VECTOR, ipl2SRS) ADC_EOS_Handler (void)
 {
-    ADC_DATA0_InterruptHandler();
+    ADC_EOS_InterruptHandler();
 }
 
-void __ISR(_PWM12_VECTOR, ipl3SRS) PWM12_Handler (void)
+void __attribute__((used)) __ISR(_PWM12_VECTOR, ipl3SRS) PWM12_Handler (void)
 {
     PWM12_InterruptHandler();
 }
