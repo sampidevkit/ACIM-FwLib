@@ -47,15 +47,19 @@ typedef struct {
     void *pExpData; // Expanded data outputs
 } mc_outputs_t;
 
+typedef void (*mc_process_fnc)(void*); // Motor control process function
+
 extern inv_ui_cxt_t InvUiCxt; // defined in board.c
 extern mc_inputs_t McInputs; // defined in MC.c
 extern mc_outputs_t McOutputs; // defined in MC.c
 
-void MC_Init(void);
+bool MC_Init(void);
+void MC_SetProcessFunction(void (*pFnc)(void *), void *pArg);
+/* **************************************************** User's implementation */
 void MC_myInit(void);
-void MC_Process(void);
-void MC_myProcess(void);
-
+void MC_myProcess(void *pArg);
+/* ******************************************************************** Demos */
+void MC_SinePWM_Init(uint32_t freq);
 /* ************************************************************************** */
 #define McIs    McInputs.Source.I
 #define McIu    McInputs.PhaseU.I

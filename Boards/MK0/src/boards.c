@@ -292,6 +292,14 @@ void INV_PWM_Start(void)
     MCPWM_Start();
 }
 
+void INV_PWM_Enable(void)
+{
+    MCPWM_ChannelPinsOwnershipEnable(MCPWM_CH_12);
+    MCPWM_ChannelPinsOwnershipEnable(MCPWM_CH_5);
+    MCPWM_ChannelPinsOwnershipEnable(MCPWM_CH_6);
+    MCPWM_Start();
+}
+
 void INV_PWM_U_Enable(void)
 {
     MCPWM_ChannelPinsOwnershipEnable(MCPWM_CH_12);

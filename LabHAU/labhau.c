@@ -13,10 +13,10 @@ int main(void)
     Tick_Reset(&Tick);
     /* *************************************************************** System */
     System_Init();
+    VDC_Disable();
     DevMode_Enable();
     LedErr_Off();
     LedRun_On();
-    VDC_Enable();
 
     while(1)
     {
@@ -29,12 +29,17 @@ int main(void)
                 {
                     DV_Init();
                     Motor_Init(); // Load Motor parameters
-                    MC_Init();
                     DoNext++;
                 }
                 break;
 
             case 1:
+                ClrWdt();
+
+                if(MC_Init())
+                    DoNext++;
+                break;
+
             default:
                 DV_Tasks();
 

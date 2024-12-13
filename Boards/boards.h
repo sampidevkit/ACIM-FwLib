@@ -57,6 +57,7 @@ void INV_PWM_InterruptEnable(void);
 void INV_PWM_InterruptDisable(void);
 void INV_PWM_InterruptClear(void);
 void INV_PWM_Start(void); // enable all PWM channels
+void INV_PWM_Enable(void);
 void INV_PWM_U_Enable(void); // enable PWM channel U
 void INV_PWM_V_Enable(void); // enable PWM channel V
 void INV_PWM_W_Enable(void); // enable PWM channel W
