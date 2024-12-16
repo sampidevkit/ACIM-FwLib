@@ -3,7 +3,7 @@
 
 mc_inputs_t McInputs;
 mc_outputs_t McOutputs;
-static volatile int McDoNext=255;
+static volatile int McDoNext=(-1);
 static void *McProcArg=NULL;
 static mc_process_fnc McProcFnc=NULL;
 
@@ -59,6 +59,13 @@ static void InvAdcCalib_IntCb(uintptr_t pt) // <editor-fold defaultstate="collap
 
         if(McDoNext==2000)
         {
+            InvUiCxt.PhaseU.Cur.Val/=2000;
+            InvUiCxt.PhaseU.Vol.Val/=2000;
+            InvUiCxt.PhaseV.Cur.Val/=2000;
+            InvUiCxt.PhaseV.Vol.Val/=2000;
+            InvUiCxt.Source.Cur.Val/=2000;
+            InvUiCxt.Source.Vol.Val/=2000;
+
             InvUiCxt.Source.Cur.Offset=(int32_t) ((float) InvUiCxt.Source.Cur.Val*InvUiCxt.Source.Cur.Gain.val); // mA
             InvUiCxt.Source.Vol.Offset=(int32_t) ((float) InvUiCxt.Source.Vol.Val*InvUiCxt.Source.Vol.Gain.val); // mV
             InvUiCxt.PhaseU.Cur.Offset=(int32_t) ((float) InvUiCxt.PhaseU.Cur.Val*InvUiCxt.PhaseU.Cur.Gain.val); // mA
@@ -159,7 +166,7 @@ bool MC_Init(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
         VDC_Enable();
         printf("\r\n%s done", __FUNCTION__);
     }
-    else if(McDoNext==2001)
+    else if(McDoNext>=2001)
         return 1; // done
 
     return 0;
