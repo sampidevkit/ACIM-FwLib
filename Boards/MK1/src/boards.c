@@ -30,32 +30,16 @@ inv_ui_cxt_t InvUiCxt={
     .PhaseU.Cur.Gain.den=1024,
     .PhaseU.Cur.Gain.val=(float) (4125/1024),
     .PhaseU.Cur.Offset=12500,
-    // Rtop=300k
-    // Rbot=1.1k
-    // Gain=3300*(300k+1.1k)/(300k*1.1k)=3011/1000
-    // Offset=0V
-    .PhaseU.Vol.Gain.num=3011,
-    .PhaseU.Vol.Gain.num=1000,
-    .PhaseU.Vol.Gain.val=(float) (3011/1000),
-    .PhaseU.Vol.Offset=0,
 
     // Rsh=0.001Ohm
     // ampli_gain=200
     // Voffset=2500mV
     // Gain=3300/(4096*200*0.001)=4125/1024
     // Ioffset=2500/(200*0.001)=12500 (mA)
-    .PhaseV.Cur.Gain.num=4125,
-    .PhaseV.Cur.Gain.den=1024,
-    .PhaseV.Cur.Gain.val=(float) (4125/1024),
-    .PhaseV.Cur.Offset=12500,
-    // Rtop=300k
-    // Rbot=1.1k
-    // Gain=3300*(300k+1.1k)/(300k*1.1k)=3011/1000
-    // Offset=0V
-    .PhaseV.Vol.Gain.num=3011,
-    .PhaseV.Vol.Gain.num=1000,
-    .PhaseV.Vol.Gain.val=(float) (3011/1000),
-    .PhaseV.Vol.Offset=0,
+    .PhaseW.Cur.Gain.num=4125,
+    .PhaseW.Cur.Gain.den=1024,
+    .PhaseW.Cur.Gain.val=(float) (4125/1024),
+    .PhaseW.Cur.Offset=12500,
 
     // Rsh=0.005Ohm
     // ampli_gain=50
@@ -81,7 +65,7 @@ void System_Init(void)
 {
     SYS_Initialize(NULL);
     printf("\r\n\r\nLABHAU ACIM INVERTER");
-    printf("\r\nPCB: HW.ACIM-MK0");
+    printf("\r\nPCB: HW.ACIM-MK1");
     printf("\r\nMCU: %s", DEVICE_NAME);
     printf("\r\nCore: %s", DEVICE_ARCH);
     printf("\r\nUDID: %08X-%08X-%08X-%08X", DEVSN3, DEVSN2, DEVSN1, DEVSN0);
@@ -134,23 +118,27 @@ void ClrWdt(void)
 /* ************************************************************ Power control */
 void VDC_Enable(void)
 {
-    VDC_ENABLE_Set();
+    //VDC_ENABLE_Set();
+    PWR_RELAY_Set();
 }
 
 void VDC_Disable(void)
 {
-    VDC_ENABLE_Clear();
+    //VDC_ENABLE_Clear();
+    PWR_RELAY_Clear();
 }
 
 /* ********************************************************* Dev mode control */
 void DevMode_Enable(void)
 {
-    DEV_MODE_DISABLE_Clear();
+    //DEV_MODE_DISABLE_Clear();
+    DEV_RELAY_Clear();
 }
 
 void DevMode_Disable(void)
 {
-    DEV_MODE_DISABLE_Set();
+    //DEV_MODE_DISABLE_Set();
+    DEV_RELAY_Set();
 }
 
 /* **************************************************** LED for running state */
@@ -172,17 +160,20 @@ void LedRun_Toggle(void)
 /* ****************************************************** LED for error state */
 void LedErr_On(void)
 {
-    IND_ERR_N_Clear();
+    //IND_ERR_N_Clear();
+    IND_ERR_Set();
 }
 
 void LedErr_Off(void)
 {
-    IND_ERR_N_Set();
+    //IND_ERR_N_Set();
+    IND_ERR_Clear();
 }
 
 void LedErr_Toggle(void)
 {
-    IND_ERR_N_Toggle();
+    //IND_ERR_N_Toggle();
+    IND_ERR_Toggle();
 }
 
 /* ******************************************************************* Button */
@@ -241,7 +232,8 @@ uint16_t INV_ADC_GetSpeedRef(void)
 
 void INV_ADC_SetCallback(void (*callback)(uintptr_t context))
 {
-    ADCHS_EOSCallbackRegister((ADCHS_EOS_CALLBACK) callback, (uintptr_t) NULL);
+    //ADCHS_EOSCallbackRegister((ADCHS_EOS_CALLBACK) callback, (uintptr_t) NULL);
+    ADCHS_CallbackRegister(ADCHS_CH24, (ADCHS_EOS_CALLBACK) callback, (uintptr_t) NULL);
 }
 
 void INV_ADC_InterruptEnable(void)

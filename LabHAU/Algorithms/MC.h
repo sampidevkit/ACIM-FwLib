@@ -24,6 +24,7 @@ typedef struct {
     inv_src_cxt_t Source; // Inverter power source context
     inv_phase_cxt_t PhaseU; // Inverter phase U context
     inv_phase_cxt_t PhaseV; // Inverter phase V context
+    inv_phase_cxt_t PhaseW; // Inverter phase W context
 } inv_ui_cxt_t;
 
 typedef struct {

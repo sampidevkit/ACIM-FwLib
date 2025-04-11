@@ -48,4 +48,12 @@
 #include <sys/attribs.h>
 #include "toolchain_specifics.h"
 
+#define _IFS7_PWM12IF_POSITION  0x00000013
+#define _IFS7_PWM12IF_MASK      0x00080000
+#define _IFS7_PWM12IF_LENGTH    0x00000001
+
+#define _IEC7_PWM12IE_POSITION  0x00000013
+#define _IEC7_PWM12IE_MASK      0x00080000
+#define _IEC7_PWM12IE_LENGTH    0x00000001
+
 #endif //DEVICE_H
