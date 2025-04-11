@@ -18,7 +18,7 @@
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
-* Copyright (C) 2018 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2025 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -47,13 +47,5 @@
 #include <xc.h>
 #include <sys/attribs.h>
 #include "toolchain_specifics.h"
-
-#define _IFS7_PWM12IF_POSITION  0x00000013
-#define _IFS7_PWM12IF_MASK      0x00080000
-#define _IFS7_PWM12IF_LENGTH    0x00000001
-
-#define _IEC7_PWM12IE_POSITION  0x00000013
-#define _IEC7_PWM12IE_MASK      0x00080000
-#define _IEC7_PWM12IE_LENGTH    0x00000001
 
 #endif //DEVICE_H

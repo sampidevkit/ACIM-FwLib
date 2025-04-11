@@ -51,9 +51,9 @@
 // *****************************************************************************
 // *****************************************************************************
 
+/* Object to hold callback function and context */
+static volatile ADCHS_CALLBACK_OBJECT ADCHS_CallbackObj[53];
 
-/* Object to hold callback function and context for end of scan interrupt*/
-volatile static ADCHS_EOS_CALLBACK_OBJECT ADCHS_EOSCallbackObj;
 
 
 void ADCHS_Initialize(void)
@@ -61,20 +61,19 @@ void ADCHS_Initialize(void)
     ADCCON1bits.ON = 0;
     ADC0CFG = DEVADC0;
     ADC0TIME = 0x3010001U;
-    ADC1CFG = DEVADC1;
-    ADC1TIME = 0x3010001U;
+    ADC2CFG = DEVADC2;
+    ADC2TIME = 0x3010001U;
     ADC3CFG = DEVADC3;
     ADC3TIME = 0x3010001U;
-    ADC4CFG = DEVADC4;
-    ADC4TIME = 0x3010001U;
+    ADC5CFG = DEVADC5;
+    ADC5TIME = 0x3010001U;
 
-    ADC7CFG = DEVADC7;
 
     ADCCON1 = 0x7e0000U;
-    ADCCON2 = 0x12001U;
+    ADCCON2 = 0x10001U;
     ADCCON3 = 0x0U;
 
-    ADCTRGMODE = 0x2000000U;
+    ADCTRGMODE = 0x8c30000U;
 
     ADCTRG1 = 0x1e1e1e1eU; 
     ADCTRG2 = 0x3001e1eU; 
@@ -98,8 +97,12 @@ void ADCHS_Initialize(void)
 
 
 
-    IEC3SET = _IEC3_AD1EOSIE_MASK;
-
+/* Result interrupt enable */
+ADCGIRQEN1 = 0x1U;
+ADCGIRQEN2 = 0x0U;
+/* Interrupt Enable */
+IEC3SET = 0x400U;
+IEC4SET = 0x0U;
 
 
 
@@ -122,13 +125,13 @@ void ADCHS_Initialize(void)
     }
     ADCCON3bits.DIGEN0 = 1;      // Enable ADC
 
-    /* ADC 1 */
-    ADCANCONbits.ANEN1 = 1;      // Enable the clock to analog bias
-    while(ADCANCONbits.WKRDY1 == 0U) // Wait until ADC is ready
+    /* ADC 2 */
+    ADCANCONbits.ANEN2 = 1;      // Enable the clock to analog bias
+    while(ADCANCONbits.WKRDY2 == 0U) // Wait until ADC is ready
     {
         /* Nothing to do */
     }
-    ADCCON3bits.DIGEN1 = 1;      // Enable ADC
+    ADCCON3bits.DIGEN2 = 1;      // Enable ADC
 
     /* ADC 3 */
     ADCANCONbits.ANEN3 = 1;      // Enable the clock to analog bias
@@ -138,21 +141,14 @@ void ADCHS_Initialize(void)
     }
     ADCCON3bits.DIGEN3 = 1;      // Enable ADC
 
-    /* ADC 4 */
-    ADCANCONbits.ANEN4 = 1;      // Enable the clock to analog bias
-    while(ADCANCONbits.WKRDY4 == 0U) // Wait until ADC is ready
+    /* ADC 5 */
+    ADCANCONbits.ANEN5 = 1;      // Enable the clock to analog bias
+    while(ADCANCONbits.WKRDY5 == 0U) // Wait until ADC is ready
     {
         /* Nothing to do */
     }
-    ADCCON3bits.DIGEN4 = 1;      // Enable ADC
+    ADCCON3bits.DIGEN5 = 1;      // Enable ADC
 
-    /* ADC 7 */
-    ADCANCONbits.ANEN7 = 1;      // Enable the clock to analog bias
-    while(ADCANCONbits.WKRDY7 == 0U) // Wait until ADC is ready
-    {
-        /* Nothing to do */
-    }
-    ADCCON3bits.DIGEN7 = 1;      // Enable ADC
 
 
 }
@@ -263,28 +259,29 @@ uint16_t ADCHS_ChannelResultGet(ADCHS_CHANNEL_NUM channel)
 
 }
 
-
-
-
-
-void ADCHS_EOSCallbackRegister(ADCHS_EOS_CALLBACK callback, uintptr_t context)
+void ADCHS_CallbackRegister(ADCHS_CHANNEL_NUM channel, ADCHS_CALLBACK callback, uintptr_t context)
 {
-    ADCHS_EOSCallbackObj.callback_fn = callback;
-    ADCHS_EOSCallbackObj.context = context;
+    ADCHS_CallbackObj[channel].callback_fn = callback;
+    ADCHS_CallbackObj[channel].context = context;
 }
 
 
-void __attribute__((used)) ADC_EOS_InterruptHandler(void)
+
+
+bool ADCHS_EOSStatusGet(void)
 {
-    uint32_t status = ADCCON2;
-    IFS3CLR = _IFS3_AD1EOSIF_MASK;
-    if (ADCHS_EOSCallbackObj.callback_fn != NULL)
+    return (bool)(ADCCON2bits.EOSRDY);
+}
+
+void __attribute__((used)) ADC_DATA0_InterruptHandler(void)
+{
+    if (ADCHS_CallbackObj[0].callback_fn != NULL)
     {
-        uintptr_t context = ADCHS_EOSCallbackObj.context;
-        ADCHS_EOSCallbackObj.callback_fn(context);
+        uintptr_t context = ADCHS_CallbackObj[0].context;
+        ADCHS_CallbackObj[0].callback_fn(ADCHS_CH0, context);
     }
-    (void) status;
+
+
+    IFS3CLR = _IFS3_AD1D0IF_MASK;
 }
-
-
 

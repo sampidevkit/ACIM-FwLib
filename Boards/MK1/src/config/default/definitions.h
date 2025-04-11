@@ -14,7 +14,7 @@
 
 //DOM-IGNORE-BEGIN
 /*******************************************************************************
-* Copyright (C) 2018 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2025 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -50,18 +50,16 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "peripheral/coretimer/plib_coretimer.h"
-#include "peripheral/qei/plib_qei1.h"
 #include "peripheral/adchs/plib_adchs.h"
+#include "peripheral/qei/plib_qei1.h"
 #include "peripheral/uart/plib_uart1.h"
 #include "peripheral/uart/plib_uart2.h"
-#include "peripheral/eeprom/plib_eeprom.h"
 #include "peripheral/clk/plib_clk.h"
 #include "peripheral/gpio/plib_gpio.h"
 #include "peripheral/evic/plib_evic.h"
 #include "peripheral/wdt/plib_wdt.h"
 #include "peripheral/mcpwm/plib_mcpwm.h"
 #include "peripheral/rcon/plib_rcon.h"
-#include "peripheral/nvm/plib_nvm.h"
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility

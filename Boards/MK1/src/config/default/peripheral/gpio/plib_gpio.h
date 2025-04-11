@@ -62,16 +62,6 @@
 // *****************************************************************************
 
 
-/*** Macros for IND_RUN pin ***/
-#define IND_RUN_Set()               (LATASET = (1U<<7))
-#define IND_RUN_Clear()             (LATACLR = (1U<<7))
-#define IND_RUN_Toggle()            (LATAINV= (1U<<7))
-#define IND_RUN_OutputEnable()      (TRISACLR = (1U<<7))
-#define IND_RUN_InputEnable()       (TRISASET = (1U<<7))
-#define IND_RUN_Get()               ((PORTA >> 7) & 0x1U)
-#define IND_RUN_GetLatch()          ((LATA >> 7) & 0x1U)
-#define IND_RUN_PIN                  GPIO_PIN_RA7
-
 /*** Macros for ENC_A pin ***/
 #define ENC_A_Get()               ((PORTG >> 6) & 0x1U)
 #define ENC_A_GetLatch()          ((LATG >> 6) & 0x1U)
@@ -82,70 +72,85 @@
 #define ENC_B_GetLatch()          ((LATG >> 7) & 0x1U)
 #define ENC_B_PIN                  GPIO_PIN_RG7
 
-/*** Macros for ENC_IDX pin ***/
-#define ENC_IDX_Get()               ((PORTG >> 8) & 0x1U)
-#define ENC_IDX_GetLatch()          ((LATG >> 8) & 0x1U)
-#define ENC_IDX_PIN                  GPIO_PIN_RG8
+/*** Macros for IDC_SEN pin ***/
+#define IDC_SEN_Get()               ((PORTB >> 0) & 0x1U)
+#define IDC_SEN_GetLatch()          ((LATB >> 0) & 0x1U)
+#define IDC_SEN_PIN                  GPIO_PIN_RB0
 
-/*** Macros for ENC_HOME pin ***/
-#define ENC_HOME_Get()               ((PORTG >> 9) & 0x1U)
-#define ENC_HOME_GetLatch()          ((LATG >> 9) & 0x1U)
-#define ENC_HOME_PIN                  GPIO_PIN_RG9
+/*** Macros for DEV_RELAY pin ***/
+#define DEV_RELAY_Set()               (LATBSET = (1U<<2))
+#define DEV_RELAY_Clear()             (LATBCLR = (1U<<2))
+#define DEV_RELAY_Toggle()            (LATBINV= (1U<<2))
+#define DEV_RELAY_OutputEnable()      (TRISBCLR = (1U<<2))
+#define DEV_RELAY_InputEnable()       (TRISBSET = (1U<<2))
+#define DEV_RELAY_Get()               ((PORTB >> 2) & 0x1U)
+#define DEV_RELAY_GetLatch()          ((LATB >> 2) & 0x1U)
+#define DEV_RELAY_PIN                  GPIO_PIN_RB2
 
-/*** Macros for MC_VDC_SENSE pin ***/
-#define MC_VDC_SENSE_Get()               ((PORTA >> 12) & 0x1U)
-#define MC_VDC_SENSE_GetLatch()          ((LATA >> 12) & 0x1U)
-#define MC_VDC_SENSE_PIN                  GPIO_PIN_RA12
+/*** Macros for VDC_DIV pin ***/
+#define VDC_DIV_Get()               ((PORTC >> 0) & 0x1U)
+#define VDC_DIV_GetLatch()          ((LATC >> 0) & 0x1U)
+#define VDC_DIV_PIN                  GPIO_PIN_RC0
 
-/*** Macros for MC_IU_SENSE pin ***/
-#define MC_IU_SENSE_Get()               ((PORTA >> 0) & 0x1U)
-#define MC_IU_SENSE_GetLatch()          ((LATA >> 0) & 0x1U)
-#define MC_IU_SENSE_PIN                  GPIO_PIN_RA0
+/*** Macros for IND_ERR pin ***/
+#define IND_ERR_Set()               (LATCSET = (1U<<1))
+#define IND_ERR_Clear()             (LATCCLR = (1U<<1))
+#define IND_ERR_Toggle()            (LATCINV= (1U<<1))
+#define IND_ERR_OutputEnable()      (TRISCCLR = (1U<<1))
+#define IND_ERR_InputEnable()       (TRISCSET = (1U<<1))
+#define IND_ERR_Get()               ((PORTC >> 1) & 0x1U)
+#define IND_ERR_GetLatch()          ((LATC >> 1) & 0x1U)
+#define IND_ERR_PIN                  GPIO_PIN_RC1
 
-/*** Macros for MC_IV_SENSE pin ***/
-#define MC_IV_SENSE_Get()               ((PORTA >> 1) & 0x1U)
-#define MC_IV_SENSE_GetLatch()          ((LATA >> 1) & 0x1U)
-#define MC_IV_SENSE_PIN                  GPIO_PIN_RA1
+/*** Macros for IND_RUN pin ***/
+#define IND_RUN_Set()               (LATCSET = (1U<<11))
+#define IND_RUN_Clear()             (LATCCLR = (1U<<11))
+#define IND_RUN_Toggle()            (LATCINV= (1U<<11))
+#define IND_RUN_OutputEnable()      (TRISCCLR = (1U<<11))
+#define IND_RUN_InputEnable()       (TRISCSET = (1U<<11))
+#define IND_RUN_Get()               ((PORTC >> 11) & 0x1U)
+#define IND_RUN_GetLatch()          ((LATC >> 11) & 0x1U)
+#define IND_RUN_PIN                  GPIO_PIN_RC11
 
-/*** Macros for POT_SENSE pin ***/
-#define POT_SENSE_Get()               ((PORTA >> 4) & 0x1U)
-#define POT_SENSE_GetLatch()          ((LATA >> 4) & 0x1U)
-#define POT_SENSE_PIN                  GPIO_PIN_RA4
+/*** Macros for MC_IW_SEN pin ***/
+#define MC_IW_SEN_Get()               ((PORTA >> 8) & 0x1U)
+#define MC_IW_SEN_GetLatch()          ((LATA >> 8) & 0x1U)
+#define MC_IW_SEN_PIN                  GPIO_PIN_RA8
 
-/*** Macros for SYS_CLK pin ***/
-#define SYS_CLK_Get()               ((PORTC >> 12) & 0x1U)
-#define SYS_CLK_GetLatch()          ((LATC >> 12) & 0x1U)
-#define SYS_CLK_PIN                  GPIO_PIN_RC12
+/*** Macros for MC_IU_SEN pin ***/
+#define MC_IU_SEN_Get()               ((PORTA >> 4) & 0x1U)
+#define MC_IU_SEN_GetLatch()          ((LATA >> 4) & 0x1U)
+#define MC_IU_SEN_PIN                  GPIO_PIN_RA4
 
-/*** Macros for SYS_CLK_EN pin ***/
-#define SYS_CLK_EN_Set()               (LATCSET = (1U<<15))
-#define SYS_CLK_EN_Clear()             (LATCCLR = (1U<<15))
-#define SYS_CLK_EN_Toggle()            (LATCINV= (1U<<15))
-#define SYS_CLK_EN_OutputEnable()      (TRISCCLR = (1U<<15))
-#define SYS_CLK_EN_InputEnable()       (TRISCSET = (1U<<15))
-#define SYS_CLK_EN_Get()               ((PORTC >> 15) & 0x1U)
-#define SYS_CLK_EN_GetLatch()          ((LATC >> 15) & 0x1U)
-#define SYS_CLK_EN_PIN                  GPIO_PIN_RC15
+/*** Macros for SLED pin ***/
+#define SLED_Set()               (LATDSET = (1U<<8))
+#define SLED_Clear()             (LATDCLR = (1U<<8))
+#define SLED_Toggle()            (LATDINV= (1U<<8))
+#define SLED_OutputEnable()      (TRISDCLR = (1U<<8))
+#define SLED_InputEnable()       (TRISDSET = (1U<<8))
+#define SLED_Get()               ((PORTD >> 8) & 0x1U)
+#define SLED_GetLatch()          ((LATD >> 8) & 0x1U)
+#define SLED_PIN                  GPIO_PIN_RD8
 
-/*** Macros for DBG_RX pin ***/
-#define DBG_RX_Get()               ((PORTB >> 5) & 0x1U)
-#define DBG_RX_GetLatch()          ((LATB >> 5) & 0x1U)
-#define DBG_RX_PIN                  GPIO_PIN_RB5
+/*** Macros for DV_TXD pin ***/
+#define DV_TXD_Get()               ((PORTC >> 10) & 0x1U)
+#define DV_TXD_GetLatch()          ((LATC >> 10) & 0x1U)
+#define DV_TXD_PIN                  GPIO_PIN_RC10
 
-/*** Macros for X2C_RX pin ***/
-#define X2C_RX_Get()               ((PORTB >> 6) & 0x1U)
-#define X2C_RX_GetLatch()          ((LATB >> 6) & 0x1U)
-#define X2C_RX_PIN                  GPIO_PIN_RB6
+/*** Macros for DB_TXD pin ***/
+#define DB_TXD_Get()               ((PORTB >> 7) & 0x1U)
+#define DB_TXD_GetLatch()          ((LATB >> 7) & 0x1U)
+#define DB_TXD_PIN                  GPIO_PIN_RB7
 
-/*** Macros for DBG_TX pin ***/
-#define DBG_TX_Get()               ((PORTC >> 10) & 0x1U)
-#define DBG_TX_GetLatch()          ((LATC >> 10) & 0x1U)
-#define DBG_TX_PIN                  GPIO_PIN_RC10
+/*** Macros for DB_RXD pin ***/
+#define DB_RXD_Get()               ((PORTC >> 13) & 0x1U)
+#define DB_RXD_GetLatch()          ((LATC >> 13) & 0x1U)
+#define DB_RXD_PIN                  GPIO_PIN_RC13
 
-/*** Macros for X2C_TX pin ***/
-#define X2C_TX_Get()               ((PORTB >> 7) & 0x1U)
-#define X2C_TX_GetLatch()          ((LATB >> 7) & 0x1U)
-#define X2C_TX_PIN                  GPIO_PIN_RB7
+/*** Macros for DV_RXD pin ***/
+#define DV_RXD_Get()               ((PORTB >> 8) & 0x1U)
+#define DV_RXD_GetLatch()          ((LATB >> 8) & 0x1U)
+#define DV_RXD_PIN                  GPIO_PIN_RB8
 
 /*** Macros for MC_PWM_WH pin ***/
 #define MC_PWM_WH_Get()               ((PORTC >> 6) & 0x1U)
@@ -167,50 +172,30 @@
 #define MC_PWM_UH_GetLatch()          ((LATD >> 5) & 0x1U)
 #define MC_PWM_UH_PIN                  GPIO_PIN_RD5
 
-/*** Macros for MC_PWM_UL pin ***/
-#define MC_PWM_UL_Get()               ((PORTD >> 6) & 0x1U)
-#define MC_PWM_UL_GetLatch()          ((LATD >> 6) & 0x1U)
-#define MC_PWM_UL_PIN                  GPIO_PIN_RD6
+/*** Macros for PC_PWM_UL pin ***/
+#define PC_PWM_UL_Get()               ((PORTD >> 6) & 0x1U)
+#define PC_PWM_UL_GetLatch()          ((LATD >> 6) & 0x1U)
+#define PC_PWM_UL_PIN                  GPIO_PIN_RD6
 
 /*** Macros for MC_PWM_VL pin ***/
 #define MC_PWM_VL_Get()               ((PORTC >> 9) & 0x1U)
 #define MC_PWM_VL_GetLatch()          ((LATC >> 9) & 0x1U)
 #define MC_PWM_VL_PIN                  GPIO_PIN_RC9
 
-/*** Macros for INV_FLT_OC_N pin ***/
-#define INV_FLT_OC_N_Get()               ((PORTF >> 1) & 0x1U)
-#define INV_FLT_OC_N_GetLatch()          ((LATF >> 1) & 0x1U)
-#define INV_FLT_OC_N_PIN                  GPIO_PIN_RF1
+/*** Macros for INV_FLT_N pin ***/
+#define INV_FLT_N_Get()               ((PORTF >> 1) & 0x1U)
+#define INV_FLT_N_GetLatch()          ((LATF >> 1) & 0x1U)
+#define INV_FLT_N_PIN                  GPIO_PIN_RF1
 
-/*** Macros for VDC_ENABLE pin ***/
-#define VDC_ENABLE_Set()               (LATBSET = (1U<<12))
-#define VDC_ENABLE_Clear()             (LATBCLR = (1U<<12))
-#define VDC_ENABLE_Toggle()            (LATBINV= (1U<<12))
-#define VDC_ENABLE_OutputEnable()      (TRISBCLR = (1U<<12))
-#define VDC_ENABLE_InputEnable()       (TRISBSET = (1U<<12))
-#define VDC_ENABLE_Get()               ((PORTB >> 12) & 0x1U)
-#define VDC_ENABLE_GetLatch()          ((LATB >> 12) & 0x1U)
-#define VDC_ENABLE_PIN                  GPIO_PIN_RB12
-
-/*** Macros for DEV_MODE_DISABLE pin ***/
-#define DEV_MODE_DISABLE_Set()               (LATBSET = (1U<<13))
-#define DEV_MODE_DISABLE_Clear()             (LATBCLR = (1U<<13))
-#define DEV_MODE_DISABLE_Toggle()            (LATBINV= (1U<<13))
-#define DEV_MODE_DISABLE_OutputEnable()      (TRISBCLR = (1U<<13))
-#define DEV_MODE_DISABLE_InputEnable()       (TRISBSET = (1U<<13))
-#define DEV_MODE_DISABLE_Get()               ((PORTB >> 13) & 0x1U)
-#define DEV_MODE_DISABLE_GetLatch()          ((LATB >> 13) & 0x1U)
-#define DEV_MODE_DISABLE_PIN                  GPIO_PIN_RB13
-
-/*** Macros for IND_ERR_N pin ***/
-#define IND_ERR_N_Set()               (LATASET = (1U<<10))
-#define IND_ERR_N_Clear()             (LATACLR = (1U<<10))
-#define IND_ERR_N_Toggle()            (LATAINV= (1U<<10))
-#define IND_ERR_N_OutputEnable()      (TRISACLR = (1U<<10))
-#define IND_ERR_N_InputEnable()       (TRISASET = (1U<<10))
-#define IND_ERR_N_Get()               ((PORTA >> 10) & 0x1U)
-#define IND_ERR_N_GetLatch()          ((LATA >> 10) & 0x1U)
-#define IND_ERR_N_PIN                  GPIO_PIN_RA10
+/*** Macros for PWR_RELAY pin ***/
+#define PWR_RELAY_Set()               (LATBSET = (1U<<12))
+#define PWR_RELAY_Clear()             (LATBCLR = (1U<<12))
+#define PWR_RELAY_Toggle()            (LATBINV= (1U<<12))
+#define PWR_RELAY_OutputEnable()      (TRISBCLR = (1U<<12))
+#define PWR_RELAY_InputEnable()       (TRISBSET = (1U<<12))
+#define PWR_RELAY_Get()               ((PORTB >> 12) & 0x1U)
+#define PWR_RELAY_GetLatch()          ((LATB >> 12) & 0x1U)
+#define PWR_RELAY_PIN                  GPIO_PIN_RB12
 
 
 // *****************************************************************************

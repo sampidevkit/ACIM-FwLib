@@ -47,7 +47,7 @@
 // Section: MCPWM Implementation
 // *****************************************************************************
 // *****************************************************************************
-volatile static MCPWM_CH_OBJECT mcpwmObj[12];
+static volatile MCPWM_CH_OBJECT mcpwmObj[12];
 
 void MCPWM_Initialize (void)
 {
@@ -100,7 +100,7 @@ void MCPWM_Initialize (void)
     /*  CLSRC  = 0  */
     IOCON5 = 0x5c000;
 
-    PDC5 = 1000;
+    PDC5 = 0;
     SDC5 = 500;
     PHASE5 = 0;
 
@@ -157,7 +157,7 @@ void MCPWM_Initialize (void)
     /*  CLSRC  = 0  */
     IOCON6 = 0x5c000;
 
-    PDC6 = 1000;
+    PDC6 = 0;
     SDC6 = 500;
     PHASE6 = 0;
 
@@ -214,7 +214,7 @@ void MCPWM_Initialize (void)
     /*  CLSRC  = 0  */
     IOCON12 = 0x5c000;
 
-    PDC12 = 1000;
+    PDC12 = 0;
     SDC12 = 500;
     PHASE12 = 0;
 

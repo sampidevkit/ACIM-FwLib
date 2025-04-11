@@ -20,7 +20,7 @@
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
-* Copyright (C) 2018 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2025 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -69,7 +69,7 @@
 void UART2_FAULT_Handler (void);
 void UART2_RX_Handler (void);
 void UART2_TX_Handler (void);
-void ADC_EOS_Handler (void);
+void ADC_DATA0_Handler (void);
 void PWM12_Handler (void);
 
 
@@ -93,9 +93,9 @@ void __attribute__((used)) __ISR(_UART2_TX_VECTOR, ipl1SRS) UART2_TX_Handler (vo
     UART2_TX_InterruptHandler();
 }
 
-void __attribute__((used)) __ISR(_ADC_EOS_VECTOR, ipl2SRS) ADC_EOS_Handler (void)
+void __attribute__((used)) __ISR(_ADC_DATA0_VECTOR, ipl2SRS) ADC_DATA0_Handler (void)
 {
-    ADC_EOS_InterruptHandler();
+    ADC_DATA0_InterruptHandler();
 }
 
 void __attribute__((used)) __ISR(_PWM12_VECTOR, ipl3SRS) PWM12_Handler (void)
