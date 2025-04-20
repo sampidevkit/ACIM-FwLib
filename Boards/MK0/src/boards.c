@@ -185,6 +185,21 @@ void LedErr_Toggle(void)
     IND_ERR_N_Toggle();
 }
 
+/* ******************************************************** LED for MCU state */
+void LedMcu_On(void)
+{
+
+}
+
+void LedMcu_Off(void)
+{
+
+}
+
+void LedMcu_Toggle(void)
+{
+
+}
 /* ******************************************************************* Button */
 bool Button_Get(void)
 {

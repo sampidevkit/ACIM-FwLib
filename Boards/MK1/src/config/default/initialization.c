@@ -54,9 +54,9 @@
 // ****************************************************************************
 
 /*** DEVCFG0 ***/
-#pragma config DEBUG =      OFF
+#pragma config DEBUG =      ON
 #pragma config JTAGEN =     OFF
-#pragma config ICESEL =     ICS_PGx1
+#pragma config ICESEL =     ICS_PGx2
 #pragma config TRCEN =      OFF
 #pragma config BOOTISA =    MIPS32
 #pragma config FSLEEP =     OFF
@@ -214,9 +214,9 @@ void SYS_Initialize ( void* data )
 	GPIO_Initialize();
 
     CORETIMER_Initialize();
-    ADCHS_Initialize();
-
     QEI1_Initialize();
+
+    ADCHS_Initialize();
 
 	UART1_Initialize();
 

@@ -16,7 +16,8 @@ int main(void)
     VDC_Disable();
     DevMode_Enable();
     LedErr_Off();
-    LedRun_On();
+    LedRun_Off();
+    LedMcu_On();
 
     while(1)
     {
@@ -41,12 +42,12 @@ int main(void)
                 break;
 
             default:
+                ClrWdt();
                 DV_Tasks();
 
                 if(Tick_Is_Over_Ms(Tick, 500))
                 {
-                    ClrWdt();
-                    LedRun_Toggle();
+                    LedMcu_Toggle();
 #if(1)
                     printf("\r\nVDC=%d", McInputs.Source.U);
                     printf("\r\nIDC=%d", McInputs.Source.I);

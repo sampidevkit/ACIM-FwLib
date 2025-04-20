@@ -20,6 +20,10 @@ void LedRun_Toggle(void);
 void LedErr_On(void);
 void LedErr_Off(void);
 void LedErr_Toggle(void);
+/* ****************************************************** LED for error state */
+void LedMcu_On(void);
+void LedMcu_Off(void);
+void LedMcu_Toggle(void);
 /* ******************************************************************* Button */
 bool Button_Get(void);
 /* ********************************************************** Data visualizer */

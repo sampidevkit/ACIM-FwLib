@@ -11,6 +11,7 @@ static void InvAdcRun_IntCb(uintptr_t pt) // <editor-fold defaultstate="collapse
 {
     INV_ADC_InterruptDisable();
     INV_ADC_InterruptClear();
+    LedRun_On();
 
     if(McProcFnc)
     {
@@ -37,6 +38,7 @@ static void InvAdcRun_IntCb(uintptr_t pt) // <editor-fold defaultstate="collapse
         INV_PWM_SetDuty(McOutputs.DutyU, McOutputs.DutyV, McOutputs.DutyW);
     }
 
+    LedRun_Off();
     INV_ADC_InterruptClear();
     INV_ADC_InterruptEnable();
 } // </editor-fold>
@@ -45,17 +47,18 @@ static void InvAdcCalib_IntCb(uintptr_t pt) // <editor-fold defaultstate="collap
 {
     INV_ADC_InterruptDisable();
     INV_ADC_InterruptClear();
-
-    InvUiCxt.PhaseU.Cur.Val+=iir(&InvUiCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
-    InvUiCxt.PhaseU.Vol.Val+=iir(&InvUiCxt.PhaseU.Vol.Iir, (int16_t) INV_ADC_GetVuChannel(), INV_IIR_FILTER_HARDNESS);
-    InvUiCxt.PhaseV.Cur.Val+=iir(&InvUiCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
-    InvUiCxt.PhaseV.Vol.Val+=iir(&InvUiCxt.PhaseV.Vol.Iir, (int16_t) INV_ADC_GetVvChannel(), INV_IIR_FILTER_HARDNESS);
-    InvUiCxt.Source.Cur.Val+=iir(&InvUiCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
-    InvUiCxt.Source.Vol.Val+=iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
+    LedRun_On();
 
     if(McDoNext<2000)
     {
         McDoNext++;
+        InvUiCxt.PhaseU.Cur.Val+=iir(&InvUiCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
+        InvUiCxt.PhaseU.Vol.Val+=iir(&InvUiCxt.PhaseU.Vol.Iir, (int16_t) INV_ADC_GetVuChannel(), INV_IIR_FILTER_HARDNESS);
+        InvUiCxt.PhaseV.Cur.Val+=iir(&InvUiCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
+        InvUiCxt.PhaseV.Vol.Val+=iir(&InvUiCxt.PhaseV.Vol.Iir, (int16_t) INV_ADC_GetVvChannel(), INV_IIR_FILTER_HARDNESS);
+        InvUiCxt.Source.Cur.Val+=iir(&InvUiCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
+        InvUiCxt.Source.Vol.Val+=iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
+
 
         if(McDoNext==2000)
         {
@@ -75,6 +78,7 @@ static void InvAdcCalib_IntCb(uintptr_t pt) // <editor-fold defaultstate="collap
         }
     }
 
+    LedRun_Off();
     INV_ADC_InterruptClear();
     INV_ADC_InterruptEnable();
 } // </editor-fold>

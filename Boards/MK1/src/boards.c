@@ -36,10 +36,10 @@ inv_ui_cxt_t InvUiCxt={
     // Voffset=2500mV
     // Gain=3300/(4096*200*0.001)=4125/1024
     // Ioffset=2500/(200*0.001)=12500 (mA)
-    .PhaseW.Cur.Gain.num=4125,
-    .PhaseW.Cur.Gain.den=1024,
-    .PhaseW.Cur.Gain.val=(float) (4125/1024),
-    .PhaseW.Cur.Offset=12500,
+    .PhaseV.Cur.Gain.num=4125,
+    .PhaseV.Cur.Gain.den=1024,
+    .PhaseV.Cur.Gain.val=(float) (4125/1024),
+    .PhaseV.Cur.Offset=12500,
 
     // Rsh=0.005Ohm
     // ampli_gain=50
@@ -118,26 +118,23 @@ void ClrWdt(void)
 /* ************************************************************ Power control */
 void VDC_Enable(void)
 {
-    //VDC_ENABLE_Set();
-    PWR_RELAY_Set();
+    //PWR_RELAY_Set();
+#warning "uncomment PWR_RELAY_Set first"
 }
 
 void VDC_Disable(void)
 {
-    //VDC_ENABLE_Clear();
     PWR_RELAY_Clear();
 }
 
 /* ********************************************************* Dev mode control */
 void DevMode_Enable(void)
 {
-    //DEV_MODE_DISABLE_Clear();
     DEV_RELAY_Clear();
 }
 
 void DevMode_Disable(void)
 {
-    //DEV_MODE_DISABLE_Set();
     DEV_RELAY_Set();
 }
 
@@ -160,20 +157,33 @@ void LedRun_Toggle(void)
 /* ****************************************************** LED for error state */
 void LedErr_On(void)
 {
-    //IND_ERR_N_Clear();
     IND_ERR_Set();
 }
 
 void LedErr_Off(void)
 {
-    //IND_ERR_N_Set();
     IND_ERR_Clear();
 }
 
 void LedErr_Toggle(void)
 {
-    //IND_ERR_N_Toggle();
     IND_ERR_Toggle();
+}
+
+/* ******************************************************** LED for MCU state */
+void LedMcu_On(void)
+{
+    SLED_Set();
+}
+
+void LedMcu_Off(void)
+{
+    SLED_Clear();
+}
+
+void LedMcu_Toggle(void)
+{
+    SLED_Toggle();
 }
 
 /* ******************************************************************* Button */
@@ -197,32 +207,32 @@ int32_t INV_ENC_GetSpeed(void)
 /* *************************************************************** INV analog */
 uint16_t INV_ADC_GetVdcChannel(void)
 {
-    return ADCHS_ChannelResultGet(ADCHS_CH10);
+    return ADCHS_ChannelResultGet(ADCHS_CH6);
 }
 
 uint16_t INV_ADC_GetIdcChannel(void)
 {
-    return ADCHS_ChannelResultGet(ADCHS_CH9);
+    return ADCHS_ChannelResultGet(ADCHS_CH2);
 }
 
 uint16_t INV_ADC_GetIuChannel(void)
 {
-    return ADCHS_ChannelResultGet(ADCHS_CH0);
+    return ADCHS_ChannelResultGet(ADCHS_CH24);
 }
 
 uint16_t INV_ADC_GetIvChannel(void)
 {
-    return ADCHS_ChannelResultGet(ADCHS_CH1);
+    return ADCHS_ChannelResultGet(ADCHS_CH26);
 }
 
 uint16_t INV_ADC_GetVuChannel(void)
 {
-    return ADCHS_ChannelResultGet(ADCHS_CH3);
+    return 0;
 }
 
 uint16_t INV_ADC_GetVvChannel(void)
 {
-    return ADCHS_ChannelResultGet(ADCHS_CH7);
+    return 0;
 }
 
 uint16_t INV_ADC_GetSpeedRef(void)
@@ -232,23 +242,22 @@ uint16_t INV_ADC_GetSpeedRef(void)
 
 void INV_ADC_SetCallback(void (*callback)(uintptr_t context))
 {
-    //ADCHS_EOSCallbackRegister((ADCHS_EOS_CALLBACK) callback, (uintptr_t) NULL);
-    ADCHS_CallbackRegister(ADCHS_CH24, (ADCHS_EOS_CALLBACK) callback, (uintptr_t) NULL);
+    ADCHS_CallbackRegister(ADCHS_CH24, (ADCHS_CALLBACK) callback, (uintptr_t) NULL);
 }
 
 void INV_ADC_InterruptEnable(void)
 {
-    EVIC_SourceEnable(INT_SOURCE_ADC_EOS);
+    EVIC_SourceEnable(INT_SOURCE_ADC_DATA24);
 }
 
 void INV_ADC_InterruptDisable(void)
 {
-    EVIC_SourceDisable(INT_SOURCE_ADC_EOS);
+    EVIC_SourceDisable(INT_SOURCE_ADC_DATA24);
 }
 
 void INV_ADC_InterruptClear(void)
 {
-    EVIC_SourceStatusClear(INT_SOURCE_ADC_EOS);
+    EVIC_SourceStatusClear(INT_SOURCE_ADC_DATA24);
 }
 
 /* ****************************************************************** INV PWM */
