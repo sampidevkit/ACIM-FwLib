@@ -6935,6 +6935,7 @@
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_106_ENABLE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
       &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;true&quot;/&gt;
+      &lt;User dnOrder=&quot;1&quot; value=&quot;true&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -7022,7 +7023,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_109_PRIORITY&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;User dnOrder=&quot;0&quot; value=&quot;2&quot;/&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;1&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -7033,7 +7034,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_109_PRIVALUE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;2048&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;1024&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -7133,6 +7134,28 @@
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_130_INTERRUPT_HANDLER&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
       &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;ADC_DATA24_Handler&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/core&gt;
+&lt;/core&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="core" name="EVIC_130_PRIORITY"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
+  &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_130_PRIORITY&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;2&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/core&gt;
+&lt;/core&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="core" name="EVIC_130_PRIVALUE"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
+  &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_130_PRIVALUE&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;524288&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -17667,11 +17690,11 @@
    <generatedFileHashHistoryMap class="java.util.TreeMap">
       <entry>
          <file>..\src\config\default\definitions.h</file>
-         <hash>5a13ceff6419953e2a12b5ca39b41890eff003f99b7670d6bad26b76aaf10dd9</hash>
+         <hash>ca43102e068c7c9116e87f37e368fecf6c7a754bf0b583e61d5b2407f885cbdb</hash>
       </entry>
       <entry>
          <file>..\src\config\default\device.h</file>
-         <hash>4d4341a6f9628cea0bf73f980b639f7cb81089e55a60ad7e434be2a71e477442</hash>
+         <hash>10ec93c43a7b158a129ae05bd8f4a59ff5bcf3d0f3f062fdd64c374bc2d42099</hash>
       </entry>
       <entry>
          <file>..\src\config\default\exceptions.c</file>
@@ -17679,15 +17702,15 @@
       </entry>
       <entry>
          <file>..\src\config\default\initialization.c</file>
-         <hash>0c6c053c92d5bb871fb1eae1f3adcf83e1ed6930902422f653adb691fed5df8c</hash>
+         <hash>ff3eedba6d3373d49eb943d5f605b7b75934103f69cf04a22370092465a74b36</hash>
       </entry>
       <entry>
          <file>..\src\config\default\interrupts.c</file>
-         <hash>7df9dbff9a2381edbef04c43b1c41eae953498353929b940bbbe8ad6b90e116a</hash>
+         <hash>d1668709805572d75ad8f3b8fa9d1f9a354b4e777633f0ec602bec908530354a</hash>
       </entry>
       <entry>
          <file>..\src\config\default\interrupts.h</file>
-         <hash>10bec3690950a19b542a0d173147c23ddcee950c0b7b93e142699e3de1a3e462</hash>
+         <hash>a54bf11be88c926ba844d0fac63e1f0715be7dda9fb44e4b343a3c42d35721ee</hash>
       </entry>
       <entry>
          <file>..\src\config\default\p32MK1024MCM064.ld</file>
@@ -17695,7 +17718,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\adchs\plib_adchs.c</file>
-         <hash>188be8bb3a14988d55ff13a5801ff2a99bbe2b53da44d32a6e3e8bd51527d40a</hash>
+         <hash>4c70f48c5b42f3f87515880004b516e3c78e5cae2d615f5dbd776ef89d3aeb54</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\adchs\plib_adchs.h</file>
@@ -17739,7 +17762,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\mcpwm\plib_mcpwm.c</file>
-         <hash>c0cb50f7432779ac7d6a09c6849d054bb2dc768cd6e0506b8e39109ea7481ada</hash>
+         <hash>47f897e2afb6cd37e352645de3e495b10a72e68e056665a322b1ace88ac7adae</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\mcpwm\plib_mcpwm.h</file>
@@ -17771,7 +17794,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\uart\plib_uart1.c</file>
-         <hash>c58a2a73426c74d408b7969584c2d8f532d284f1550f4de7cf40ad872200a76c</hash>
+         <hash>7a53799466fe658f03e8737ce861d6414668cf15ba8ac17e3a30397f28bfa52e</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\uart\plib_uart1.h</file>
@@ -17779,7 +17802,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\uart\plib_uart2.c</file>
-         <hash>8e61aa14871ee0b0855140c25440b9108d083725ee1bdd3c4861460057f4bbeb</hash>
+         <hash>661b02a74a5b09571faaeae759b29bf0beac37f351aff953dfc0ef88ce34a691</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\uart\plib_uart2.h</file>

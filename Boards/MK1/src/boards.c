@@ -41,22 +41,22 @@ inv_ui_cxt_t InvUiCxt={
     .PhaseV.Cur.Gain.val=(float) (4125/1024),
     .PhaseV.Cur.Offset=12500,
 
-    // Rsh=0.005Ohm
-    // ampli_gain=50
-    // Voffset=0mV
-    // Gain=3300/(4096*50*0.005)=825/256
-    // Ioffset=0 (mA))
-    .Source.Cur.Gain.num=825,
-    .Source.Cur.Gain.den=256,
-    .Source.Cur.Gain.val=(float) (825/256),
-    .Source.Cur.Offset=0,
+    // Rsh=0.001Ohm
+    // ampli_gain=200
+    // Voffset=2500mV
+    // Gain=3300/(4096*200*0.001)=4125/1024
+    // Ioffset=2500/(200*0.001)=12500 (mA)
+    .Source.Cur.Gain.num=4125,
+    .Source.Cur.Gain.den=1024,
+    .Source.Cur.Gain.val=(float) (4125/1024),
+    .Source.Cur.Offset=12500,
     // Rtop=300k
     // Rbot=1.1k
-    // Gain=3300*(300k+1.1k)/(300k*1.1k)=3011/1000
+    // Gain=442
     // Offset=0V
-    .Source.Vol.Gain.num=3011,
-    .Source.Vol.Gain.num=1000,
-    .Source.Vol.Gain.val=(float) (3011/1000),
+    .Source.Vol.Gain.num=442,
+    .Source.Vol.Gain.num=1,
+    .Source.Vol.Gain.val=(float) (442/1),
     .Source.Vol.Offset=0
 };
 
@@ -242,22 +242,22 @@ uint16_t INV_ADC_GetSpeedRef(void)
 
 void INV_ADC_SetCallback(void (*callback)(uintptr_t context))
 {
-    ADCHS_CallbackRegister(ADCHS_CH24, (ADCHS_CALLBACK) callback, (uintptr_t) NULL);
+    ADCHS_CallbackRegister(ADCHS_CH0, (ADCHS_CALLBACK) callback, (uintptr_t) NULL);
 }
 
 void INV_ADC_InterruptEnable(void)
 {
-    EVIC_SourceEnable(INT_SOURCE_ADC_DATA24);
+    EVIC_SourceEnable(ADCHS_CH0);
 }
 
 void INV_ADC_InterruptDisable(void)
 {
-    EVIC_SourceDisable(INT_SOURCE_ADC_DATA24);
+    EVIC_SourceDisable(ADCHS_CH0);
 }
 
 void INV_ADC_InterruptClear(void)
 {
-    EVIC_SourceStatusClear(INT_SOURCE_ADC_DATA24);
+    EVIC_SourceStatusClear(ADCHS_CH0);
 }
 
 /* ****************************************************************** INV PWM */
