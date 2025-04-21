@@ -4,17 +4,17 @@
 
 
 project: MK1
-creation_date: 2025-04-21T14:51:04.745+07:00[Asia/Bangkok]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
+creation_date: 2025-04-22T00:07:44.803+07:00[Asia/Bangkok]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
 operating_system: Windows 10
-mcc_mode: Standalone            # [IDE|Standalone|Headless]
-mcc_version: v5.5.1
+mcc_mode: IDE            # [IDE|Standalone|Headless]
+mcc_version: v5.5.2
 mcc_core_version: v5.7.1
-mplabx_version: NA        # if MPLAB X plugin only
+mplabx_version: v6.25        # if MPLAB X plugin only
 harmony_version: v1.5.5
-compiler: NA
+compiler: XC32 4.60
 
 modules:
-    - {name: "csp", version: "v3.20.0"}
+    - {name: "csp", version: "v3.22.2"}
 
 packs:
     - {name: "PIC32MK-MC_DFP", version: "1.11.151"}

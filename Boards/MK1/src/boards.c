@@ -69,7 +69,7 @@ void System_Init(void)
     printf("\r\nMCU: %s", DEVICE_NAME);
     printf("\r\nCore: %s", DEVICE_ARCH);
     printf("\r\nUDID: %08X-%08X-%08X-%08X", DEVSN3, DEVSN2, DEVSN1, DEVSN0);
-    printf("\r\nClock: %dHz", CPU_CLOCK_FREQUENCY);
+    printf("\r\nClock: %dMHz", CPU_CLOCK_FREQUENCY/1000000);
     printf("\r\nFW: %s-%s", __DATE__, __TIME__);
     printf("\r\nReset code: 0x%08X", RCON);
 
@@ -270,7 +270,7 @@ void INV_PWM_SetDuty(uint16_t DutyU, uint16_t DutyV, uint16_t DutyW)
 
 void INV_PWM_SetCallback(void (*callback) (uint32_t status, uintptr_t context))
 {
-    MCPWM_CallbackRegister(MCPWM_CH_12, (MCPWM_CH_CALLBACK) callback, (uintptr_t) NULL);
+    //MCPWM_CallbackRegister(MCPWM_CH_12, (MCPWM_CH_CALLBACK) callback, (uintptr_t) NULL);
 }
 
 void INV_PWM_InterruptEnable(void)

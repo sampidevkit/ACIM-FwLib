@@ -2,6 +2,7 @@
 #include "Common/Tick.h"
 #include "Algorithms/MC.h"
 #include "Debugger/DataVisualizer.h"
+#include "peripheral/uart/plib_uart1.h"
 
 int main(void)
 {
@@ -40,7 +41,8 @@ int main(void)
                 if(MC_Init())
                     DoNext++;
                 break;
-
+                
+            case 2:
             default:
                 ClrWdt();
                 DV_Tasks();

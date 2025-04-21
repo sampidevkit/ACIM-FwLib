@@ -98,7 +98,6 @@ void MCPWM_ChannelPinsOwnershipDisable(MCPWM_CH_NUM channel);
 
 
 
-void MCPWM_CallbackRegister(MCPWM_CH_NUM channel, MCPWM_CH_CALLBACK callback, uintptr_t context);
 
 
 // DOM-IGNORE-BEGIN

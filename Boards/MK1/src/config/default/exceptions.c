@@ -18,27 +18,27 @@
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
-* Copyright (C) 2018 Microchip Technology Inc. and its subsidiaries.
-*
-* Subject to your compliance with these terms, you may use Microchip software
-* and any derivatives exclusively with Microchip products. It is your
-* responsibility to comply with third party license terms applicable to your
-* use of third party software (including open source software) that may
-* accompany Microchip software.
-*
-* THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER
-* EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY IMPLIED
-* WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A
-* PARTICULAR PURPOSE.
-*
-* IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE,
-* INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND
-* WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP HAS
-* BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO THE
-* FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
-* ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
-* THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
-*******************************************************************************/
+ * Copyright (C) 2018 Microchip Technology Inc. and its subsidiaries.
+ *
+ * Subject to your compliance with these terms, you may use Microchip software
+ * and any derivatives exclusively with Microchip products. It is your
+ * responsibility to comply with third party license terms applicable to your
+ * use of third party software (including open source software) that may
+ * accompany Microchip software.
+ *
+ * THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER
+ * EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY IMPLIED
+ * WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A
+ * PARTICULAR PURPOSE.
+ *
+ * IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE,
+ * INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND
+ * WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP HAS
+ * BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO THE
+ * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
+ * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
+ * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
+ *******************************************************************************/
 // DOM-IGNORE-END
 // *****************************************************************************
 // *****************************************************************************
@@ -47,6 +47,7 @@
 // *****************************************************************************
 #include "device.h"
 #include "definitions.h"
+#include "boards.h"
 #include <stdio.h>
 
 // *****************************************************************************
@@ -74,7 +75,7 @@ void _bootstrap_exception_handler(void);
     These global static items are used instead of local variables in the
     _general_exception_handler function because the stack may not be available
     if an exception has occured.
-*/
+ */
 
 /* Exception codes */
 #define EXCEP_IRQ       0U // interrupt
@@ -96,7 +97,7 @@ void _bootstrap_exception_handler(void);
 static unsigned int exception_address;
 
 /* Code identifying the cause of the exception (CP0 Cause register). */
-static uint32_t  exception_code;
+static uint32_t exception_code;
 
 
 // </editor-fold>
@@ -113,20 +114,24 @@ static uint32_t  exception_code;
     Refer to the XC32 User's Guide for additional information.
  */
 
-void __attribute__((noreturn, weak)) _general_exception_handler ( void )
+void __attribute__((noreturn, weak)) _general_exception_handler(void)
 {
     /* Mask off the ExcCode Field from the Cause Register
     Refer to the MIPs Software User's manual */
-    exception_code = ((_CP0_GET_CAUSE() & 0x0000007CU) >> 2U);
-    exception_address = _CP0_GET_EPC();
+    exception_code=((_CP0_GET_CAUSE() & 0x0000007CU)>>2U);
+    exception_address=_CP0_GET_EPC();
+    LedErr_On();
+    //printf("\r\n%s, code=0x%08x, address=0x%08x", __FUNCTION__, exception_code, exception_address);
 
-    while (true)
+    while(true)
     {
-        #if defined(__DEBUG) || defined(__DEBUG_D) && defined(__XC32)
-            __builtin_software_breakpoint();
-        #endif
+        ClrWdt();
+#if defined(__DEBUG) || defined(__DEBUG_D) && defined(__XC32)
+        __builtin_software_breakpoint();
+#endif
     }
 }
+
 /*******************************************************************************
   Function:
     void _bootstrap_exception_handler ( void )
@@ -143,16 +148,20 @@ void __attribute__((noreturn, weak)) _bootstrap_exception_handler(void)
 {
     /* Mask off the ExcCode Field from the Cause Register
     Refer to the MIPs Software User's manual */
-    exception_code = (_CP0_GET_CAUSE() & 0x0000007CU) >> 2U;
-    exception_address = _CP0_GET_EPC();
+    exception_code=(_CP0_GET_CAUSE() & 0x0000007CU)>>2U;
+    exception_address=_CP0_GET_EPC();
+    LedErr_On();
+    //printf("\r\n%s, code=0x%08x, address=0x%08x", __FUNCTION__, exception_code, exception_address);
 
-    while (true)
+    while(true)
     {
-        #if defined(__DEBUG) || defined(__DEBUG_D) && defined(__XC32)
-            __builtin_software_breakpoint();
-        #endif
+        ClrWdt();
+#if defined(__DEBUG) || defined(__DEBUG_D) && defined(__XC32)
+        __builtin_software_breakpoint();
+#endif
+        
     }
 }
 /*******************************************************************************
  End of File
-*/
+ */

@@ -60,7 +60,6 @@ void EVIC_Initialize( void )
     IPC14SET = 0x400U | 0x100U;  /* UART2_RX:  Priority 1 / Subpriority 1 */
     IPC14SET = 0x40000U | 0x20000U;  /* UART2_TX:  Priority 1 / Subpriority 2 */
     IPC26SET = 0x80000U | 0x0U;  /* ADC_DATA0:  Priority 2 / Subpriority 0 */
-    IPC60SET = 0xc000000U | 0x0U;  /* PWM12:  Priority 3 / Subpriority 0 */
 
 
 
