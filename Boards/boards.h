@@ -44,6 +44,7 @@ void PFC_PWM_SetCallback(void (*callback) (uint32_t status, uintptr_t context));
 int32_t INV_ENC_GetSpeed(void);
 /* *************************************************************** INV analog */
 bool INV_ADC_ResultIsReady(void);
+uint16_t INV_ADC_GetInternalVrefChannel(void);
 uint16_t INV_ADC_GetVdcChannel(void);
 uint16_t INV_ADC_GetIdcChannel(void);
 uint16_t INV_ADC_GetIuChannel(void);

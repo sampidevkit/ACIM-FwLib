@@ -6,62 +6,15 @@ inv_ui_cxt_t InvUiCxt={
     .PwmDutyMax=3000, // See in MCPWM_PrimaryPeriodGet()
     .AdcVref=3300, // mV
     .AdcReso=4096, // 12bit
-
-    /* Ish=Vsh/Rsh=(Vo/ampli_gain)/Rsh
-          =Vo/(ampli_gain*Rsh)
-          =(AdcVal*AdcVref/AdcReso)/(ampli_gain*Rsh)
-          =(AdcVal*AdcVref)/(AdcReso*ampli_gain*Rsh)
-    Gain=AdcVref/(AdcReso*ampli_gain*Rsh)
-    => Ish=AdcVal*Gain-Ioffset
-    Ioffset=Voffset/(ampli_gain*Rsh) */
-
-    /* Vin=(Vdiv/Rbot)*(Rtop+Rbot)
-       Vdiv=AdcVal*AdcVref/AdcReso
-    => Vin=(AdcVal*AdcVref/(AdcReso*Rbot))*(Rtop+Rbot)
-    Gain=AdcVref*(Rtop+Rbot)/(AdcReso*Rbot)
-    Vin=AdcVal*Gain-Voffset */
-
-    // Rsh=0.001Ohm
-    // ampli_gain=200
-    // Voffset=2500mV
-    // Gain=3300/(4096*200*0.001)=4125/1024
-    // Ioffset=2500/(200*0.001)=12500 (mA)
-    .PhaseU.Cur.Gain.num=4125,
-    .PhaseU.Cur.Gain.den=1024,
-    .PhaseU.Cur.Gain.val=(float) (4125/1024),
-    .PhaseU.Cur.Offset=12500,
-
-    // Rsh=0.001Ohm
-    // ampli_gain=200
-    // Voffset=2500mV
-    // Gain=3300/(4096*200*0.001)=4125/1024
-    // Ioffset=2500/(200*0.001)=12500 (mA)
-    .PhaseV.Cur.Gain.num=4125,
-    .PhaseV.Cur.Gain.den=1024,
-    .PhaseV.Cur.Gain.val=(float) (4125/1024),
-    .PhaseV.Cur.Offset=12500,
-
-    // Rsh=0.001Ohm
-    // ampli_gain=200
-    // Voffset=2500mV
-    // Gain=3300/(4096*200*0.001)=4125/1024
-    // Ioffset=2500/(200*0.001)=12500 (mA)
-    .Source.Cur.Gain.num=4125,
-    .Source.Cur.Gain.den=1024,
-    .Source.Cur.Gain.val=(float) (4125/1024),
-    .Source.Cur.Offset=12500,
-    // Rtop=300k
-    // Rbot=1.1k
-    // Gain=442
-    // Offset=0V
-    .Source.Vol.Gain.num=442,
-    .Source.Vol.Gain.num=1,
-    .Source.Vol.Gain.val=(float) (442/1),
-    .Source.Vol.Offset=0
+    .InterVref.Gain=(float) 1200, // for Vband gap=1.2V
+    .PhaseU.Cur.Gain=(float) 0.100, // 100mV/A
+    .PhaseV.Cur.Gain=(float) 0.100, // 100mV/A
+    .Source.Cur.Gain=(float) 0.100, // 100mV/A
+    .Source.Vol.Gain=(float) 1.823, // mV/V
 };
 
 /* ******************************************************************* System */
-void System_Init(void)
+void System_Init(void) // <editor-fold defaultstate="collapsed" desc="System initialize">
 {
     SYS_Initialize(NULL);
     printf("\r\n\r\nLABHAU ACIM INVERTER");
@@ -108,18 +61,18 @@ void System_Init(void)
 
     RCON&=0xF3FFFD00; // Clear bit 27, 26, 9, 7,6,5,4,3,2,1,0
     printf("\r\n\r\n");
-}
+} // </editor-fold>
 
-void ClrWdt(void)
+void ClrWdt(void) // <editor-fold defaultstate="collapsed" desc="Clear Watching-dog-timer">
 {
     WDT_Clear();
-}
+} // </editor-fold>
 
 /* ************************************************************ Power control */
 void VDC_Enable(void)
 {
-    //PWR_RELAY_Set();
-#warning "uncomment PWR_RELAY_Set first"
+    PWR_RELAY_Set();
+    //#warning "uncomment PWR_RELAY_Set first"
 }
 
 void VDC_Disable(void)
@@ -136,7 +89,7 @@ void DevMode_Enable(void)
 void DevMode_Disable(void)
 {
     //DEV_RELAY_Set();
-    #warning "uncomment DEV_RELAY_Set first"
+#warning "uncomment DEV_RELAY_Set first"
 }
 
 /* **************************************************** LED for running state */
@@ -209,13 +162,20 @@ int32_t INV_ENC_GetSpeed(void)
 bool INV_ADC_ResultIsReady(void)
 {
     bool ready=1;
-    
+
     ready&=ADCHS_ChannelResultIsReady(ADCHS_CH0);
     ready&=ADCHS_ChannelResultIsReady(ADCHS_CH2);
     ready&=ADCHS_ChannelResultIsReady(ADCHS_CH3);
     ready&=ADCHS_ChannelResultIsReady(ADCHS_CH5);
-    
+
     return ready;
+}
+
+uint16_t INV_ADC_GetInternalVrefChannel(void)
+{
+    // AN50 - Internal Vref=1200mV
+    ADCHS_ChannelConversionStart(ADCHS_CH50);
+    return ADCHS_ChannelResultGet(ADCHS_CH50);
 }
 
 uint16_t INV_ADC_GetVdcChannel(void)

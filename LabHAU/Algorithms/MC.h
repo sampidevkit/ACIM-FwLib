@@ -6,7 +6,7 @@
 #include "Common/Utils.h"
 
 typedef struct {
-    const gain_t Gain; // Gain to convert ADC to real voltage
+    float Gain; // Gain to convert ADC to real voltage
     int32_t Offset; // Offset value 
     int32_t Iir; // IIR filter buffer
     int32_t Val; // Present ADC value
@@ -18,9 +18,10 @@ typedef struct {
 } inv_phase_cxt_t, inv_src_cxt_t;
 
 typedef struct {
-    const uint16_t PwmDutyMax; // Max PWM duty
-    const int32_t AdcVref; // ADC Vref
-    const int32_t AdcReso; // ADC resolution
+    uint16_t PwmDutyMax; // Max PWM duty
+    int32_t AdcVref; // ADC Vref
+    int32_t AdcReso; // ADC resolution
+    inv_vol_cxt_t InterVref; // Internal Vref
     inv_src_cxt_t Source; // Inverter power source context
     inv_phase_cxt_t PhaseU; // Inverter phase U context
     inv_phase_cxt_t PhaseV; // Inverter phase V context
@@ -56,12 +57,9 @@ extern mc_outputs_t McOutputs; // defined in MC.c
 
 void MC_Init(void);
 void MC_Task(void);
-void MC_SetProcessFunction(void (*pFnc)(void *), void *pArg);
 /* **************************************************** User's implementation */
 void MC_myInit(void);
-void MC_myProcess(void *pArg);
-/* ******************************************************************** Demos */
-void MC_SinePWM_Init(uint32_t freq);
+void MC_myProcess(void);
 /* ************************************************************************** */
 #define McIs    McInputs.Source.I
 #define McIu    McInputs.PhaseU.I

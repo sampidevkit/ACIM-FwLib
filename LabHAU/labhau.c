@@ -22,11 +22,11 @@ int main(void)
 
     while(1)
     {
+        ClrWdt();
+        
         switch(DoNext)
         {
             case 0:
-                ClrWdt();
-
                 if(Tick_Is_Over_Ms(Tick, 3000))
                 {
                     DV_Init();
@@ -38,18 +38,17 @@ int main(void)
 
             case 1:
             default:
-                ClrWdt();
                 DV_Tasks();
 
                 if(Tick_Is_Over_Ms(Tick, 1000))
                 {
                     LedMcu_Toggle();
 #if(1)
+                    printf("\r\nVref=%d mV", InvUiCxt.AdcVref);
                     printf("\r\nVdc=%d mV", McInputs.Source.U);
                     printf("\r\nIdc=%d mA", McInputs.Source.I);
                     printf("\r\nIu=%d mA", McInputs.PhaseU.I);
-                    printf("\r\nIv=%d mA", McInputs.PhaseV.I);
-                    printf("\r\nIw=%d mA\r\n", McInputs.PhaseW.I);
+                    printf("\r\nIv=%d mA\r\n", McInputs.PhaseV.I);
 #endif
                 }
                 break;
