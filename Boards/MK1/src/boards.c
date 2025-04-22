@@ -135,7 +135,8 @@ void DevMode_Enable(void)
 
 void DevMode_Disable(void)
 {
-    DEV_RELAY_Set();
+    //DEV_RELAY_Set();
+    #warning "uncomment DEV_RELAY_Set first"
 }
 
 /* **************************************************** LED for running state */
@@ -205,24 +206,36 @@ int32_t INV_ENC_GetSpeed(void)
 }
 
 /* *************************************************************** INV analog */
+bool INV_ADC_ResultIsReady(void)
+{
+    bool ready=1;
+    
+    ready&=ADCHS_ChannelResultIsReady(ADCHS_CH0);
+    ready&=ADCHS_ChannelResultIsReady(ADCHS_CH2);
+    ready&=ADCHS_ChannelResultIsReady(ADCHS_CH3);
+    ready&=ADCHS_ChannelResultIsReady(ADCHS_CH5);
+    
+    return ready;
+}
+
 uint16_t INV_ADC_GetVdcChannel(void)
 {
-    return ADCHS_ChannelResultGet(ADCHS_CH6);
+    return ADCHS_ChannelResultGet(ADCHS_CH5); // AN6
 }
 
 uint16_t INV_ADC_GetIdcChannel(void)
 {
-    return ADCHS_ChannelResultGet(ADCHS_CH2);
+    return ADCHS_ChannelResultGet(ADCHS_CH2); // AN2
 }
 
 uint16_t INV_ADC_GetIuChannel(void)
 {
-    return ADCHS_ChannelResultGet(ADCHS_CH24);
+    return ADCHS_ChannelResultGet(ADCHS_CH0); // AN24
 }
 
 uint16_t INV_ADC_GetIvChannel(void)
 {
-    return ADCHS_ChannelResultGet(ADCHS_CH26);
+    return ADCHS_ChannelResultGet(ADCHS_CH3); // AN26
 }
 
 uint16_t INV_ADC_GetVuChannel(void)
@@ -240,26 +253,6 @@ uint16_t INV_ADC_GetSpeedRef(void)
     return 2047; // Not implement
 }
 
-void INV_ADC_SetCallback(void (*callback)(uintptr_t context))
-{
-    ADCHS_CallbackRegister(ADCHS_CH0, (ADCHS_CALLBACK) callback, (uintptr_t) NULL);
-}
-
-void INV_ADC_InterruptEnable(void)
-{
-    EVIC_SourceEnable(ADCHS_CH0);
-}
-
-void INV_ADC_InterruptDisable(void)
-{
-    EVIC_SourceDisable(ADCHS_CH0);
-}
-
-void INV_ADC_InterruptClear(void)
-{
-    EVIC_SourceStatusClear(ADCHS_CH0);
-}
-
 /* ****************************************************************** INV PWM */
 void INV_PWM_SetDuty(uint16_t DutyU, uint16_t DutyV, uint16_t DutyW)
 {
@@ -270,7 +263,7 @@ void INV_PWM_SetDuty(uint16_t DutyU, uint16_t DutyV, uint16_t DutyW)
 
 void INV_PWM_SetCallback(void (*callback) (uint32_t status, uintptr_t context))
 {
-    //MCPWM_CallbackRegister(MCPWM_CH_12, (MCPWM_CH_CALLBACK) callback, (uintptr_t) NULL);
+    MCPWM_CallbackRegister(MCPWM_CH_12, (MCPWM_CH_CALLBACK) callback, (uintptr_t) NULL);
 }
 
 void INV_PWM_InterruptEnable(void)

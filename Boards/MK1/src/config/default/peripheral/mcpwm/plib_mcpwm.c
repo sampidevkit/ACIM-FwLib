@@ -47,6 +47,7 @@
 // Section: MCPWM Implementation
 // *****************************************************************************
 // *****************************************************************************
+static volatile MCPWM_CH_OBJECT mcpwmObj[12];
 
 void MCPWM_Initialize (void)
 {
@@ -193,8 +194,8 @@ void MCPWM_Initialize (void)
     /*  PWMLIEN = false */
     /*  TRGIEN = false */
     /*  CLIEN = false */
-    /*  FLTIEN = false */
-    PWMCON12 = 0x400;
+    /*  FLTIEN = true */
+    PWMCON12 = 0x800400;
 
     /* IOCON12 register  */
     /*  SWAP    = 0*/
@@ -237,6 +238,9 @@ void MCPWM_Initialize (void)
     LEBCON12 = 0x0;
     LEBDLY12 = 10;
 
+    /* Enable interrupt */
+    IEC7SET = _IEC7_PWM12IE_MASK;
+    mcpwmObj[11].callback = NULL;
 
 }
 
@@ -327,4 +331,57 @@ void MCPWM_ChannelPinsOwnershipDisable(MCPWM_CH_NUM channel)
 
 
 
+void __attribute__((used)) PWM12_InterruptHandler(void)
+{
+    uint32_t tmp;
+    uintptr_t context = mcpwmObj[11].context;
+    uint32_t status = PWMCON12 & MCPWM_STATUS_MASK;
 
+    tmp = PWMCON12bits.PWMHIF;
+    if (((PWMCON12bits.PWMHIEN) != 0U) && (tmp != 0U))
+    {
+        PWMCON12bits.PWMHIF = 0;
+    }
+
+    tmp = PWMCON12bits.PWMLIF;
+    if (((PWMCON12bits.PWMLIEN) != 0U) && (tmp != 0U))
+    {
+        PWMCON12bits.PWMLIF = 0;
+    }
+
+    tmp = PWMCON12bits.TRGIF;
+    if (((PWMCON12bits.TRGIEN) != 0U) && (tmp != 0U))
+    {
+        PWMCON12bits.TRGIF = 0;
+    }
+
+    tmp = PWMCON12bits.CLIF;
+    if (((PWMCON12bits.CLIEN) != 0U) && (tmp != 0U))
+    {
+        PWMCON12bits.CLIEN = 0;
+        PWMCON12bits.CLIF = 0;
+    }
+
+    tmp = PWMCON12bits.FLTIF;
+    if (((PWMCON12bits.FLTIEN) != 0U) && (tmp != 0U))
+    {
+        PWMCON12bits.FLTIEN = 0;
+        PWMCON12bits.FLTIF = 0;
+    }
+
+    IFS7CLR = _IFS7_PWM12IF_MASK;    //Clear IRQ flag
+
+    PWMCON12bits.FLTIEN = 1;
+
+    if( (mcpwmObj[11].callback != NULL))
+    {
+        mcpwmObj[11].callback((MCPWM_CH_STATUS)status, context);
+    }
+}
+
+
+void MCPWM_CallbackRegister(MCPWM_CH_NUM channel, MCPWM_CH_CALLBACK callback, uintptr_t context)
+{
+    mcpwmObj[channel].callback = callback;
+    mcpwmObj[channel].context = context;
+}

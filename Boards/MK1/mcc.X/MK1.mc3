@@ -2257,7 +2257,7 @@
     &lt;/Attributes&gt;
     &lt;Values dnOrder=&quot;1&quot;&gt;
       &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;adchs&quot; value=&quot;false&quot;/&gt;
-      &lt;User dnOrder=&quot;1&quot; value=&quot;true&quot;/&gt;
+      &lt;User dnOrder=&quot;1&quot; value=&quot;false&quot;/&gt;
     &lt;/Values&gt;
   &lt;/adchs&gt;
 &lt;/adchs&gt;
@@ -2736,7 +2736,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;adchs&gt;
   &lt;adchs dnOrder=&quot;0&quot; id=&quot;ADCHS_ADCGIRQEN1&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;adchs&quot; value=&quot;1&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;adchs&quot; value=&quot;0&quot;/&gt;
     &lt;/Values&gt;
   &lt;/adchs&gt;
 &lt;/adchs&gt;
@@ -3242,7 +3242,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;adchs&gt;
   &lt;adchs dnOrder=&quot;0&quot; id=&quot;ADCHS_IEC0&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;adchs&quot; value=&quot;1024&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;adchs&quot; value=&quot;0&quot;/&gt;
     &lt;/Values&gt;
   &lt;/adchs&gt;
 &lt;/adchs&gt;
@@ -3318,7 +3318,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;adchs&gt;
   &lt;adchs dnOrder=&quot;0&quot; id=&quot;ADCHS_INTERRUPT&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;adchs&quot; value=&quot;true&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;adchs&quot; value=&quot;false&quot;/&gt;
     &lt;/Values&gt;
   &lt;/adchs&gt;
 &lt;/adchs&gt;
@@ -4777,7 +4777,7 @@
         &lt;ElementPosition dnOrder=&quot;2&quot; id=&quot;core_timer&quot; x=&quot;18&quot; y=&quot;93&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;3&quot; id=&quot;dfp&quot; x=&quot;20&quot; y=&quot;20&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;4&quot; id=&quot;mcpwm&quot; x=&quot;19&quot; y=&quot;305&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;5&quot; id=&quot;qei1&quot; x=&quot;19&quot; y=&quot;441&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;5&quot; id=&quot;qei1&quot; x=&quot;19&quot; y=&quot;442&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;6&quot; id=&quot;rcon&quot; x=&quot;19&quot; y=&quot;46&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;7&quot; id=&quot;stdio&quot; x=&quot;165&quot; y=&quot;153&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;8&quot; id=&quot;uart1&quot; x=&quot;19&quot; y=&quot;163&quot;/&gt;
@@ -4819,7 +4819,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;ADC_DATA0_INTERRUPT_ENABLE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;adchs&quot; value=&quot;true&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;adchs&quot; value=&quot;false&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -4830,7 +4830,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;ADC_DATA0_INTERRUPT_ENABLE_UPDATE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;false&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;true&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -4841,7 +4841,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;ADC_DATA0_INTERRUPT_HANDLER&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;adchs&quot; value=&quot;ADC_DATA0_InterruptHandler&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;adchs&quot; value=&quot;ADC_DATA0_Handler&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -4852,7 +4852,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;ADC_DATA0_INTERRUPT_HANDLER_LOCK&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;adchs&quot; value=&quot;true&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;adchs&quot; value=&quot;false&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -6923,7 +6923,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_101_PRIORITY&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;User dnOrder=&quot;0&quot; value=&quot;2&quot;/&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;1&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -6934,7 +6934,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_101_PRIVALUE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;2048&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;1024&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -6945,8 +6945,8 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_106_ENABLE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;true&quot;/&gt;
-      &lt;User dnOrder=&quot;1&quot; value=&quot;true&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;false&quot;/&gt;
+      &lt;User dnOrder=&quot;1&quot; value=&quot;false&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -6957,7 +6957,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_106_HANDLER_LOCK&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;true&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;false&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -6968,7 +6968,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_106_INTERRUPT_HANDLER&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;ADC_DATA0_InterruptHandler&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;ADC_DATA0_Handler&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -6979,7 +6979,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_106_PRIORITY&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;User dnOrder=&quot;0&quot; value=&quot;2&quot;/&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;1&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -6990,7 +6990,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_106_PRIVALUE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;524288&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;262144&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -7210,7 +7210,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_243_ENABLE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;false&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;true&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -7221,7 +7221,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_243_HANDLER_LOCK&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;false&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;true&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -7232,7 +7232,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_243_INTERRUPT_HANDLER&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;PWM12_Handler&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;PWM12_InterruptHandler&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -7243,7 +7243,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_243_PRIORITY&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;User dnOrder=&quot;0&quot; value=&quot;3&quot;/&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;2&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -7254,7 +7254,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;EVIC_243_PRIVALUE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;201326592&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;134217728&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -8350,7 +8350,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;PWM12_INTERRUPT_ENABLE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;mcpwm&quot; value=&quot;false&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;mcpwm&quot; value=&quot;true&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -8361,7 +8361,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;PWM12_INTERRUPT_ENABLE_UPDATE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;true&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;false&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -8372,7 +8372,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;PWM12_INTERRUPT_HANDLER&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;mcpwm&quot; value=&quot;PWM12_Handler&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;mcpwm&quot; value=&quot;PWM12_InterruptHandler&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -8383,7 +8383,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;core&gt;
   &lt;core dnOrder=&quot;0&quot; id=&quot;PWM12_INTERRUPT_HANDLER_LOCK&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;mcpwm&quot; value=&quot;false&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;mcpwm&quot; value=&quot;true&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -12905,7 +12905,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;mcpwm&gt;
   &lt;mcpwm dnOrder=&quot;0&quot; id=&quot;MCPWM_EVIC12&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;mcpwm&quot; value=&quot;0&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;mcpwm&quot; value=&quot;1&quot;/&gt;
     &lt;/Values&gt;
   &lt;/mcpwm&gt;
 &lt;/mcpwm&gt;
@@ -13472,7 +13472,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;mcpwm&gt;
   &lt;mcpwm dnOrder=&quot;0&quot; id=&quot;MCPWM_PWMCON12&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;mcpwm&quot; value=&quot;1024&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;mcpwm&quot; value=&quot;8389632&quot;/&gt;
     &lt;/Values&gt;
   &lt;/mcpwm&gt;
 &lt;/mcpwm&gt;
@@ -14108,7 +14108,7 @@
   &lt;mcpwm dnOrder=&quot;0&quot; id=&quot;PWMCON12__FLTIEN&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
       &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;mcpwm&quot; value=&quot;false&quot;/&gt;
-      &lt;User dnOrder=&quot;1&quot; value=&quot;false&quot;/&gt;
+      &lt;User dnOrder=&quot;1&quot; value=&quot;true&quot;/&gt;
     &lt;/Values&gt;
   &lt;/mcpwm&gt;
 &lt;/mcpwm&gt;
@@ -17723,11 +17723,11 @@
       </entry>
       <entry>
          <file>..\src\config\default\interrupts.c</file>
-         <hash>46706c95477e2cc970034db96d67dbf0c4cef51a736f3c36d58cbfd4a42f5335</hash>
+         <hash>ff0669b311c89865c8f1b2c90be36932e31fcd04c6fe1833e904d3bbd2c81a35</hash>
       </entry>
       <entry>
          <file>..\src\config\default\interrupts.h</file>
-         <hash>8aacb4a1d4772807f09f99d98662dabfa2a68ad4110a720e5cf84674ca0990b2</hash>
+         <hash>b87aadd1f752a15f5decdbf8ba4defeadfd78943b2124c7a0f14ae99ebf01b84</hash>
       </entry>
       <entry>
          <file>..\src\config\default\p32MK1024MCM064.ld</file>
@@ -17735,11 +17735,11 @@
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\adchs\plib_adchs.c</file>
-         <hash>188be8bb3a14988d55ff13a5801ff2a99bbe2b53da44d32a6e3e8bd51527d40a</hash>
+         <hash>2c2d3a58a3a388e0f06e0a57746a9231b423b473ff21f361579065328c2bdfa6</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\adchs\plib_adchs.h</file>
-         <hash>f2b12690d16b961f17bb97b98a811a6f87b6c6aeac58cc4c1f01eefebf119c44</hash>
+         <hash>92e6af4a81b6f5ec626422a05fb890e0c5d536acd35a0b67ec71723a05832baa</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\adchs\plib_adchs_common.h</file>
@@ -17763,7 +17763,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\evic\plib_evic.c</file>
-         <hash>9b2e14b997d61f25329767a42760263090949e4a43207bec969018f3a08105ec</hash>
+         <hash>f80c671f850bfd658e491499fc23021c4c9767e7a54469065f7db2e8d709e7ee</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\evic\plib_evic.h</file>
@@ -17779,11 +17779,11 @@
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\mcpwm\plib_mcpwm.c</file>
-         <hash>6b8d2e67b800443332b98908ccdccddaa0cd6e2be821fe5d77533b219d60debc</hash>
+         <hash>c0cb50f7432779ac7d6a09c6849d054bb2dc768cd6e0506b8e39109ea7481ada</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\mcpwm\plib_mcpwm.h</file>
-         <hash>fe315bf2bcba7ad56b08d0be1fcfd1ab7230542fc98b1b2726f73d49e2a26c87</hash>
+         <hash>0119fb851908ec33ee05f6e26fd77926627382cc069f7efcc28cd57ed3cbc86c</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\mcpwm\plib_mcpwm_common.h</file>

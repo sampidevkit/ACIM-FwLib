@@ -54,7 +54,8 @@ extern inv_ui_cxt_t InvUiCxt; // defined in board.c
 extern mc_inputs_t McInputs; // defined in MC.c
 extern mc_outputs_t McOutputs; // defined in MC.c
 
-bool MC_Init(void);
+void MC_Init(void);
+void MC_Task(void);
 void MC_SetProcessFunction(void (*pFnc)(void *), void *pArg);
 /* **************************************************** User's implementation */
 void MC_myInit(void);

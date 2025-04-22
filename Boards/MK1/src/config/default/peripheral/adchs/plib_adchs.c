@@ -51,8 +51,6 @@
 // *****************************************************************************
 // *****************************************************************************
 
-/* Object to hold callback function and context */
-static volatile ADCHS_CALLBACK_OBJECT ADCHS_CallbackObj[53];
 
 
 
@@ -97,12 +95,7 @@ void ADCHS_Initialize(void)
 
 
 
-/* Result interrupt enable */
-ADCGIRQEN1 = 0x1U;
-ADCGIRQEN2 = 0x0U;
-/* Interrupt Enable */
-IEC3SET = 0x400U;
-IEC4SET = 0x0U;
+
 
 
 
@@ -259,11 +252,6 @@ uint16_t ADCHS_ChannelResultGet(ADCHS_CHANNEL_NUM channel)
 
 }
 
-void ADCHS_CallbackRegister(ADCHS_CHANNEL_NUM channel, ADCHS_CALLBACK callback, uintptr_t context)
-{
-    ADCHS_CallbackObj[channel].callback_fn = callback;
-    ADCHS_CallbackObj[channel].context = context;
-}
 
 
 
@@ -273,15 +261,4 @@ bool ADCHS_EOSStatusGet(void)
     return (bool)(ADCCON2bits.EOSRDY);
 }
 
-void __attribute__((used)) ADC_DATA0_InterruptHandler(void)
-{
-    if (ADCHS_CallbackObj[0].callback_fn != NULL)
-    {
-        uintptr_t context = ADCHS_CallbackObj[0].context;
-        ADCHS_CallbackObj[0].callback_fn(ADCHS_CH0, context);
-    }
-
-
-    IFS3CLR = _IFS3_AD1D0IF_MASK;
-}
 

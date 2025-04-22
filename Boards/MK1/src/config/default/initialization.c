@@ -214,7 +214,7 @@ void SYS_Initialize ( void* data )
 	GPIO_Initialize();
 
     CORETIMER_Initialize();
-    //ADCHS_Initialize();
+    ADCHS_Initialize();
 
     QEI1_Initialize();
 

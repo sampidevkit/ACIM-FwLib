@@ -2,8 +2,8 @@
 
 manifest_file_version: 1.0.0
 project: mcc
-creation_date: 2025-04-22T00:12:31.425+07:00[Asia/Bangkok]
-operating_system: Windows 10
+creation_date: 2025-04-22T09:24:48.541+07:00[Asia/Bangkok]
+operating_system: Windows 11
 mcc_mode: IDE
 mcc_mode_version: v6.25
 device_name: PIC32MK1024MCM064

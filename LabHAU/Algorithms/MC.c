@@ -3,55 +3,70 @@
 
 mc_inputs_t McInputs;
 mc_outputs_t McOutputs;
-static volatile int McDoNext=(-1);
+static int McDoNext=(-1);
 static void *McProcArg=NULL;
 static mc_process_fnc McProcFnc=NULL;
 
-static void InvAdcRun_IntCb(uintptr_t pt) // <editor-fold defaultstate="collapsed" desc="ADC interrupt callback">
+static void InvPwm_IntCb(uint32_t ch, uintptr_t pt) // <editor-fold defaultstate="collapsed" desc="PWM fault interrupt callback">
 {
-    INV_ADC_InterruptDisable();
-    INV_ADC_InterruptClear();
-    LedRun_On();
-
-    if(McProcFnc)
-    {
-        InvUiCxt.PhaseU.Cur.Val=iir(&InvUiCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
-        InvUiCxt.PhaseU.Vol.Val=iir(&InvUiCxt.PhaseU.Vol.Iir, (int16_t) INV_ADC_GetVuChannel(), INV_IIR_FILTER_HARDNESS);
-        InvUiCxt.PhaseV.Cur.Val=iir(&InvUiCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
-        InvUiCxt.PhaseV.Vol.Val=iir(&InvUiCxt.PhaseV.Vol.Iir, (int16_t) INV_ADC_GetVvChannel(), INV_IIR_FILTER_HARDNESS);
-        InvUiCxt.Source.Cur.Val=iir(&InvUiCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
-        InvUiCxt.Source.Vol.Val=iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
-
-        McInputs.Source.I=(int32_t) ((float) InvUiCxt.Source.Cur.Val*InvUiCxt.Source.Cur.Gain.val-(float) InvUiCxt.Source.Cur.Offset); // mA
-        McInputs.Source.U=(int32_t) ((float) InvUiCxt.Source.Vol.Val*InvUiCxt.Source.Vol.Gain.val-(float) InvUiCxt.Source.Vol.Offset); // mV
-        McInputs.PhaseU.I=(int32_t) ((float) InvUiCxt.PhaseU.Cur.Val*InvUiCxt.PhaseU.Cur.Gain.val-(float) InvUiCxt.PhaseU.Cur.Offset); // mA
-        McInputs.PhaseU.U=(int32_t) ((float) InvUiCxt.PhaseU.Vol.Val*InvUiCxt.PhaseU.Vol.Gain.val-(float) InvUiCxt.PhaseU.Vol.Offset); // mV
-        McInputs.PhaseV.I=(int32_t) ((float) InvUiCxt.PhaseV.Cur.Val*InvUiCxt.PhaseV.Cur.Gain.val-(float) InvUiCxt.PhaseV.Cur.Offset); // mA
-        McInputs.PhaseV.U=(int32_t) ((float) InvUiCxt.PhaseV.Vol.Val*InvUiCxt.PhaseV.Vol.Gain.val-(float) InvUiCxt.PhaseV.Vol.Offset); // mV
-
-        McInputs.PhaseW.I=McInputs.Source.I-McInputs.PhaseU.I-McInputs.PhaseV.I;
-        McInputs.PhaseW.U=-McInputs.PhaseU.U-McInputs.PhaseV.U;
-        McInputs.Speed=INV_ENC_GetSpeed();
-
-        McProcFnc(McProcArg);
-
-        INV_PWM_SetDuty(McOutputs.DutyU, McOutputs.DutyV, McOutputs.DutyW);
-    }
-
-    LedRun_Off();
-    INV_ADC_InterruptClear();
-    INV_ADC_InterruptEnable();
+    INV_PWM_Disable();
+    VDC_Disable();
+    DevMode_Enable();
+    LedErr_On();
+    printf("\r\nPWM Fault has occurred");
 } // </editor-fold>
 
-static void InvAdcCalib_IntCb(uintptr_t pt) // <editor-fold defaultstate="collapsed" desc="ADC interrupt callback">
+void MC_SetProcessFunction(void (*pFnc)(void *), void *pArg) // <editor-fold defaultstate="collapsed" desc="Set process function">
 {
-    INV_ADC_InterruptDisable();
-    INV_ADC_InterruptClear();
+    McProcFnc=pFnc;
+    McProcArg=pArg;
+} // </editor-fold>
+
+void MC_Init(void) // <editor-fold defaultstate="collapsed" desc="Motor controller init">
+{
+    McDoNext=0;
+
+    InvUiCxt.PhaseU.Cur.Iir=0;
+    InvUiCxt.PhaseU.Cur.Val=0;
+    InvUiCxt.PhaseU.Vol.Iir=0;
+    InvUiCxt.PhaseU.Vol.Val=0;
+
+    InvUiCxt.PhaseV.Cur.Iir=0;
+    InvUiCxt.PhaseV.Cur.Val=0;
+    InvUiCxt.PhaseV.Vol.Iir=0;
+    InvUiCxt.PhaseV.Vol.Val=0;
+
+    InvUiCxt.Source.Cur.Iir=0;
+    InvUiCxt.Source.Cur.Val=0;
+    InvUiCxt.Source.Vol.Iir=0;
+    InvUiCxt.Source.Vol.Val=0;
+
+    VDC_Disable();
+    DevMode_Enable();
+
+    INV_PWM_Disable();
+    INV_PWM_InterruptDisable();
+    INV_PWM_InterruptClear();
+    INV_PWM_SetCallback(InvPwm_IntCb);
+    INV_PWM_InterruptEnable();
+    INV_PWM_SetDuty(0, 0, 0);
+    INV_PWM_Enable();
+
+    printf("\r\nMC ADC calibrating...");
+} // </editor-fold>
+
+void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controller task">
+{
+    if(!INV_ADC_ResultIsReady()||(McDoNext==(-1)))
+    {
+        LedRun_Off();
+        return;
+    }
+
     LedRun_On();
 
-    if(McDoNext<2000)
+    if(McDoNext<2000) // <editor-fold defaultstate="collapsed" desc="calibration task">
     {
-        McDoNext++;
         InvUiCxt.PhaseU.Cur.Val+=iir(&InvUiCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
         InvUiCxt.PhaseU.Vol.Val+=iir(&InvUiCxt.PhaseU.Vol.Iir, (int16_t) INV_ADC_GetVuChannel(), INV_IIR_FILTER_HARDNESS);
         InvUiCxt.PhaseV.Cur.Val+=iir(&InvUiCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
@@ -59,8 +74,7 @@ static void InvAdcCalib_IntCb(uintptr_t pt) // <editor-fold defaultstate="collap
         InvUiCxt.Source.Cur.Val+=iir(&InvUiCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
         InvUiCxt.Source.Vol.Val+=iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
 
-
-        if(McDoNext==2000)
+        if(++McDoNext==2000)
         {
             InvUiCxt.PhaseU.Cur.Val/=2000;
             InvUiCxt.PhaseU.Vol.Val/=2000;
@@ -75,105 +89,62 @@ static void InvAdcCalib_IntCb(uintptr_t pt) // <editor-fold defaultstate="collap
             InvUiCxt.PhaseU.Vol.Offset=(int32_t) ((float) InvUiCxt.PhaseU.Vol.Val*InvUiCxt.PhaseU.Vol.Gain.val); // mV
             InvUiCxt.PhaseV.Cur.Offset=(int32_t) ((float) InvUiCxt.PhaseV.Cur.Val*InvUiCxt.PhaseV.Cur.Gain.val); // mA
             InvUiCxt.PhaseV.Vol.Offset=(int32_t) ((float) InvUiCxt.PhaseV.Vol.Val*InvUiCxt.PhaseV.Vol.Gain.val); // mV
+            InvUiCxt.PhaseW.Cur.Offset=0; // mA
+            InvUiCxt.PhaseW.Vol.Offset=0; // mV
+
+            printf("\r\nOFFSETS:");
+            printf("\r\n->Vdco=%d mV (Adc=%d)", InvUiCxt.Source.Vol.Offset, InvUiCxt.Source.Vol.Val);
+            printf(", Idco=%d mA (Adc=%d)", InvUiCxt.Source.Cur.Offset, InvUiCxt.Source.Cur.Val);
+            printf("\r\n->Iuo=%d mA (Adc=%d)", InvUiCxt.PhaseU.Cur.Offset, InvUiCxt.PhaseU.Cur.Val);
+            printf("\r\n->Ivo=%d mA (Adc=%d)", InvUiCxt.PhaseV.Cur.Offset, InvUiCxt.PhaseV.Cur.Val);
+            printf("\r\n->Iwo=%d mA (Adc=%d)\r\n", InvUiCxt.PhaseW.Cur.Offset, InvUiCxt.PhaseW.Cur.Val);
+
+            InvUiCxt.PhaseU.Cur.Iir=0;
+            InvUiCxt.PhaseU.Cur.Val=0;
+            InvUiCxt.PhaseU.Vol.Iir=0;
+            InvUiCxt.PhaseU.Vol.Val=0;
+
+            InvUiCxt.PhaseV.Cur.Iir=0;
+            InvUiCxt.PhaseV.Cur.Val=0;
+            InvUiCxt.PhaseV.Vol.Iir=0;
+            InvUiCxt.PhaseV.Vol.Val=0;
+
+            InvUiCxt.PhaseW.Cur.Iir=0;
+            InvUiCxt.PhaseW.Cur.Val=0;
+            InvUiCxt.PhaseW.Vol.Iir=0;
+            InvUiCxt.PhaseW.Vol.Val=0;
+
+            InvUiCxt.Source.Cur.Iir=0;
+            InvUiCxt.Source.Cur.Val=0;
+            InvUiCxt.Source.Vol.Iir=0;
+            InvUiCxt.Source.Vol.Val=0;
+
+            MC_SetProcessFunction(MC_myProcess, NULL);
+            MC_myInit();
+
+            VDC_Enable();
         }
-    }
+    } // </editor-fold>
+    else if(McProcFnc) // <editor-fold defaultstate="collapsed" desc="process task">
+    {
+        InvUiCxt.Source.Vol.Val=iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
+        InvUiCxt.Source.Cur.Val=iir(&InvUiCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
+        InvUiCxt.PhaseU.Cur.Val=iir(&InvUiCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
+        InvUiCxt.PhaseV.Cur.Val=iir(&InvUiCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
+
+        McInputs.Source.I=(int32_t) ((float) InvUiCxt.Source.Cur.Val*InvUiCxt.Source.Cur.Gain.val-(float) InvUiCxt.Source.Cur.Offset); // mA
+        McInputs.Source.U=(int32_t) ((float) InvUiCxt.Source.Vol.Val*InvUiCxt.Source.Vol.Gain.val-(float) InvUiCxt.Source.Vol.Offset); // mV
+        McInputs.PhaseU.I=(int32_t) ((float) InvUiCxt.PhaseU.Cur.Val*InvUiCxt.PhaseU.Cur.Gain.val-(float) InvUiCxt.PhaseU.Cur.Offset); // mA
+        McInputs.PhaseV.I=(int32_t) ((float) InvUiCxt.PhaseV.Cur.Val*InvUiCxt.PhaseV.Cur.Gain.val-(float) InvUiCxt.PhaseV.Cur.Offset); // mA
+        McInputs.PhaseW.I=McInputs.Source.I-McInputs.PhaseU.I-McInputs.PhaseV.I;
+        McInputs.Speed=INV_ENC_GetSpeed();
+
+        McProcFnc(McProcArg);
+
+        INV_PWM_SetDuty(McOutputs.DutyU, McOutputs.DutyV, McOutputs.DutyW);
+    } // </editor-fold>
 
     LedRun_Off();
-    INV_ADC_InterruptClear();
-    INV_ADC_InterruptEnable();
-} // </editor-fold>
-
-static void InvPwm_IntCb(uint32_t ch, uintptr_t pt) // <editor-fold defaultstate="collapsed" desc="PWM fault interrupt callback">
-{
-    INV_PWM_Disable();
-    VDC_Disable();
-    DevMode_Enable();
-    LedErr_On();
-    printf("\r\nPWM Fault has occurred");
-} // </editor-fold>
-
-void MC_SetProcessFunction(void (*pFnc)(void *), void *pArg) // <editor-fold defaultstate="collapsed" desc="Set process function">
-{
-    INV_ADC_InterruptDisable();
-    McProcFnc=pFnc;
-    McProcArg=pArg;
-    INV_ADC_InterruptClear();
-    INV_ADC_InterruptEnable();
-} // </editor-fold>
-
-bool MC_Init(void) // <editor-fold defaultstate="collapsed" desc="Motor controller init">
-{
-    if(McDoNext==(-1))
-    {
-        McDoNext=0;
-
-        InvUiCxt.PhaseU.Cur.Iir=0;
-        InvUiCxt.PhaseU.Cur.Val=0;
-        InvUiCxt.PhaseU.Vol.Iir=0;
-        InvUiCxt.PhaseU.Vol.Val=0;
-
-        InvUiCxt.PhaseV.Cur.Iir=0;
-        InvUiCxt.PhaseV.Cur.Val=0;
-        InvUiCxt.PhaseV.Vol.Iir=0;
-        InvUiCxt.PhaseV.Vol.Val=0;
-
-        InvUiCxt.Source.Cur.Iir=0;
-        InvUiCxt.Source.Cur.Val=0;
-        InvUiCxt.Source.Vol.Iir=0;
-        InvUiCxt.Source.Vol.Val=0;
-
-        VDC_Disable();
-        DevMode_Enable();
-
-        INV_ADC_InterruptDisable();
-        INV_ADC_InterruptClear();
-        INV_ADC_SetCallback(InvAdcCalib_IntCb);
-        INV_ADC_InterruptEnable();
-
-        INV_PWM_Disable();
-        INV_PWM_InterruptDisable();
-        INV_PWM_InterruptClear();
-        INV_PWM_SetCallback(InvPwm_IntCb);
-        INV_PWM_InterruptEnable();
-        INV_PWM_SetDuty(0, 0, 0);
-        INV_PWM_Enable();
-
-        printf("\r\nMC ADC calibrating...");
-    }
-    else if(McDoNext==2000)
-    {
-        printf(" done");
-        McDoNext++;
-
-        InvUiCxt.PhaseU.Cur.Iir=0;
-        InvUiCxt.PhaseU.Cur.Val=0;
-        InvUiCxt.PhaseU.Vol.Iir=0;
-        InvUiCxt.PhaseU.Vol.Val=0;
-
-        InvUiCxt.PhaseV.Cur.Iir=0;
-        InvUiCxt.PhaseV.Cur.Val=0;
-        InvUiCxt.PhaseV.Vol.Iir=0;
-        InvUiCxt.PhaseV.Vol.Val=0;
-
-        InvUiCxt.Source.Cur.Iir=0;
-        InvUiCxt.Source.Cur.Val=0;
-        InvUiCxt.Source.Vol.Iir=0;
-        InvUiCxt.Source.Vol.Val=0;
-
-        INV_ADC_InterruptDisable();
-        INV_ADC_InterruptClear();
-        MC_SetProcessFunction(MC_myProcess, NULL);
-        MC_myInit();
-        INV_ADC_SetCallback(InvAdcRun_IntCb);
-        INV_ADC_InterruptEnable();
-
-        VDC_Enable();
-        printf("\r\n%s done", __FUNCTION__);
-    }
-    else if(McDoNext>=2001)
-        return 1; // done
-
-    return 0;
 } // </editor-fold>
 
 /* ******************************************************** Demo for Sine PWM */

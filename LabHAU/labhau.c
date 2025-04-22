@@ -31,36 +31,31 @@ int main(void)
                 {
                     DV_Init();
                     Motor_Init(); // Load Motor parameters
+                    MC_Init(); // Init Motor controller
                     DoNext++;
                 }
                 break;
 
             case 1:
-                ClrWdt();
-
-                if(MC_Init())
-                    DoNext++;
-                break;
-                
-            case 2:
             default:
                 ClrWdt();
                 DV_Tasks();
 
-                if(Tick_Is_Over_Ms(Tick, 500))
+                if(Tick_Is_Over_Ms(Tick, 1000))
                 {
                     LedMcu_Toggle();
 #if(1)
-                    printf("\r\nVDC=%d", McInputs.Source.U);
-                    printf("\r\nIDC=%d", McInputs.Source.I);
-                    printf("\r\nIU=%d", McInputs.PhaseU.I);
-                    printf("\r\nIV=%d", McInputs.PhaseV.I);
-                    printf("\r\nVU=%d", McInputs.PhaseU.U);
-                    printf("\r\nVV=%d\r\n", McInputs.PhaseV.U);
+                    printf("\r\nVdc=%d mV", McInputs.Source.U);
+                    printf("\r\nIdc=%d mA", McInputs.Source.I);
+                    printf("\r\nIu=%d mA", McInputs.PhaseU.I);
+                    printf("\r\nIv=%d mA", McInputs.PhaseV.I);
+                    printf("\r\nIw=%d mA\r\n", McInputs.PhaseW.I);
 #endif
                 }
                 break;
         }
+        
+        MC_Task();
     }
 
     return (-1);
