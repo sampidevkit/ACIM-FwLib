@@ -72,24 +72,26 @@ void ClrWdt(void) // <editor-fold defaultstate="collapsed" desc="Clear Watching-
 void VDC_Enable(void)
 {
     PWR_RELAY_Set();
-    //#warning "uncomment PWR_RELAY_Set first"
+    printf("\r\nEnable VDC");
 }
 
 void VDC_Disable(void)
 {
     PWR_RELAY_Clear();
+    printf("\r\nDisable VDC");
 }
 
 /* ********************************************************* Dev mode control */
 void DevMode_Enable(void)
 {
     DEV_RELAY_Clear();
+    printf("\r\nEnable DevMode");
 }
 
 void DevMode_Disable(void)
 {
     //DEV_RELAY_Set();
-#warning "uncomment DEV_RELAY_Set first"
+    printf("\r\nDisable DevMode");
 }
 
 /* **************************************************** LED for running state */
@@ -196,21 +198,6 @@ uint16_t INV_ADC_GetIuChannel(void)
 uint16_t INV_ADC_GetIvChannel(void)
 {
     return ADCHS_ChannelResultGet(ADCHS_CH3); // AN26
-}
-
-uint16_t INV_ADC_GetVuChannel(void)
-{
-    return 0;
-}
-
-uint16_t INV_ADC_GetVvChannel(void)
-{
-    return 0;
-}
-
-uint16_t INV_ADC_GetSpeedRef(void)
-{
-    return 2047; // Not implement
 }
 
 /* ****************************************************************** INV PWM */

@@ -1,5 +1,6 @@
 #include "SinePWM.h"
 #include "MC.h"
+#include "Debugger/DataVisualizer.h"
 
 typedef struct
 {
@@ -22,6 +23,8 @@ static mc_sine_pwm_cxt SpwmCxt={
         2657, 2504, 2324, 2129, 1919, 1697
     }
 };
+
+static mc_process_fnc Callback=NULL;
 
 void SinePWM_Process(void) // <editor-fold defaultstate="collapsed" desc="Sine PWM process">
 {
@@ -47,14 +50,19 @@ void SinePWM_Process(void) // <editor-fold defaultstate="collapsed" desc="Sine P
 
         if(++SpwmCxt.u>=42)
             SpwmCxt.u=0;
+        
+        if(Callback)
+            Callback(NULL);
     }
 } // </editor-fold>
 
-void SinePWM_Init(uint32_t freq) // <editor-fold defaultstate="collapsed" desc="Sine PWM init">
+void SinePWM_Init(uint32_t freq, void (*FncCb)(void*)) // <editor-fold defaultstate="collapsed" desc="Sine PWM init">
 {
     float tmp=freq;
 
     printf("\r\n%s init: ", __FUNCTION__);
+    DevMode_Enable();
+    Callback=FncCb;
     tmp=1/tmp; // calculate period (s)
     tmp*=1E6; // period in us
     SpwmCxt.max=(int) (tmp/(50*42)); // calculate interrupt period

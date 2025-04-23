@@ -45,10 +45,10 @@ int main(void)
                     LedMcu_Toggle();
 #if(1)
                     printf("\r\nVref=%d mV", InvUiCxt.AdcVref);
-                    printf("\r\nVdc=%d mV", McInputs.Source.U);
-                    printf("\r\nIdc=%d mA", McInputs.Source.I);
-                    printf("\r\nIu=%d mA", McInputs.PhaseU.I);
-                    printf("\r\nIv=%d mA\r\n", McInputs.PhaseV.I);
+                    printf("\r\nVdc=%d mV, ADC=%d", McInputs.Source.U , InvUiCxt.Source.Vol.Val);
+                    printf("\r\nIdc=%d mA, ADC=%d", McInputs.Source.I, InvUiCxt.Source.Cur.Val);
+                    printf("\r\nIu=%d mA, ADC=%d", McInputs.PhaseU.I, InvUiCxt.PhaseU.Cur.Val);
+                    printf("\r\nIv=%d mA, ADC=%d\r\n", McInputs.PhaseV.I, InvUiCxt.PhaseV.Cur.Val);
 #endif
                 }
                 break;

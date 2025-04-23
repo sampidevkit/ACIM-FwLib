@@ -66,53 +66,39 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
     {
         // Get ADC values, filter and make cumulation
         InvUiCxt.PhaseU.Cur.Val+=iir(&InvUiCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
-        InvUiCxt.PhaseU.Vol.Val+=iir(&InvUiCxt.PhaseU.Vol.Iir, (int16_t) INV_ADC_GetVuChannel(), INV_IIR_FILTER_HARDNESS);
         InvUiCxt.PhaseV.Cur.Val+=iir(&InvUiCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
-        InvUiCxt.PhaseV.Vol.Val+=iir(&InvUiCxt.PhaseV.Vol.Iir, (int16_t) INV_ADC_GetVvChannel(), INV_IIR_FILTER_HARDNESS);
         InvUiCxt.Source.Cur.Val+=iir(&InvUiCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
         InvUiCxt.Source.Vol.Val+=iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
 
         if(++McDoNext==2000)
         {
             // Calculate average ADC value
-            InvUiCxt.PhaseU.Cur.Val/=2000;
-            InvUiCxt.PhaseU.Vol.Val/=2000;
-            InvUiCxt.PhaseV.Cur.Val/=2000;
-            InvUiCxt.PhaseV.Vol.Val/=2000;
-            InvUiCxt.Source.Cur.Val/=2000;
-            InvUiCxt.Source.Vol.Val/=2000;
-            InvUiCxt.PhaseW.Cur.Offset=0; // mA
-            InvUiCxt.PhaseW.Vol.Offset=0; // mV
+            InvUiCxt.PhaseU.Cur.Offset=InvUiCxt.PhaseU.Cur.Val/2000;
+            InvUiCxt.PhaseV.Cur.Offset=InvUiCxt.PhaseV.Cur.Val/2000;
+            InvUiCxt.PhaseW.Cur.Offset=0;
+            InvUiCxt.Source.Cur.Offset=InvUiCxt.Source.Cur.Val/2000;
+            InvUiCxt.Source.Vol.Offset=InvUiCxt.Source.Vol.Val/2000;
+
+            printf("\r\nOFFSET VALUES:");
+            printf("\r\n->Vdco Adc=%d", InvUiCxt.Source.Vol.Offset);
+            printf("\r\n->Idco Adc=%d", InvUiCxt.Source.Cur.Offset);
+            printf("\r\n->Iuo Adc=%d", InvUiCxt.PhaseU.Cur.Offset);
+            printf("\r\n->Ivo Adc=%d", InvUiCxt.PhaseV.Cur.Offset);
             // Clear all inverter variables
             InvUiCxt.PhaseU.Cur.Iir=0;
             InvUiCxt.PhaseU.Cur.Val=0;
-            InvUiCxt.PhaseU.Vol.Iir=0;
-            InvUiCxt.PhaseU.Vol.Val=0;
 
             InvUiCxt.PhaseV.Cur.Iir=0;
             InvUiCxt.PhaseV.Cur.Val=0;
-            InvUiCxt.PhaseV.Vol.Iir=0;
-            InvUiCxt.PhaseV.Vol.Val=0;
 
             InvUiCxt.PhaseW.Cur.Iir=0;
             InvUiCxt.PhaseW.Cur.Val=0;
-            InvUiCxt.PhaseW.Vol.Iir=0;
-            InvUiCxt.PhaseW.Vol.Val=0;
 
             InvUiCxt.Source.Cur.Iir=0;
             InvUiCxt.Source.Cur.Val=0;
-            InvUiCxt.Source.Vol.Iir=0;
-            InvUiCxt.Source.Vol.Val=0;
 
             MC_myInit();
             VDC_Enable();
-
-            printf("\r\nCALIBRATED VALUES:");
-            printf("\r\n->Vdco=%d mV (Adc=%d)", InvUiCxt.Source.Vol.Offset, InvUiCxt.Source.Vol.Val);
-            printf("\r\n->Idco=%d mA (Adc=%d)", InvUiCxt.Source.Cur.Offset, InvUiCxt.Source.Cur.Val);
-            printf("\r\n->Iuo=%d mA (Adc=%d)", InvUiCxt.PhaseU.Cur.Offset, InvUiCxt.PhaseU.Cur.Val);
-            printf("\r\n->Ivo=%d mA (Adc=%d)", InvUiCxt.PhaseV.Cur.Offset, InvUiCxt.PhaseV.Cur.Val);
-            printf("\r\n->Iwo=%d mA (Adc=%d)\r\n", InvUiCxt.PhaseW.Cur.Offset, InvUiCxt.PhaseW.Cur.Val);
         }
     } // </editor-fold>
     else // <editor-fold defaultstate="collapsed" desc="process task">
@@ -129,10 +115,22 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
         tmp/=(float) InvUiCxt.InterVref.Val;
         InvUiCxt.AdcVref=(int32_t) tmp;
         // Calculate inverter voltages & currents
-        McInputs.Source.I=(int32_t) ((float) InvUiCxt.Source.Cur.Val*InvUiCxt.Source.Cur.Gain-(float) InvUiCxt.Source.Cur.Offset); // mA
-        McInputs.Source.U=(int32_t) ((float) InvUiCxt.Source.Vol.Val*InvUiCxt.Source.Vol.Gain-(float) InvUiCxt.Source.Vol.Offset); // mV
-        McInputs.PhaseU.I=(int32_t) ((float) InvUiCxt.PhaseU.Cur.Val*InvUiCxt.PhaseU.Cur.Gain-(float) InvUiCxt.PhaseU.Cur.Offset); // mA
-        McInputs.PhaseV.I=(int32_t) ((float) InvUiCxt.PhaseV.Cur.Val*InvUiCxt.PhaseV.Cur.Gain-(float) InvUiCxt.PhaseV.Cur.Offset); // mA
+        tmp=(InvUiCxt.Source.Vol.Val-InvUiCxt.Source.Vol.Offset)*InvUiCxt.AdcVref;
+        tmp/=(float) InvUiCxt.AdcReso;
+        McInputs.Source.U=(int32_t) (tmp*InvUiCxt.Source.Vol.Gain);
+
+        tmp=(InvUiCxt.Source.Cur.Val-InvUiCxt.Source.Cur.Offset)*InvUiCxt.AdcVref;
+        tmp/=(float) InvUiCxt.AdcReso;
+        McInputs.Source.I=(int32_t) (tmp*InvUiCxt.Source.Cur.Gain);
+
+        tmp=(InvUiCxt.PhaseU.Cur.Val-InvUiCxt.PhaseU.Cur.Offset)*InvUiCxt.AdcVref;
+        tmp/=(float) InvUiCxt.AdcReso;
+        McInputs.PhaseU.I=(int32_t) (tmp*InvUiCxt.PhaseU.Cur.Gain);
+
+        tmp=(InvUiCxt.PhaseV.Cur.Val-InvUiCxt.PhaseV.Cur.Offset)*InvUiCxt.AdcVref;
+        tmp/=(float) InvUiCxt.AdcReso;
+        McInputs.PhaseV.I=(int32_t) (tmp*InvUiCxt.PhaseV.Cur.Gain);
+
         McInputs.PhaseW.I=McInputs.Source.I-McInputs.PhaseU.I-McInputs.PhaseV.I;
         McInputs.Speed=INV_ENC_GetSpeed();
         // Run controller algorithm

@@ -49,8 +49,6 @@ uint16_t INV_ADC_GetVdcChannel(void);
 uint16_t INV_ADC_GetIdcChannel(void);
 uint16_t INV_ADC_GetIuChannel(void);
 uint16_t INV_ADC_GetIvChannel(void);
-uint16_t INV_ADC_GetVuChannel(void);
-uint16_t INV_ADC_GetVvChannel(void);
 uint16_t INV_ADC_GetSpeedRef(void);
 /* ****************************************************************** INV PWM */
 void INV_PWM_SetDuty(uint16_t DutyU, uint16_t DutyV, uint16_t DutyW);

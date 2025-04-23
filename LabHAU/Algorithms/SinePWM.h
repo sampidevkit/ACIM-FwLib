@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-void SinePWM_Init(uint32_t freq);
+void SinePWM_Init(uint32_t freq, void (*FncCb)(void*));
 void SinePWM_Process(void);
 
 #endif
