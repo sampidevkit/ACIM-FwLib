@@ -68,7 +68,8 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
         InvUiCxt.PhaseU.Cur.Val+=iir(&InvUiCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
         InvUiCxt.PhaseV.Cur.Val+=iir(&InvUiCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
         InvUiCxt.Source.Cur.Val+=iir(&InvUiCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
-        InvUiCxt.Source.Vol.Val+=iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
+        // DO NOT calculate VDC offset because of the capacitor stored energy of the previous running
+        //InvUiCxt.Source.Vol.Val+=iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
 
         if(++McDoNext==2000)
         {
@@ -77,7 +78,7 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
             InvUiCxt.PhaseV.Cur.Offset=InvUiCxt.PhaseV.Cur.Val/2000;
             InvUiCxt.PhaseW.Cur.Offset=0;
             InvUiCxt.Source.Cur.Offset=InvUiCxt.Source.Cur.Val/2000;
-            InvUiCxt.Source.Vol.Offset=InvUiCxt.Source.Vol.Val/2000;
+            InvUiCxt.Source.Vol.Offset=0;
 
             printf("\r\nOFFSET VALUES:");
             printf("\r\n->Vdco Adc=%d", InvUiCxt.Source.Vol.Offset);

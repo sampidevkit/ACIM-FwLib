@@ -7,10 +7,10 @@ inv_ui_cxt_t InvUiCxt={
     .AdcVref=3300, // mV
     .AdcReso=4096, // 12bit
     .InterVref.Gain=(float) 1200, // for Vband gap=1.2V
-    .PhaseU.Cur.Gain=(float) 0.100, // 100mV/A
-    .PhaseV.Cur.Gain=(float) 0.100, // 100mV/A
-    .Source.Cur.Gain=(float) 0.100, // 100mV/A
-    .Source.Vol.Gain=(float) 1.823, // mV/V
+    .PhaseU.Cur.Gain=(float) 10.0, // 100mV/A
+    .PhaseV.Cur.Gain=(float) 10.0, // 100mV/A
+    .Source.Cur.Gain=(float) 10.0, // 100mV/A
+    .Source.Vol.Gain=(float) 71.677, // mV/V
 };
 
 /* ******************************************************************* System */
@@ -71,7 +71,7 @@ void ClrWdt(void) // <editor-fold defaultstate="collapsed" desc="Clear Watching-
 /* ************************************************************ Power control */
 void VDC_Enable(void)
 {
-    PWR_RELAY_Set();
+    //PWR_RELAY_Set();
     printf("\r\nEnable VDC");
 }
 
