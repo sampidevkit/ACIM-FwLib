@@ -59,6 +59,7 @@
 void UART2_FAULT_InterruptHandler( void );
 void UART2_RX_InterruptHandler( void );
 void UART2_TX_InterruptHandler( void );
+void ADC_EOS_InterruptHandler( void );
 void PWM12_InterruptHandler( void );
 
 

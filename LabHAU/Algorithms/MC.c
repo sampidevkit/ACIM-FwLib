@@ -3,7 +3,66 @@
 
 mc_inputs_t McInputs;
 mc_outputs_t McOutputs;
-static int McDoNext=(-1);
+static uint8_t McDoNext=0xFF;
+
+static void AdcCalib_IntCb(void) // <editor-fold defaultstate="collapsed" desc="ADC calibration interrupt callback">
+{
+    static uint16_t CalibCnt=0;
+
+    if(CalibCnt<16384) // calibrate in 16384 PWM cycles x50us = 819200us= 819.2ms
+    {
+        CalibCnt++;
+        // Get ADC values, and make cumulation
+        while(INV_ADC_ResultIsReady()==0);
+        InvCxt.InterVref.Val+=INV_ADC_GetInternalVrefChannel();
+        InvCxt.PhaseU.Cur.Val+=INV_ADC_GetIuChannel();
+        InvCxt.PhaseV.Cur.Val+=INV_ADC_GetIvChannel();
+        InvCxt.Source.Cur.Val+=INV_ADC_GetIdcChannel();
+        InvCxt.Source.Vol.Val+=INV_ADC_GetVdcChannel();
+    }
+} // </editor-fold>
+
+static void AdcRunning_IntCb(void) // <editor-fold defaultstate="collapsed" desc="ADC running interrupt callback">
+{
+    float tmp;
+    // Get ADC values
+    INV_ADC_InterruptDisable();
+    InvCxt.InterVref.Val=iir(&InvCxt.InterVref.Iir, (int16_t) INV_ADC_GetInternalVrefChannel(), INV_IIR_FILTER_HARDNESS);
+    InvCxt.Source.Vol.Val=iir(&InvCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
+    InvCxt.Source.Cur.Val=iir(&InvCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
+    InvCxt.PhaseU.Cur.Val=iir(&InvCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
+    InvCxt.PhaseV.Cur.Val=iir(&InvCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
+    InvCxt.Encoder.Val=iir(&InvCxt.Encoder.Iir, (int16_t) INV_ENC_GetSpeed(), INV_IIR_FILTER_HARDNESS);
+    // Recalculate Vref
+    tmp=InvCxt.AdcReso;
+    tmp*=InvCxt.InterVref.Gain;
+    tmp/=(float) InvCxt.InterVref.Val;
+    InvCxt.AdcVref=(int32_t) tmp;
+    // Calculate inverter voltages & currents
+    tmp=(InvCxt.Source.Vol.Val-InvCxt.Source.Vol.Offset)*InvCxt.AdcVref;
+    tmp/=(float) InvCxt.AdcReso;
+    McInputs.Source.U=(int32_t) (tmp*InvCxt.Source.Vol.Gain);
+
+    tmp=(InvCxt.Source.Cur.Val-InvCxt.Source.Cur.Offset)*InvCxt.AdcVref;
+    tmp/=(float) InvCxt.AdcReso;
+    McInputs.Source.I=(int32_t) (tmp*InvCxt.Source.Cur.Gain);
+
+    tmp=(InvCxt.PhaseU.Cur.Val-InvCxt.PhaseU.Cur.Offset)*InvCxt.AdcVref;
+    tmp/=(float) InvCxt.AdcReso;
+    McInputs.PhaseU.I=(int32_t) (tmp*InvCxt.PhaseU.Cur.Gain);
+
+    tmp=(InvCxt.PhaseV.Cur.Val-InvCxt.PhaseV.Cur.Offset)*InvCxt.AdcVref;
+    tmp/=(float) InvCxt.AdcReso;
+    McInputs.PhaseV.I=(int32_t) (tmp*InvCxt.PhaseV.Cur.Gain);
+
+    McInputs.PhaseW.I=McInputs.Source.I-labs(McInputs.PhaseU.I)-labs(McInputs.PhaseV.I);
+    McInputs.Speed=InvCxt.Encoder.Val;
+    // Run controller algorithm
+    MC_myProcess();
+    // Update PWM outputs
+    INV_ADC_InterruptEnable();
+    INV_PWM_SetDuty(McOutputs.DutyU, McOutputs.DutyV, McOutputs.DutyW);
+} // </editor-fold>
 
 static void InvPwm_IntCb(uint32_t ch, uintptr_t pt) // <editor-fold defaultstate="collapsed" desc="PWM fault interrupt callback">
 {
@@ -17,128 +76,76 @@ static void InvPwm_IntCb(uint32_t ch, uintptr_t pt) // <editor-fold defaultstate
 void MC_Init(void) // <editor-fold defaultstate="collapsed" desc="Motor controller init">
 {
     McDoNext=0;
-
-    InvUiCxt.InterVref.Iir=0;
-    InvUiCxt.InterVref.Val=0;
-
-    InvUiCxt.PhaseU.Cur.Iir=0;
-    InvUiCxt.PhaseU.Cur.Val=0;
-    InvUiCxt.PhaseU.Vol.Iir=0;
-    InvUiCxt.PhaseU.Vol.Val=0;
-
-    InvUiCxt.PhaseV.Cur.Iir=0;
-    InvUiCxt.PhaseV.Cur.Val=0;
-    InvUiCxt.PhaseV.Vol.Iir=0;
-    InvUiCxt.PhaseV.Vol.Val=0;
-
-    InvUiCxt.Source.Cur.Iir=0;
-    InvUiCxt.Source.Cur.Val=0;
-    InvUiCxt.Source.Vol.Iir=0;
-    InvUiCxt.Source.Vol.Val=0;
-
-    VDC_Disable();
-    DevMode_Enable();
-
-    INV_PWM_Disable();
-    INV_PWM_InterruptDisable();
-    INV_PWM_InterruptClear();
-    INV_PWM_SetCallback(InvPwm_IntCb);
-    INV_PWM_InterruptEnable();
-    INV_PWM_SetDuty(0, 0, 0);
-    INV_PWM_Enable();
-
-    printf("\r\nMC ADC calibrating...");
+    printf("\r\nMotor controller initialize");
 } // </editor-fold>
 
 void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controller task">
 {
-    float tmp;
-
-    if(!INV_ADC_ResultIsReady()||(McDoNext==(-1)))
+    switch(McDoNext)
     {
-        LedRun_Off();
-        return;
-    }
+        case 0:
+        {
+            McDoNext=1;
+            LedRun_On();
+            VDC_Disable();
+            DevMode_Enable();
 
-    LedRun_On();
+            InvCxt.InterVref.Val=0;
+            InvCxt.PhaseU.Cur.Val=0;
+            InvCxt.PhaseV.Cur.Val=0;
+            InvCxt.Source.Cur.Val=0;
+            InvCxt.Source.Vol.Val=0;
 
-    if(McDoNext<2000) // <editor-fold defaultstate="collapsed" desc="calibration task">
-    {
-        // Get ADC values, filter and make cumulation
-        InvUiCxt.PhaseU.Cur.Val+=iir(&InvUiCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
-        InvUiCxt.PhaseV.Cur.Val+=iir(&InvUiCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
-        InvUiCxt.Source.Cur.Val+=iir(&InvUiCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
-        // DO NOT calculate VDC offset because of the capacitor stored energy of the previous running
-        //InvUiCxt.Source.Vol.Val+=iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
+            INV_ADC_InterruptDisable();
+            INV_ADC_SetInterruptCallback(AdcCalib_IntCb);
+            INV_ADC_InterruptEnable();
 
-        if(++McDoNext==2000)
+            INV_PWM_Disable();
+            INV_PWM_InterruptDisable();
+            INV_PWM_InterruptClear();
+            INV_PWM_SetCallback(InvPwm_IntCb);
+            INV_PWM_InterruptEnable();
+            INV_PWM_SetDuty(0, 0, 0);
+            INV_PWM_Enable();
+
+            printf("\r\nMC ADC calibrating...");
+            break;
+        }
+
+        case 2:
         {
             // Calculate average ADC value
-            InvUiCxt.PhaseU.Cur.Offset=InvUiCxt.PhaseU.Cur.Val/2000;
-            InvUiCxt.PhaseV.Cur.Offset=InvUiCxt.PhaseV.Cur.Val/2000;
-            InvUiCxt.PhaseW.Cur.Offset=0;
-            InvUiCxt.Source.Cur.Offset=InvUiCxt.Source.Cur.Val/2000;
-            InvUiCxt.Source.Vol.Offset=0;
+            InvCxt.PhaseU.Cur.Offset=InvCxt.PhaseU.Cur.Val>>14; // InvCxt.PhaseU.Cur.Val/16384
+            InvCxt.PhaseV.Cur.Offset=InvCxt.PhaseV.Cur.Val>>14; // InvCxt.PhaseV.Cur.Val/16384
+            InvCxt.Source.Cur.Offset=InvCxt.Source.Cur.Val>>14; // InvCxt.Source.Cur.Val/16384
 
             printf("\r\nOFFSET VALUES:");
-            printf("\r\n->Vdco Adc=%d", InvUiCxt.Source.Vol.Offset);
-            printf("\r\n->Idco Adc=%d", InvUiCxt.Source.Cur.Offset);
-            printf("\r\n->Iuo Adc=%d", InvUiCxt.PhaseU.Cur.Offset);
-            printf("\r\n->Ivo Adc=%d", InvUiCxt.PhaseV.Cur.Offset);
+            printf("\r\n->Vdco Adc=%d", InvCxt.Source.Vol.Offset);
+            printf("\r\n->Idco Adc=%d", InvCxt.Source.Cur.Offset);
+            printf("\r\n->Iuo Adc=%d", InvCxt.PhaseU.Cur.Offset);
+            printf("\r\n->Ivo Adc=%d", InvCxt.PhaseV.Cur.Offset);
             // Clear all inverter variables
-            InvUiCxt.PhaseU.Cur.Iir=0;
-            InvUiCxt.PhaseU.Cur.Val=0;
+            InvCxt.Encoder.Iir=0;
+            InvCxt.PhaseU.Cur.Iir=InvCxt.PhaseU.Cur.Offset;
+            InvCxt.PhaseV.Cur.Iir=InvCxt.PhaseV.Cur.Offset;
+            InvCxt.Source.Cur.Iir=InvCxt.Source.Cur.Offset;
+            InvCxt.Source.Vol.Iir=InvCxt.Source.Vol.Offset;
+            InvCxt.InterVref.Iir=InvCxt.InterVref.Val>>14; // InvCxt.InterVref.Val/16384
 
-            InvUiCxt.PhaseV.Cur.Iir=0;
-            InvUiCxt.PhaseV.Cur.Val=0;
-
-            InvUiCxt.PhaseW.Cur.Iir=0;
-            InvUiCxt.PhaseW.Cur.Val=0;
-
-            InvUiCxt.Source.Cur.Iir=0;
-            InvUiCxt.Source.Cur.Val=0;
-
+            INV_PWM_Disable();
             MC_myInit();
+            INV_ADC_InterruptDisable();
+            INV_ADC_SetInterruptCallback(AdcRunning_IntCb);
+            INV_ADC_InterruptEnable();
+            INV_PWM_InterruptClear();
+            INV_PWM_Enable();
             VDC_Enable();
+            LedRun_Off();
+            printf("\r\nMC processing...");
+            break;
         }
-    } // </editor-fold>
-    else // <editor-fold defaultstate="collapsed" desc="process task">
-    {
-        // Get ADC values
-        InvUiCxt.InterVref.Val=iir(&InvUiCxt.InterVref.Iir, (int16_t) INV_ADC_GetInternalVrefChannel(), INV_IIR_FILTER_HARDNESS);
-        InvUiCxt.Source.Vol.Val=iir(&InvUiCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
-        InvUiCxt.Source.Cur.Val=iir(&InvUiCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
-        InvUiCxt.PhaseU.Cur.Val=iir(&InvUiCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
-        InvUiCxt.PhaseV.Cur.Val=iir(&InvUiCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
-        // Recalculate Vref
-        tmp=InvUiCxt.AdcReso;
-        tmp*=InvUiCxt.InterVref.Gain;
-        tmp/=(float) InvUiCxt.InterVref.Val;
-        InvUiCxt.AdcVref=(int32_t) tmp;
-        // Calculate inverter voltages & currents
-        tmp=(InvUiCxt.Source.Vol.Val-InvUiCxt.Source.Vol.Offset)*InvUiCxt.AdcVref;
-        tmp/=(float) InvUiCxt.AdcReso;
-        McInputs.Source.U=(int32_t) (tmp*InvUiCxt.Source.Vol.Gain);
 
-        tmp=(InvUiCxt.Source.Cur.Val-InvUiCxt.Source.Cur.Offset)*InvUiCxt.AdcVref;
-        tmp/=(float) InvUiCxt.AdcReso;
-        McInputs.Source.I=(int32_t) (tmp*InvUiCxt.Source.Cur.Gain);
-
-        tmp=(InvUiCxt.PhaseU.Cur.Val-InvUiCxt.PhaseU.Cur.Offset)*InvUiCxt.AdcVref;
-        tmp/=(float) InvUiCxt.AdcReso;
-        McInputs.PhaseU.I=(int32_t) (tmp*InvUiCxt.PhaseU.Cur.Gain);
-
-        tmp=(InvUiCxt.PhaseV.Cur.Val-InvUiCxt.PhaseV.Cur.Offset)*InvUiCxt.AdcVref;
-        tmp/=(float) InvUiCxt.AdcReso;
-        McInputs.PhaseV.I=(int32_t) (tmp*InvUiCxt.PhaseV.Cur.Gain);
-
-        McInputs.PhaseW.I=McInputs.Source.I-McInputs.PhaseU.I-McInputs.PhaseV.I;
-        McInputs.Speed=INV_ENC_GetSpeed();
-        // Run controller algorithm
-        MC_myProcess();
-        // Update PWM outputs
-        INV_PWM_SetDuty(McOutputs.DutyU, McOutputs.DutyV, McOutputs.DutyW);
-    } // </editor-fold>
-
-    LedRun_Off();
+        default:
+            break;
+    }
 } // </editor-fold>

@@ -4,13 +4,58 @@
 #include <stdlib.h>                     // Defines EXIT_FAILURE
 #include "definitions.h"                // SYS function prototypes
 
+static int32_t Vbg, Iu, Idc, Iv, Vdc;
+static uint32_t SumVal[5];
+static uint32_t SumCnt;
+static volatile bool PlotEn;
+
+void ADC_IsrCallback(void)
+{
+    // Get Vbg
+    while(!ADCHS_ChannelResultIsReady(ADCHS_CH50));
+    SumVal[0]+=ADCHS_ChannelResultGet(ADCHS_CH50);
+    // Get Iu
+    while(!ADCHS_ChannelResultIsReady(ADCHS_CH0));
+    SumVal[1]+=ADCHS_ChannelResultGet(ADCHS_CH0);
+    // Get Idc
+    while(!ADCHS_ChannelResultIsReady(ADCHS_CH2));
+    SumVal[2]+=ADCHS_ChannelResultGet(ADCHS_CH2);
+    // Get Iv
+    while(!ADCHS_ChannelResultIsReady(ADCHS_CH3));
+    SumVal[3]+=ADCHS_ChannelResultGet(ADCHS_CH3);
+    // Get Vdc
+    while(!ADCHS_ChannelResultIsReady(ADCHS_CH5));
+    SumVal[4]+=ADCHS_ChannelResultGet(ADCHS_CH5);
+
+    if(++SumCnt>=16384)
+    {
+        Vbg=SumVal[0]>>14;
+        Iu=SumVal[1]>>14;
+        Idc=SumVal[2]>>14;
+        Iv=SumVal[3]>>14;
+        Vdc=SumVal[4]>>14;
+        SumVal[0]=0;
+        SumVal[1]=0;
+        SumVal[2]=0;
+        SumVal[3]=0;
+        SumVal[4]=0;
+        SumCnt=0;
+        PlotEn=1;
+    }
+}
+
 int main(void)
 {
-    uint32_t cnt=0;
-
     SYS_Initialize(NULL);
     printf("\rINIT\n");
-
+    SumVal[0]=0;
+    SumVal[1]=0;
+    SumVal[2]=0;
+    SumVal[3]=0;
+    SumVal[4]=0;
+    SumCnt=0;
+    PlotEn=0;
+    ADCHS_EOSCallbackRegister((ADCHS_EOS_CALLBACK) ADC_IsrCallback, (uintptr_t)NULL);
     MCPWM_ChannelPrimaryDutySet(MCPWM_CH_12, 0);
     MCPWM_ChannelPrimaryDutySet(MCPWM_CH_5, 0);
     MCPWM_ChannelPrimaryDutySet(MCPWM_CH_6, 0);
@@ -25,25 +70,14 @@ int main(void)
         WDT_Clear();
         SYS_Tasks();
 
-        if(ADCHS_ChannelResultIsReady(ADCHS_CH0))
+        if(PlotEn==1)
         {
-            if(++cnt<10000)
-            {
-                ADCHS_ChannelResultGet(ADCHS_CH0);
-                continue;
-            }
-
-            cnt=0;
-            printf("\nCH24=%d", ADCHS_ChannelResultGet(ADCHS_CH0));
-
-            if(ADCHS_ChannelResultIsReady(ADCHS_CH2))
-                printf("\nCH26=%d", ADCHS_ChannelResultGet(ADCHS_CH2));
-
-            if(ADCHS_ChannelResultIsReady(ADCHS_CH3))
-                printf("\nCH2=%d", ADCHS_ChannelResultGet(ADCHS_CH3));
-
-            if(ADCHS_ChannelResultIsReady(ADCHS_CH5))
-                printf("\nCH6=%d", ADCHS_ChannelResultGet(ADCHS_CH5));
+            PlotEn=0;
+            printf("\r\nVbg=%d", Vbg);
+            printf(", Vdc=%d", Vdc);
+            printf(", Idc=%d", Idc);
+            printf(", Iu=%d", Iu);
+            printf(", Iv=%d", Iv);
         }
     }
 

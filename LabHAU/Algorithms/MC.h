@@ -18,15 +18,23 @@ typedef struct {
 } inv_phase_cxt_t, inv_src_cxt_t;
 
 typedef struct {
+    int32_t Reso; // Encoder resolution
+    int32_t Iir; // IIR filter buffer
+    int32_t Val; // Present speed in pulse
+    int32_t Dt; // Time difference
+} inv_enc_cxt_t;
+
+typedef struct {
     uint16_t PwmDutyMax; // Max PWM duty
     int32_t AdcVref; // ADC Vref
     int32_t AdcReso; // ADC resolution
+    inv_enc_cxt_t Encoder; // Encoder context
     inv_vol_cxt_t InterVref; // Internal Vref
     inv_src_cxt_t Source; // Inverter power source context
     inv_phase_cxt_t PhaseU; // Inverter phase U context
     inv_phase_cxt_t PhaseV; // Inverter phase V context
     inv_phase_cxt_t PhaseW; // Inverter phase W context
-} inv_ui_cxt_t;
+} inv_cxt_t;
 
 typedef struct {
     int32_t U; // Current
@@ -38,7 +46,7 @@ typedef struct {
     mc_ui_cxt_t PhaseU; // Voltage & Current of phase U
     mc_ui_cxt_t PhaseV; // Voltage & Current of phase V
     mc_ui_cxt_t PhaseW; // Voltage & Current of phase W
-    int32_t Speed; // Motor speed in RPM
+    int32_t Speed; // Motor speed in rpm unit
     void *pExpData; // Expanded data inputs
 } mc_inputs_t;
 
@@ -51,7 +59,7 @@ typedef struct {
 
 typedef void (*mc_process_fnc)(void*); // Motor control process function
 
-extern inv_ui_cxt_t InvUiCxt; // defined in board.c
+extern inv_cxt_t InvCxt; // defined in board.c
 extern mc_inputs_t McInputs; // defined in MC.c
 extern mc_outputs_t McOutputs; // defined in MC.c
 
@@ -71,12 +79,12 @@ void MC_myProcess(void);
 #define McUv    McInputs.PhaseV.U
 #define McUw    McInputs.PhaseW.U
 
-#define McSpeed McInputs.Speed
+#define McSpeed McInputs.Speed.Rpm
 
 #define McDutyU McOutputs.DutyU
 #define McDutyV McOutputs.DutyV
 #define McDutyW McOutputs.DutyW
 
-#define McDutyMax InvUiCxt.PwmDutyMax
+#define McDutyMax InvCxt.PwmDutyMax
 
 #endif

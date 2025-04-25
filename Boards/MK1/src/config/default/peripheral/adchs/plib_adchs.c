@@ -52,6 +52,8 @@
 // *****************************************************************************
 
 
+/* Object to hold callback function and context for end of scan interrupt*/
+static volatile ADCHS_EOS_CALLBACK_OBJECT ADCHS_EOSCallbackObj;
 
 
 void ADCHS_Initialize(void)
@@ -69,7 +71,7 @@ void ADCHS_Initialize(void)
     ADC7CFG = DEVADC7;
 
     ADCCON1 = 0x7e0000U;
-    ADCCON2 = 0x10001U;
+    ADCCON2 = 0x12001U;
     ADCCON3 = 0x0U;
 
     ADCTRGMODE = 0x8c30000U;
@@ -91,11 +93,12 @@ void ADCHS_Initialize(void)
 
     /* Input scan */
     ADCCSS1 = 0x0U;
-    ADCCSS2 = 0x0U; 
+    ADCCSS2 = 0x40000U; 
 
 
 
 
+    IEC3SET = _IEC3_AD1EOSIE_MASK;
 
 
 
@@ -264,9 +267,24 @@ uint16_t ADCHS_ChannelResultGet(ADCHS_CHANNEL_NUM channel)
 
 
 
-bool ADCHS_EOSStatusGet(void)
+void ADCHS_EOSCallbackRegister(ADCHS_EOS_CALLBACK callback, uintptr_t context)
 {
-    return (bool)(ADCCON2bits.EOSRDY);
+    ADCHS_EOSCallbackObj.callback_fn = callback;
+    ADCHS_EOSCallbackObj.context = context;
 }
+
+
+void __attribute__((used)) ADC_EOS_InterruptHandler(void)
+{
+    uint32_t status = ADCCON2;
+    IFS3CLR = _IFS3_AD1EOSIF_MASK;
+    if (ADCHS_EOSCallbackObj.callback_fn != NULL)
+    {
+        uintptr_t context = ADCHS_EOSCallbackObj.context;
+        ADCHS_EOSCallbackObj.callback_fn(context);
+    }
+    (void) status;
+}
+
 
 

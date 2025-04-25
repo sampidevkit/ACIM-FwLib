@@ -105,7 +105,7 @@ uint16_t ADCHS_ChannelResultGet(ADCHS_CHANNEL_NUM channel);
 
 
 
-bool ADCHS_EOSStatusGet(void);
+void ADCHS_EOSCallbackRegister(ADCHS_EOS_CALLBACK callback, uintptr_t context);
 
 
 // *****************************************************************************

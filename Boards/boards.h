@@ -43,7 +43,10 @@ void PFC_PWM_SetCallback(void (*callback) (uint32_t status, uintptr_t context));
 /* ************************************************************** INV encoder */
 int32_t INV_ENC_GetSpeed(void);
 /* *************************************************************** INV analog */
+void INV_ADC_InterruptEnable(void);
+void INV_ADC_InterruptDisable(void);
 bool INV_ADC_ResultIsReady(void);
+void INV_ADC_SetInterruptCallback(void (*fnc)(void));
 uint16_t INV_ADC_GetInternalVrefChannel(void);
 uint16_t INV_ADC_GetVdcChannel(void);
 uint16_t INV_ADC_GetIdcChannel(void);
