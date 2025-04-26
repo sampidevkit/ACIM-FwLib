@@ -1,9 +1,11 @@
 #include "MC.h"
+#include "Common/Tick.h"
 #include "Debugger/DataVisualizer.h"
 
 mc_inputs_t McInputs;
 mc_outputs_t McOutputs;
 static uint8_t McDoNext=0xFF;
+static tick_cxt_t McTick;
 
 static void AdcCalib_IntCb(void) // <editor-fold defaultstate="collapsed" desc="ADC calibration interrupt callback">
 {
@@ -12,13 +14,16 @@ static void AdcCalib_IntCb(void) // <editor-fold defaultstate="collapsed" desc="
     if(CalibCnt<16384) // calibrate in 16384 PWM cycles x50us = 819200us= 819.2ms
     {
         CalibCnt++;
+        McDoNext=2;
         // Get ADC values, and make cumulation
         while(INV_ADC_ResultIsReady()==0);
-        InvCxt.InterVref.Val+=INV_ADC_GetInternalVrefChannel();
-        InvCxt.PhaseU.Cur.Val+=INV_ADC_GetIuChannel();
-        InvCxt.PhaseV.Cur.Val+=INV_ADC_GetIvChannel();
-        InvCxt.Source.Cur.Val+=INV_ADC_GetIdcChannel();
-        InvCxt.Source.Vol.Val+=INV_ADC_GetVdcChannel();
+        InvCxt.InterVref.Val+=iir(&InvCxt.InterVref.Iir, (int16_t) INV_ADC_GetInternalVrefChannel(), INV_IIR_FILTER_HARDNESS);
+        InvCxt.Source.Vol.Val+=iir(&InvCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
+        InvCxt.Source.Cur.Val+=iir(&InvCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
+        InvCxt.PhaseU.Cur.Val+=iir(&InvCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
+        InvCxt.PhaseV.Cur.Val+=iir(&InvCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
+        InvCxt.Encoder.Val+=iir(&InvCxt.Encoder.Iir, (int16_t) INV_ENC_GetSpeed(), INV_IIR_FILTER_HARDNESS);
+        //InvCxt.Source.Vol.Offset+=INV_ADC_GetVdcChannel(); // Do not calculate VDC offset
     }
 } // </editor-fold>
 
@@ -64,7 +69,7 @@ static void AdcRunning_IntCb(void) // <editor-fold defaultstate="collapsed" desc
     INV_PWM_SetDuty(McOutputs.DutyU, McOutputs.DutyV, McOutputs.DutyW);
 } // </editor-fold>
 
-static void InvPwm_IntCb(uint32_t ch, uintptr_t pt) // <editor-fold defaultstate="collapsed" desc="PWM fault interrupt callback">
+static void InvPwm_IntCb(void) // <editor-fold defaultstate="collapsed" desc="PWM fault interrupt callback">
 {
     INV_PWM_Disable();
     VDC_Disable();
@@ -76,6 +81,7 @@ static void InvPwm_IntCb(uint32_t ch, uintptr_t pt) // <editor-fold defaultstate
 void MC_Init(void) // <editor-fold defaultstate="collapsed" desc="Motor controller init">
 {
     McDoNext=0;
+    Tick_Reset(&McTick);
     printf("\r\nMotor controller initialize");
 } // </editor-fold>
 
@@ -90,11 +96,25 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
             VDC_Disable();
             DevMode_Enable();
 
+            InvCxt.InterVref.Offset=0;
+            InvCxt.PhaseU.Cur.Offset=0;
+            InvCxt.PhaseV.Cur.Offset=0;
+            InvCxt.Source.Cur.Offset=0;
+            //InvCxt.Source.Vol.Offset=0; // set in board.c
+
             InvCxt.InterVref.Val=0;
+            InvCxt.Source.Vol.Val=0;
+            InvCxt.Source.Cur.Val=0;
             InvCxt.PhaseU.Cur.Val=0;
             InvCxt.PhaseV.Cur.Val=0;
-            InvCxt.Source.Cur.Val=0;
-            InvCxt.Source.Vol.Val=0;
+            InvCxt.Encoder.Val=0;
+
+            InvCxt.Encoder.Iir=0;
+            InvCxt.PhaseU.Cur.Iir=0;
+            InvCxt.PhaseV.Cur.Iir=0;
+            InvCxt.Source.Cur.Iir=0;
+            InvCxt.Source.Vol.Iir=0;
+            InvCxt.InterVref.Iir=0;
 
             INV_ADC_InterruptDisable();
             INV_ADC_SetInterruptCallback(AdcCalib_IntCb);
@@ -114,34 +134,37 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
 
         case 2:
         {
+            McDoNext=3;
+            Tick_Reset(&McTick);
             // Calculate average ADC value
-            InvCxt.PhaseU.Cur.Offset=InvCxt.PhaseU.Cur.Val>>14; // InvCxt.PhaseU.Cur.Val/16384
-            InvCxt.PhaseV.Cur.Offset=InvCxt.PhaseV.Cur.Val>>14; // InvCxt.PhaseV.Cur.Val/16384
-            InvCxt.Source.Cur.Offset=InvCxt.Source.Cur.Val>>14; // InvCxt.Source.Cur.Val/16384
+            InvCxt.PhaseU.Cur.Offset=InvCxt.PhaseU.Cur.Val/16384;
+            InvCxt.PhaseV.Cur.Offset=InvCxt.PhaseV.Cur.Val/16384;
+            InvCxt.Source.Cur.Offset=InvCxt.Source.Cur.Val/16384;
 
             printf("\r\nOFFSET VALUES:");
             printf("\r\n->Vdco Adc=%d", InvCxt.Source.Vol.Offset);
             printf("\r\n->Idco Adc=%d", InvCxt.Source.Cur.Offset);
             printf("\r\n->Iuo Adc=%d", InvCxt.PhaseU.Cur.Offset);
             printf("\r\n->Ivo Adc=%d", InvCxt.PhaseV.Cur.Offset);
-            // Clear all inverter variables
-            InvCxt.Encoder.Iir=0;
-            InvCxt.PhaseU.Cur.Iir=InvCxt.PhaseU.Cur.Offset;
-            InvCxt.PhaseV.Cur.Iir=InvCxt.PhaseV.Cur.Offset;
-            InvCxt.Source.Cur.Iir=InvCxt.Source.Cur.Offset;
-            InvCxt.Source.Vol.Iir=InvCxt.Source.Vol.Offset;
-            InvCxt.InterVref.Iir=InvCxt.InterVref.Val>>14; // InvCxt.InterVref.Val/16384
+            break;
+        }
 
-            INV_PWM_Disable();
-            MC_myInit();
-            INV_ADC_InterruptDisable();
-            INV_ADC_SetInterruptCallback(AdcRunning_IntCb);
-            INV_ADC_InterruptEnable();
-            INV_PWM_InterruptClear();
-            INV_PWM_Enable();
-            VDC_Enable();
-            LedRun_Off();
-            printf("\r\nMC processing...");
+        case 3:
+        {
+            if(Tick_Is_Over_Ms(McTick, 1000))
+            {
+                McDoNext=4;
+                printf("\r\nMC processing...");
+                INV_PWM_Disable();
+                MC_myInit();
+                INV_ADC_InterruptDisable();
+                INV_ADC_SetInterruptCallback(AdcRunning_IntCb);
+                INV_ADC_InterruptEnable();
+                INV_PWM_InterruptClear();
+                INV_PWM_Enable();
+                VDC_Enable();
+                LedRun_Off();
+            }
             break;
         }
 

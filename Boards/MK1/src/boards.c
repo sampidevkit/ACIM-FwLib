@@ -223,9 +223,9 @@ inline void INV_PWM_SetDuty(uint16_t DutyU, uint16_t DutyV, uint16_t DutyW)
     MCPWM_ChannelPrimaryDutySet(MCPWM_CH_6, DutyW);
 }
 
-inline void INV_PWM_SetCallback(void (*callback) (uint32_t status, uintptr_t context))
+inline void INV_PWM_SetCallback(void (*fnc)(void))
 {
-    MCPWM_CallbackRegister(MCPWM_CH_12, (MCPWM_CH_CALLBACK) callback, (uintptr_t) NULL);
+    MCPWM_CallbackRegister(MCPWM_CH_12, (MCPWM_CH_CALLBACK) fnc, (uintptr_t) NULL);
 }
 
 inline void INV_PWM_InterruptEnable(void)
