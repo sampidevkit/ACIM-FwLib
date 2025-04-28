@@ -61,7 +61,6 @@ void SinePWM_Init(uint32_t freq, void (*FncCb)(void*)) // <editor-fold defaultst
     float tmp=freq;
 
     printf("\r\n%s init: ", __FUNCTION__);
-    DevMode_Enable();
     Callback=FncCb;
     tmp=1/tmp; // calculate period (s)
     tmp*=1E6; // period in us
@@ -76,6 +75,5 @@ void SinePWM_Init(uint32_t freq, void (*FncCb)(void*)) // <editor-fold defaultst
 
     SpwmCxt.u=0;
     SpwmCxt.cnt=0;
-    DevMode_Disable();
     printf("F=%dHz, Cnt=%d", freq, SpwmCxt.max);
 } // </editor-fold>

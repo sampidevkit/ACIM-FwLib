@@ -11,7 +11,7 @@ void DV_Init(void)
     printf("\r\n%s done", __FUNCTION__);
 }
 
-void DV_PlotData(const int32_t *pD)
+static void DV_Plot(const int32_t *pD)
 {
     uint8_t i, j;
 
@@ -33,49 +33,32 @@ void DV_PlotData(const int32_t *pD)
         head=0;
 }
 
-void DV_PlotData3(int32_t Input0, int32_t Input1, int32_t Input2)
-{
 #if(DV_NUM_OF_VAR==3)
-    uint32_t var[3];
+void DV_PlotData(int32_t Input0, int32_t Input1, int32_t Input2)
+#elif(DV_NUM_OF_VAR==4)
+void DV_PlotData(int32_t Input0, int32_t Input1, int32_t Input2, int32_t Input3)
+#elif(DV_NUM_OF_VAR==5)
 
-    var[0]=Input0;
-    var[1]=Input1;
-    var[2]=Input2;
-    DV_PlotData((const int32_t *) var);
-#else
-#warning "Can not use DV_PlotData3"
+void DV_PlotData(int32_t Input0, int32_t Input1, int32_t Input2, int32_t Input3, int32_t Input4)
 #endif
-}
-
-void DV_PlotData4(int32_t Input0, int32_t Input1, int32_t Input2, int32_t Input3)
 {
-#if(DV_NUM_OF_VAR==4)
-    uint32_t var[4];
-
-    var[0]=Input0;
-    var[1]=Input1;
-    var[2]=Input2;
-    var[3]=Input3;
-    DV_PlotData((const int32_t *) var);
-#else
-#warning "Can not use DV_PlotData4"
-#endif
-}
-
-void DV_PlotData5(int32_t Input0, int32_t Input1, int32_t Input2, int32_t Input3, int32_t Input4)
-{
-#if(DV_NUM_OF_VAR==5)
     uint32_t var[5];
 
+#if(DV_NUM_OF_VAR>=3)
     var[0]=Input0;
     var[1]=Input1;
     var[2]=Input2;
-    var[3]=Input3;
-    var[4]=Input4;
-    DV_PlotData((const int32_t *) var);
-#else
-#warning "Can not use DV_PlotData5"
 #endif
+
+#if(DV_NUM_OF_VAR>=4)
+    var[3]=Input3;
+#endif
+
+#if(DV_NUM_OF_VAR==5)
+    var[4]=Input4;
+#endif
+
+    DV_Plot((const int32_t *) var);
 }
 
 void DV_Tasks(void)
@@ -87,7 +70,7 @@ void DV_Tasks(void)
         return;
 
     sz=DV_NUM_OF_VAR*4+2;
-    
+
     for(i=0; i<sz; i++)
         Raw[i]=DvData[tail][i];
 

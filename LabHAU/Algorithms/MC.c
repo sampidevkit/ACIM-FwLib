@@ -2,16 +2,33 @@
 #include "Common/Tick.h"
 #include "Debugger/DataVisualizer.h"
 
+/* ******************************************************* EXTERNAL VARIABLES */
 mc_inputs_t McInputs;
 mc_outputs_t McOutputs;
-static uint8_t McDoNext=0xFF;
+/* ********************************************************** LOCAL VARIABLES */
 static tick_cxt_t McTick;
+static volatile uint8_t McDoNext=0xFF;
 
+/* ******************************************************** PRIVATE FUNCTIONS */
 static void AdcCalib_IntCb(void) // <editor-fold defaultstate="collapsed" desc="ADC calibration interrupt callback">
 {
     static uint16_t CalibCnt=0;
+    static uint16_t CalibLoop=0;
 
-    if(CalibCnt<16384) // calibrate in 16384 PWM cycles x50us = 819200us= 819.2ms
+    INV_ADC_InterruptDisable();
+
+    if(CalibLoop<100000)
+    {
+        CalibLoop++;
+        // Get ADC, skip all results in the first 5s
+        while(INV_ADC_ResultIsReady()==0);
+        INV_ADC_GetInternalVrefChannel();
+        INV_ADC_GetVdcChannel();
+        INV_ADC_GetIdcChannel();
+        INV_ADC_GetIuChannel();
+        INV_ADC_GetIvChannel();
+    }
+    else if(CalibCnt<16384) // calibrate in 16384 PWM cycles x50us = 819200us= 819.2ms
     {
         CalibCnt++;
         McDoNext=2;
@@ -22,9 +39,12 @@ static void AdcCalib_IntCb(void) // <editor-fold defaultstate="collapsed" desc="
         InvCxt.Source.Cur.Val+=iir(&InvCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
         InvCxt.PhaseU.Cur.Val+=iir(&InvCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
         InvCxt.PhaseV.Cur.Val+=iir(&InvCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
-        InvCxt.Encoder.Val+=iir(&InvCxt.Encoder.Iir, (int16_t) INV_ENC_GetSpeed(), INV_IIR_FILTER_HARDNESS);
         //InvCxt.Source.Vol.Offset+=INV_ADC_GetVdcChannel(); // Do not calculate VDC offset
+
+        return; // return without ADC enabling
     }
+
+    INV_ADC_InterruptEnable();
 } // </editor-fold>
 
 static void AdcRunning_IntCb(void) // <editor-fold defaultstate="collapsed" desc="ADC running interrupt callback">
@@ -78,10 +98,15 @@ static void InvPwm_IntCb(void) // <editor-fold defaultstate="collapsed" desc="PW
     printf("\r\nPWM Fault has occurred");
 } // </editor-fold>
 
+/* ********************************************************* PUBLIC FUNCTIONS */
 void MC_Init(void) // <editor-fold defaultstate="collapsed" desc="Motor controller init">
 {
     McDoNext=0;
-    Tick_Reset(&McTick);
+    LedErr_Off();
+    LedRun_Off();
+    LedMcu_On();
+    VDC_Disable();
+    DevMode_Enable();
     printf("\r\nMotor controller initialize");
 } // </editor-fold>
 
@@ -93,8 +118,7 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
         {
             McDoNext=1;
             LedRun_On();
-            VDC_Disable();
-            DevMode_Enable();
+            Tick_Reset(&McTick);
 
             InvCxt.InterVref.Offset=0;
             InvCxt.PhaseU.Cur.Offset=0;
@@ -128,7 +152,14 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
             INV_PWM_SetDuty(0, 0, 0);
             INV_PWM_Enable();
 
-            printf("\r\nMC ADC calibrating...");
+            printf("\r\nMC ADC calibrating");
+            break;
+        }
+
+        case 1: // waiting for ADC interrupt processing and set next state
+        {
+            if(Tick_Is_Over_Ms(McTick, 500))
+                printf("... ");
             break;
         }
 
@@ -154,6 +185,7 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
             if(Tick_Is_Over_Ms(McTick, 1000))
             {
                 McDoNext=4;
+                Motor_Init(); // Load Motor parameters
                 printf("\r\nMC processing...");
                 INV_PWM_Disable();
                 MC_myInit();
@@ -168,7 +200,26 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
             break;
         }
 
+        case 4:
         default:
+            DV_Tasks();
+
+            if(Tick_Is_Over_Ms(McTick, 500))
+            {
+                static bool pintfEn=0;
+
+                pintfEn^=1;
+                LedMcu_Toggle();
+
+                if(pintfEn==1)
+                {
+                    printf("\r\nVref=%d mV", InvCxt.AdcVref);
+                    printf("\r\nVdc=%d mV, ADC=%d", McInputs.Source.U, InvCxt.Source.Vol.Val);
+                    printf("\r\nIdc=%d mA, ADC=%d", McInputs.Source.I, InvCxt.Source.Cur.Val);
+                    printf("\r\nIu=%d mA, ADC=%d", McInputs.PhaseU.I, InvCxt.PhaseU.Cur.Val);
+                    printf("\r\nIv=%d mA, ADC=%d\r\n", McInputs.PhaseV.I, InvCxt.PhaseV.Cur.Val);
+                }
+            }
             break;
     }
 } // </editor-fold>
