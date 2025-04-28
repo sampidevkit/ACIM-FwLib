@@ -11,7 +11,7 @@ inv_cxt_t InvCxt={
     .PhaseU.Cur.Gain=(float) 10.0, // 100mV/A
     .PhaseV.Cur.Gain=(float) 10.0, // 100mV/A
     .Source.Cur.Gain=(float) 10.0, // 100mV/A
-    .Source.Vol.Gain=(float) 71.677, // mV/V
+    .Source.Vol.Gain=(float) 236.0, // mV/V
     .Source.Vol.Offset=3 // ADC value
 };
 
@@ -73,7 +73,7 @@ inline void ClrWdt(void) // <editor-fold defaultstate="collapsed" desc="Clear Wa
 /* ************************************************************ Power control */
 void VDC_Enable(void)
 {
-    //PWR_RELAY_Set();
+    PWR_RELAY_Set();
     printf("\r\nEnable VDC");
 }
 
@@ -292,4 +292,29 @@ inline void INV_PWM_V_Disable(void)
 inline void INV_PWM_W_Disable(void)
 {
     MCPWM_ChannelPinsOwnershipDisable(MCPWM_CH_6);
+}
+
+/* **************************************************************** INV TIMER */
+inline void INV_TMR_Start(void)
+{
+    T1CONSET=_T1CON_ON_MASK;
+}
+
+inline void INV_TMR_Restart(void)
+{
+    T1CONCLR=_T1CON_ON_MASK;
+    TMR1=0x0; // clear counter
+    T1CONSET=_T1CON_ON_MASK;
+}
+
+inline void INV_TMR_Stop(void)
+{
+    T1CONCLR=_T1CON_ON_MASK;
+}
+
+inline uint32_t INV_TMR_GetUs(void)
+{
+    float tk=TMR1+1;
+
+    return (uint32_t) (0.5+tk/7.5f); // tk/TMR1_FrequencyGet()/1E6
 }

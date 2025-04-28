@@ -61,7 +61,7 @@ void SinePWM_Init(uint32_t freq, void (*FncCb)(void*)) // <editor-fold defaultst
     float tmp=freq;
 
     printf("\r\n%s init: ", __FUNCTION__);
-    Callback=FncCb;
+    Callback=(mc_process_fnc)FncCb;
     tmp=1/tmp; // calculate period (s)
     tmp*=1E6; // period in us
     SpwmCxt.max=(int) (tmp/(50*42)); // calculate interrupt period

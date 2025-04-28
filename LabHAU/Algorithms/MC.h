@@ -47,6 +47,7 @@ typedef struct {
     mc_ui_cxt_t PhaseV; // Voltage & Current of phase V
     mc_ui_cxt_t PhaseW; // Voltage & Current of phase W
     int32_t Speed; // Motor speed in rpm unit
+    int32_t dt; // Duration between 2 cycles, in us unit
     void *pExpData; // Expanded data inputs
 } mc_inputs_t;
 
@@ -79,7 +80,7 @@ void MC_myProcess(void);
 #define McUv    McInputs.PhaseV.U
 #define McUw    McInputs.PhaseW.U
 
-#define McSpeed McInputs.Speed.Rpm
+#define McSpeed McInputs.Speed
 
 #define McDutyU McOutputs.DutyU
 #define McDutyV McOutputs.DutyV

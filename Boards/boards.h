@@ -68,5 +68,9 @@ void INV_PWM_Disable(void); // disable all PWM channels
 void INV_PWM_U_Disable(void); // disable PWM channel U
 void INV_PWM_V_Disable(void); // disable PWM channel V
 void INV_PWM_W_Disable(void); // disable PWM channel W
-
+/* **************************************************************** INV TIMER */
+void INV_TMR_Start(void); // start timer
+void INV_TMR_Restart(void); // restart timer
+void INV_TMR_Stop(void); // stop timer
+uint32_t INV_TMR_GetUs(void); // get timer counter in us
 #endif

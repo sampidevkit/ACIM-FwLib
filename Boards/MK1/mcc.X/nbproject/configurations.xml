@@ -40,6 +40,10 @@
             <logicalFolder name="rcon" displayName="rcon" projectFiles="true">
               <itemPath>../src/config/default/peripheral/rcon/plib_rcon.h</itemPath>
             </logicalFolder>
+            <logicalFolder name="tmr1" displayName="tmr1" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/tmr1/plib_tmr1_common.h</itemPath>
+              <itemPath>../src/config/default/peripheral/tmr1/plib_tmr1.h</itemPath>
+            </logicalFolder>
             <logicalFolder name="uart" displayName="uart" projectFiles="true">
               <itemPath>../src/config/default/peripheral/uart/plib_uart1.h</itemPath>
               <itemPath>../src/config/default/peripheral/uart/plib_uart2.h</itemPath>
@@ -100,6 +104,9 @@
             </logicalFolder>
             <logicalFolder name="rcon" displayName="rcon" projectFiles="true">
               <itemPath>../src/config/default/peripheral/rcon/plib_rcon.c</itemPath>
+            </logicalFolder>
+            <logicalFolder name="tmr1" displayName="tmr1" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/tmr1/plib_tmr1.c</itemPath>
             </logicalFolder>
             <logicalFolder name="uart" displayName="uart" projectFiles="true">
               <itemPath>../src/config/default/peripheral/uart/plib_uart2.c</itemPath>
@@ -169,6 +176,7 @@
       <C32>
         <property key="additional-warnings" value="true"/>
         <property key="addresss-attribute-use" value="false"/>
+        <property key="appendMe" value=""/>
         <property key="cast-align" value="false"/>
         <property key="code-model" value="default"/>
         <property key="const-model" value="default"/>
@@ -246,6 +254,7 @@
         <property key="additional-options-use-response-files" value="false"/>
         <property key="additional-options-write-sla" value="false"/>
         <property key="allocate-dinit" value="false"/>
+        <property key="appendMe" value=""/>
         <property key="code-dinit" value="false"/>
         <property key="ebase-addr" value=""/>
         <property key="enable-check-sections" value="false"/>
@@ -291,6 +300,7 @@
       <C32CPP>
         <property key="additional-warnings" value="false"/>
         <property key="addresss-attribute-use" value="false"/>
+        <property key="appendMe" value=""/>
         <property key="check-new" value="false"/>
         <property key="eh-specs" value="true"/>
         <property key="enable-app-io" value="false"/>
