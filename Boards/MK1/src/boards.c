@@ -11,7 +11,7 @@ inv_cxt_t InvCxt={
     .PhaseU.Cur.Gain=(float) 10.0, // 100mV/A
     .PhaseV.Cur.Gain=(float) 10.0, // 100mV/A
     .Source.Cur.Gain=(float) 10.0, // 100mV/A
-    .Source.Vol.Gain=(float) 236.0, // mV/V
+    .Source.Vol.Gain=(float) 751.753507, // See in schematic page 5
     .Source.Vol.Offset=3 // ADC value
 };
 
