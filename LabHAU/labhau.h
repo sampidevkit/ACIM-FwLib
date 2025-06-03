@@ -7,7 +7,5 @@
 #include "Common/Tick.h"
 #include "Algorithms/MC.h"
 #include "Debugger/DataVisualizer.h"
-#include "peripheral/uart/plib_uart1.h"
-
 
 #endif

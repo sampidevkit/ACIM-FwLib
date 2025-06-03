@@ -8,8 +8,17 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <time.h>
+
+#if defined(__XC32)
 #include <xc.h>
 #include <sys/attribs.h>
+#elif defined(__WIN32)
+#include <windows.h>
+#include <unistd.h>
+#include <windows.h>
+#include <getopt.h>
+#include <signal.h>
+#endif
 
 typedef int8_t rslt_t;
 typedef struct tm tm_t;
@@ -42,6 +51,7 @@ typedef struct {
 #define RESULT_REBOOT               2
 #define RESULT_ERR                  (-1)
 
+#if defined(__XC32)
 // MIPS memory address convert
 #ifndef KVA_TO_PA
 #define KVA_TO_PA(v)                ((_paddr_t)(v)&0x1FFFFFFF)
@@ -49,6 +59,7 @@ typedef struct {
 
 #ifndef PA_TO_KVA0
 #define PA_TO_KVA0(pa)              ((void*)((pa)|0x80000000))
+#endif
 #endif
 
 #define BitTest(x, i)               ((x>>i)&1)

@@ -4,7 +4,7 @@
 #include "Common/LibDef.h"
 
 /* ******************************************************************* System */
-void System_Init(void);
+bool System_Init(void);
 void ClrWdt(void);
 /* ************************************************************ Power control */
 void VDC_Enable(void);
