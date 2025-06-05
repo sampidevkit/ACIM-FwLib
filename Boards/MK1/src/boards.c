@@ -1,4 +1,5 @@
 #include "boards.h"
+#include "definitions.h"
 #include "Algorithms/MC.h"
 
 inv_cxt_t InvCxt={
@@ -15,9 +16,10 @@ inv_cxt_t InvCxt={
 };
 
 /* ******************************************************************* System */
-void System_Init(void) // <editor-fold defaultstate="collapsed" desc="System initialize">
+bool System_Init(void) // <editor-fold defaultstate="collapsed" desc="System initialize">
 {
     SYS_Initialize(NULL);
+    QEI1_Start();
     printf("\r\n\r\nLABHAU ACIM INVERTER");
     printf("\r\nPCB: HW.ACIM-MK1");
     printf("\r\nMCU: %s", DEVICE_NAME);
@@ -62,6 +64,8 @@ void System_Init(void) // <editor-fold defaultstate="collapsed" desc="System ini
 
     RCON&=0xF3FFFD00; // Clear bit 27, 26, 9, 7,6,5,4,3,2,1,0
     printf("\r\n\r\n");
+
+    return 1;
 } // </editor-fold>
 
 inline void ClrWdt(void) // <editor-fold defaultstate="collapsed" desc="Clear Watching-dog-timer">
@@ -158,7 +162,34 @@ inline size_t DV_Write(uint8_t* pWrBuffer, const size_t size)
 /* ************************************************************** INV encoder */
 inline int32_t INV_ENC_GetSpeed(void)
 {
-    return (int32_t) QEI1_VelocityGet();
+    static uint32_t clk0=0;
+    static int32_t lastSpeed;
+    int32_t Speed, pulse;
+    uint32_t clk1, delta_clk;
+
+#if(0)
+    pulse=QEI1_PositionGet(); // Get present value of encoder
+    QEI1_PositionCountSet(0); // Reset encoder counter
+#else
+    pulse=QEI1_VelocityGet();
+#endif
+
+    clk1=_CP0_GET_COUNT(); // Get present value of core timer
+    delta_clk=clk1-clk0;
+    clk0=clk1;
+
+
+    if(QEI1STATbits.VELOVIRQ==1)
+        Speed=lastSpeed;
+    else
+    {
+        Speed=((int32_t) 7200000*pulse/(int32_t) delta_clk); // rpm
+        lastSpeed=Speed;
+    }
+
+    QEI1STAT=0;
+
+    return Speed;
 }
 
 /* *************************************************************** INV analog */

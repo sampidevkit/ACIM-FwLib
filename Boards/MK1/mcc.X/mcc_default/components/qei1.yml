@@ -1,0 +1,163 @@
+configVersion: 1.0.0
+componentName: qei1
+coreVersion: 5.8.2
+device: PIC32MK1024MCM064
+library: []
+dependency:
+- dependencyPackage: class com.microchip.mcc.harmony.HarmonyModule
+  name: qei1
+  type: module
+  version: ''
+- dependencyPackage: ''
+  name: csp
+  type: package
+  version: v3.22.4
+customDataClassName: com.microchip.utils_mh3.utils.persistence.CustomModuleData
+data:
+  attachments: {}
+  elementPosition:
+    attributes:
+      id: __ROOTVIEW
+    children:
+    - children:
+      - attributes:
+          id: qei1
+          x: '19'
+          y: '442'
+        type: ElementPosition
+      type: ElementPositions
+    type: ComponentGraph
+  symbols:
+    ENCODER_POS_GET_API:
+      attributes:
+        id: ENCODER_POS_GET_API
+      children:
+      - children:
+        - attributes:
+            id: qei1
+            value: QEI1_PositionGet
+          type: Dynamic
+        type: Values
+      type: String
+    ENCODER_POS_SET_API:
+      attributes:
+        id: ENCODER_POS_SET_API
+      children:
+      - children:
+        - attributes:
+            id: qei1
+            value: QEI1_PositionCountSet
+          type: Dynamic
+        type: Values
+      type: String
+    ENCODER_SPEED_GET_API:
+      attributes:
+        id: ENCODER_SPEED_GET_API
+      children:
+      - children:
+        - attributes:
+            id: qei1
+            value: QEI1_VelocityGet
+          type: Dynamic
+        type: Values
+      type: String
+    ENCODER_SPEED_SET_API:
+      attributes:
+        id: ENCODER_SPEED_SET_API
+      children:
+      - children:
+        - attributes:
+            id: qei1
+            value: QEI1_VelocityCountSet
+          type: Dynamic
+        type: Values
+      type: String
+    ENCODER_START_API:
+      attributes:
+        id: ENCODER_START_API
+      children:
+      - children:
+        - attributes:
+            id: qei1
+            value: QEI1_Start
+          type: Dynamic
+        type: Values
+      type: String
+    ENCODER_STOP_API:
+      attributes:
+        id: ENCODER_STOP_API
+      children:
+      - children:
+        - attributes:
+            id: qei1
+            value: QEI1_Stop
+          type: Dynamic
+        type: Values
+      type: String
+    QEI1CMPL__CMPL:
+      attributes:
+        id: QEI1CMPL__CMPL
+      children:
+      - children:
+        - attributes:
+            id: qei1
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Long
+    QEI1CON__PIMOD:
+      attributes:
+        id: QEI1CON__PIMOD
+      children:
+      - children:
+        - attributes:
+            id: qei1
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    QEI1ICC__ICCH:
+      attributes:
+        id: QEI1ICC__ICCH
+      children:
+      - children:
+        - attributes:
+            id: qei1
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Long
+    QEI1IOC__FLTREN:
+      attributes:
+        id: QEI1IOC__FLTREN
+      children:
+      - children:
+        - attributes:
+            id: qei1
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    QEI_QEICON:
+      attributes:
+        id: QEI_QEICON
+      children:
+      - children:
+        - attributes:
+            id: qei1
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+    QEI_QEIIOC:
+      attributes:
+        id: QEI_QEIIOC
+      children:
+      - children:
+        - attributes:
+            id: qei1
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+  userData: {}

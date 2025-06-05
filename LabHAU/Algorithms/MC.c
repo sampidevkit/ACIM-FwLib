@@ -1,6 +1,7 @@
 #include "MC.h"
 #include "Common/Tick.h"
 #include "Debugger/DataVisualizer.h"
+#include "peripheral/qei/plib_qei1.h"
 
 /* ******************************************************* EXTERNAL VARIABLES */
 mc_inputs_t McInputs;
@@ -95,24 +96,27 @@ static void AdcRunning_IntCb(void) // <editor-fold defaultstate="collapsed" desc
 
 static void InvPwm_IntCb(void) // <editor-fold defaultstate="collapsed" desc="PWM fault interrupt callback">
 {
-    INV_PWM_Disable();
+    printf("\r\nPWM Fault has occurred");
     VDC_Disable();
     DevMode_Enable();
+    INV_PWM_Disable();
     INV_TMR_Stop();
-    LedErr_On();
-    printf("\r\nPWM Fault has occurred");
+    McDoNext=5;
+    INV_PWM_SetCallback(NULL);
+    INV_ADC_SetInterruptCallback(NULL);
+
 } // </editor-fold>
 
 /* ********************************************************* PUBLIC FUNCTIONS */
 void MC_Init(void) // <editor-fold defaultstate="collapsed" desc="Motor controller init">
 {
+    printf("\r\nMotor controller initialize");
     McDoNext=0;
     LedErr_Off();
     LedRun_Off();
     LedMcu_On();
     VDC_Disable();
     DevMode_Enable();
-    printf("\r\nMotor controller initialize");
 } // </editor-fold>
 
 void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controller task">
@@ -121,6 +125,7 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
     {
         case 0:
         {
+            printf("\r\nMC ADC calibrating");
             McDoNext=1;
             LedRun_On();
             Tick_Reset(&McTick);
@@ -156,8 +161,6 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
             INV_PWM_InterruptEnable();
             INV_PWM_SetDuty(0, 0, 0);
             INV_PWM_Enable();
-
-            printf("\r\nMC ADC calibrating");
             break;
         }
 
@@ -207,7 +210,6 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
         }
 
         case 4:
-        default:
             if(Tick_Is_Over_Ms(McTick, 500))
             {
                 static bool pintfEn=0;
@@ -218,6 +220,7 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
                 if(pintfEn==1)
                 {
                     printf("\r\ndt=%d us", McInputs.dt);
+                    printf("\r\nSpeed=%d", McInputs.Speed);
                     printf("\r\nVref=%d mV", InvCxt.AdcVref);
                     printf("\r\nVdc=%d mV, ADC=%d", McInputs.Source.U, InvCxt.Source.Vol.Val);
                     printf("\r\nIdc=%d mA, ADC=%d", McInputs.Source.I, InvCxt.Source.Cur.Val);
@@ -226,5 +229,26 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
                 }
             }
             break;
+
+        case 5:
+        {
+            printf("\r\nMotor controller deinitialize");
+            McDoNext=6;
+            LedErr_On();
+            LedRun_Off();
+            Tick_Reset(&McTick);
+            break;
+        }
+
+        case 6:
+        default:
+        {
+            if(Tick_Is_Over_Ms(McTick, 1000))
+            {
+                LedMcu_Toggle();
+                printf("\r\nSpeed=%d", INV_ENC_GetSpeed());
+            }
+            break;
+        }
     }
 } // </editor-fold>

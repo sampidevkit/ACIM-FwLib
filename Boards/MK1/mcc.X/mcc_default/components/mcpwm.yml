@@ -1,0 +1,1007 @@
+configVersion: 1.0.0
+componentName: mcpwm
+coreVersion: 5.8.2
+device: PIC32MK1024MCM064
+library: []
+dependency:
+- dependencyPackage: class com.microchip.mcc.harmony.HarmonyModule
+  name: mcpwm
+  type: module
+  version: ''
+- dependencyPackage: ''
+  name: csp
+  type: package
+  version: v3.22.4
+customDataClassName: com.microchip.utils_mh3.utils.persistence.CustomModuleData
+data:
+  attachments: {}
+  elementPosition:
+    attributes:
+      id: __ROOTVIEW
+    children:
+    - children:
+      - attributes:
+          id: mcpwm
+          x: '19'
+          y: '305'
+        type: ElementPosition
+      type: ElementPositions
+    type: ComponentGraph
+  symbols:
+    ALTDTR12__ALTDTR:
+      attributes:
+        id: ALTDTR12__ALTDTR
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '76'
+          type: Dynamic
+        type: Values
+      type: Integer
+    ALTDTR5__ALTDTR:
+      attributes:
+        id: ALTDTR5__ALTDTR
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '76'
+          type: Dynamic
+        type: Values
+      type: Integer
+    ALTDTR6__ALTDTR:
+      attributes:
+        id: ALTDTR6__ALTDTR
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '76'
+          type: Dynamic
+        type: Values
+      type: Integer
+    DTR12__DTR:
+      attributes:
+        id: DTR12__DTR
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '76'
+          type: Dynamic
+        type: Values
+      type: Integer
+    DTR5__DTR:
+      attributes:
+        id: DTR5__DTR
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '76'
+          type: Dynamic
+        type: Values
+      type: Integer
+    DTR6__DTR:
+      attributes:
+        id: DTR6__DTR
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '76'
+          type: Dynamic
+        type: Values
+      type: Integer
+    INTR_PWM_FAULT:
+      attributes:
+        id: INTR_PWM_FAULT
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: INT_SOURCE_PWM12
+          type: Dynamic
+        type: Values
+      type: String
+    IOCON12__CLMOD:
+      attributes:
+        id: IOCON12__CLMOD
+      children:
+      - children:
+        - attributes:
+            value: '0'
+          type: User
+        type: Values
+      type: KeyValueSet
+    IOCON12__CLPOL:
+      attributes:
+        id: IOCON12__CLPOL
+      children:
+      - children:
+        - attributes:
+            value: '0'
+          type: User
+        type: Values
+      type: KeyValueSet
+    IOCON12__FLTMOD:
+      attributes:
+        id: IOCON12__FLTMOD
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    IOCON12__FLTPOL:
+      attributes:
+        id: IOCON12__FLTPOL
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    IOCON12__FLTSRC:
+      attributes:
+        id: IOCON12__FLTSRC
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    IOCON5__FLTMOD:
+      attributes:
+        id: IOCON5__FLTMOD
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    IOCON5__FLTPOL:
+      attributes:
+        id: IOCON5__FLTPOL
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    IOCON5__FLTSRC:
+      attributes:
+        id: IOCON5__FLTSRC
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    IOCON6__FLTMOD:
+      attributes:
+        id: IOCON6__FLTMOD
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    IOCON6__FLTPOL:
+      attributes:
+        id: IOCON6__FLTPOL
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    IOCON6__FLTSRC:
+      attributes:
+        id: IOCON6__FLTSRC
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    MCPWM_CHANNEL1:
+      attributes:
+        id: MCPWM_CHANNEL1
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    MCPWM_CHANNEL12:
+      attributes:
+        id: MCPWM_CHANNEL12
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: 'false'
+          type: Dynamic
+        - attributes:
+            value: 'true'
+          type: User
+        type: Values
+      type: Boolean
+    MCPWM_CHANNEL2:
+      attributes:
+        id: MCPWM_CHANNEL2
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    MCPWM_CHANNEL3:
+      attributes:
+        id: MCPWM_CHANNEL3
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    MCPWM_CHANNEL5:
+      attributes:
+        id: MCPWM_CHANNEL5
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: 'false'
+          type: Dynamic
+        - attributes:
+            value: 'true'
+          type: User
+        type: Values
+      type: Boolean
+    MCPWM_CHANNEL6:
+      attributes:
+        id: MCPWM_CHANNEL6
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: 'false'
+          type: Dynamic
+        - attributes:
+            value: 'true'
+          type: User
+        type: Values
+      type: Boolean
+    MCPWM_EVIC1:
+      attributes:
+        id: MCPWM_EVIC1
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Integer
+    MCPWM_EVIC12:
+      attributes:
+        id: MCPWM_EVIC12
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1'
+          type: Dynamic
+        type: Values
+      type: Integer
+    MCPWM_IOCON1:
+      attributes:
+        id: MCPWM_IOCON1
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '49152'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_IOCON10:
+      attributes:
+        id: MCPWM_IOCON10
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '49152'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_IOCON11:
+      attributes:
+        id: MCPWM_IOCON11
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '49152'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_IOCON12:
+      attributes:
+        id: MCPWM_IOCON12
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '376832'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_IOCON2:
+      attributes:
+        id: MCPWM_IOCON2
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '49152'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_IOCON3:
+      attributes:
+        id: MCPWM_IOCON3
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '49152'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_IOCON4:
+      attributes:
+        id: MCPWM_IOCON4
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '49152'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_IOCON5:
+      attributes:
+        id: MCPWM_IOCON5
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '376832'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_IOCON6:
+      attributes:
+        id: MCPWM_IOCON6
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '376832'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_IOCON7:
+      attributes:
+        id: MCPWM_IOCON7
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '49152'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_IOCON8:
+      attributes:
+        id: MCPWM_IOCON8
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '49152'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_IOCON9:
+      attributes:
+        id: MCPWM_IOCON9
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '49152'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_PERIOD_CH1:
+      attributes:
+        id: MCPWM_PERIOD_CH1
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '3000'
+          type: Dynamic
+        type: Values
+      type: Integer
+    MCPWM_PERIOD_CH10:
+      attributes:
+        id: MCPWM_PERIOD_CH10
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '3000'
+          type: Dynamic
+        type: Values
+      type: Integer
+    MCPWM_PERIOD_CH11:
+      attributes:
+        id: MCPWM_PERIOD_CH11
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '3000'
+          type: Dynamic
+        type: Values
+      type: Integer
+    MCPWM_PERIOD_CH12:
+      attributes:
+        id: MCPWM_PERIOD_CH12
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '3000'
+          type: Dynamic
+        type: Values
+      type: Integer
+    MCPWM_PERIOD_CH2:
+      attributes:
+        id: MCPWM_PERIOD_CH2
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '3000'
+          type: Dynamic
+        type: Values
+      type: Integer
+    MCPWM_PERIOD_CH3:
+      attributes:
+        id: MCPWM_PERIOD_CH3
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '3000'
+          type: Dynamic
+        type: Values
+      type: Integer
+    MCPWM_PERIOD_CH4:
+      attributes:
+        id: MCPWM_PERIOD_CH4
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '3000'
+          type: Dynamic
+        type: Values
+      type: Integer
+    MCPWM_PERIOD_CH5:
+      attributes:
+        id: MCPWM_PERIOD_CH5
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '3000'
+          type: Dynamic
+        type: Values
+      type: Integer
+    MCPWM_PERIOD_CH6:
+      attributes:
+        id: MCPWM_PERIOD_CH6
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '3000'
+          type: Dynamic
+        type: Values
+      type: Integer
+    MCPWM_PERIOD_CH7:
+      attributes:
+        id: MCPWM_PERIOD_CH7
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '3000'
+          type: Dynamic
+        type: Values
+      type: Integer
+    MCPWM_PERIOD_CH8:
+      attributes:
+        id: MCPWM_PERIOD_CH8
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '3000'
+          type: Dynamic
+        type: Values
+      type: Integer
+    MCPWM_PERIOD_CH9:
+      attributes:
+        id: MCPWM_PERIOD_CH9
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '3000'
+          type: Dynamic
+        type: Values
+      type: Integer
+    MCPWM_PRI_FREQ:
+      attributes:
+        id: MCPWM_PRI_FREQ
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '40000.0'
+          type: Dynamic
+        type: Values
+      type: Float
+    MCPWM_PWMCON1:
+      attributes:
+        id: MCPWM_PWMCON1
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_PWMCON12:
+      attributes:
+        id: MCPWM_PWMCON12
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '8389632'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_PWMCON5:
+      attributes:
+        id: MCPWM_PWMCON5
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1024'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_PWMCON6:
+      attributes:
+        id: MCPWM_PWMCON6
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1024'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_SEC_FREQ:
+      attributes:
+        id: MCPWM_SEC_FREQ
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '60000.0'
+          type: Dynamic
+        type: Values
+      type: Float
+    MCPWM_TRGCON12:
+      attributes:
+        id: MCPWM_TRGCON12
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1024'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_TRGCON5:
+      attributes:
+        id: MCPWM_TRGCON5
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1024'
+          type: Dynamic
+        type: Values
+      type: Hex
+    MCPWM_TRGCON6:
+      attributes:
+        id: MCPWM_TRGCON6
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1024'
+          type: Dynamic
+        type: Values
+      type: Hex
+    PDC12__PDC:
+      attributes:
+        id: PDC12__PDC
+      children:
+      - children:
+        - attributes:
+            id: max
+          children:
+          - type: Value
+            value: '2000'
+          type: Integer
+        type: Attributes
+      - children:
+        - attributes:
+            value: '0'
+          type: User
+        type: Values
+      type: Integer
+    PDC5__PDC:
+      attributes:
+        id: PDC5__PDC
+      children:
+      - children:
+        - attributes:
+            id: max
+          children:
+          - type: Value
+            value: '2000'
+          type: Integer
+        type: Attributes
+      - children:
+        - attributes:
+            value: '0'
+          type: User
+        type: Values
+      type: Integer
+    PDC6__PDC:
+      attributes:
+        id: PDC6__PDC
+      children:
+      - children:
+        - attributes:
+            id: max
+          children:
+          - type: Value
+            value: '2000'
+          type: Integer
+        type: Attributes
+      - children:
+        - attributes:
+            value: '0'
+          type: User
+        type: Values
+      type: Integer
+    PTPER__PTPER:
+      attributes:
+        id: PTPER__PTPER
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '3000'
+          type: Dynamic
+        type: Values
+      type: Integer
+    PWMCON12__CLIEN:
+      attributes:
+        id: PWMCON12__CLIEN
+      children:
+      - children:
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    PWMCON12__ECAM:
+      attributes:
+        id: PWMCON12__ECAM
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    PWMCON12__FLTIEN:
+      attributes:
+        id: PWMCON12__FLTIEN
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: 'false'
+          type: Dynamic
+        - attributes:
+            value: 'true'
+          type: User
+        type: Values
+      type: Boolean
+    PWMCON1__FLTIEN:
+      attributes:
+        id: PWMCON1__FLTIEN
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    PWMCON5__ECAM:
+      attributes:
+        id: PWMCON5__ECAM
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    PWMCON6__ECAM:
+      attributes:
+        id: PWMCON6__ECAM
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    PWM_CALLBACK_API:
+      attributes:
+        id: PWM_CALLBACK_API
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: MCPWM_CallbackRegister
+          type: Dynamic
+        type: Values
+      type: String
+    PWM_GET_PERIOD_API:
+      attributes:
+        id: PWM_GET_PERIOD_API
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: MCPWM_PrimaryPeriodGet
+          type: Dynamic
+        type: Values
+      type: String
+    PWM_OUTPUT_DISABLE_API:
+      attributes:
+        id: PWM_OUTPUT_DISABLE_API
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: MCPWM_ChannelPinsOwnershipDisable
+          type: Dynamic
+        type: Values
+      type: String
+    PWM_OUTPUT_ENABLE_API:
+      attributes:
+        id: PWM_OUTPUT_ENABLE_API
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: MCPWM_ChannelPinsOwnershipEnable
+          type: Dynamic
+        type: Values
+      type: String
+    PWM_PH_MASK:
+      attributes:
+        id: PWM_PH_MASK
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '4192'
+          type: Dynamic
+        type: Values
+      type: Hex
+    PWM_PH_U:
+      attributes:
+        id: PWM_PH_U
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: MCPWM_CH_12
+          type: Dynamic
+        type: Values
+      type: String
+    PWM_PH_V:
+      attributes:
+        id: PWM_PH_V
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: MCPWM_CH_5
+          type: Dynamic
+        type: Values
+      type: String
+    PWM_PH_W:
+      attributes:
+        id: PWM_PH_W
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: MCPWM_CH_6
+          type: Dynamic
+        type: Values
+      type: String
+    PWM_SET_DUTY_API:
+      attributes:
+        id: PWM_SET_DUTY_API
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: MCPWM_ChannelPrimaryDutySet
+          type: Dynamic
+        type: Values
+      type: String
+    PWM_START_API:
+      attributes:
+        id: PWM_START_API
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: MCPWM_Start
+          type: Dynamic
+        type: Values
+      type: String
+    PWM_STOP_API:
+      attributes:
+        id: PWM_STOP_API
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: MCPWM_Stop
+          type: Dynamic
+        type: Values
+      type: String
+    TRGCON12__TRGSEL:
+      attributes:
+        id: TRGCON12__TRGSEL
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    TRGCON5__TRGSEL:
+      attributes:
+        id: TRGCON5__TRGSEL
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    TRGCON6__TRGSEL:
+      attributes:
+        id: TRGCON6__TRGSEL
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '1'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    TRIG12__TRGCMP:
+      attributes:
+        id: TRIG12__TRGCMP
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '2990'
+          type: Dynamic
+        type: Values
+      type: Integer
+    TRIG5__TRGCMP:
+      attributes:
+        id: TRIG5__TRGCMP
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '2990'
+          type: Dynamic
+        type: Values
+      type: Integer
+    TRIG6__TRGCMP:
+      attributes:
+        id: TRIG6__TRGCMP
+      children:
+      - children:
+        - attributes:
+            id: mcpwm
+            value: '2990'
+          type: Dynamic
+        type: Values
+      type: Integer
+  userData: {}

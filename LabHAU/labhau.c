@@ -13,21 +13,19 @@ static void sigintHandler(int signum)
 
 int main(void)
 {
-    if(System_Init())
-    {
-        Tick_Init(ClrWdt);
-        MC_Init();
+    exitRequested=!System_Init();
+    Tick_Init(ClrWdt);
+    MC_Init();
 
-        while(exitRequested==0)
-        {
-            ClrWdt();
-            MC_Task();
-        }
+    while(exitRequested==0)
+    {
+        ClrWdt();
+        MC_Task();
     }
 
 #if defined(__WIN32)
     signal(SIGINT, SIG_DFL);
 #endif
-    
+
     return 0;
 }

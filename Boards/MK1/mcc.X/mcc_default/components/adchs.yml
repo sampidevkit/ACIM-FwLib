@@ -1,0 +1,1599 @@
+configVersion: 1.0.0
+componentName: adchs
+coreVersion: 5.8.2
+device: PIC32MK1024MCM064
+library: []
+dependency:
+- dependencyPackage: class com.microchip.mcc.harmony.HarmonyModule
+  name: adchs
+  type: module
+  version: ''
+- dependencyPackage: ''
+  name: csp
+  type: package
+  version: v3.22.4
+customDataClassName: com.microchip.utils_mh3.utils.persistence.CustomModuleData
+data:
+  attachments: {}
+  elementPosition:
+    attributes:
+      id: __ROOTVIEW
+    children:
+    - children:
+      - attributes:
+          id: adchs
+          x: '19'
+          y: '374'
+        type: ElementPosition
+      type: ElementPositions
+    type: ComponentGraph
+  symbols:
+    ADC0TIME__SAMC:
+      attributes:
+        id: ADC0TIME__SAMC
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '1'
+          type: User
+        type: Values
+      type: Long
+    ADC1TIME__SAMC:
+      attributes:
+        id: ADC1TIME__SAMC
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '1'
+          type: User
+        type: Values
+      type: Long
+    ADC2TIME__SAMC:
+      attributes:
+        id: ADC2TIME__SAMC
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '1'
+          type: User
+        type: Values
+      type: Long
+    ADC3TIME__SAMC:
+      attributes:
+        id: ADC3TIME__SAMC
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '1'
+          type: User
+        type: Values
+      type: Long
+    ADC3TIME__SELRES:
+      attributes:
+        id: ADC3TIME__SELRES
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: '3'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    ADC4TIME__SAMC:
+      attributes:
+        id: ADC4TIME__SAMC
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '1'
+          type: User
+        type: Values
+      type: Long
+    ADC4TIME__SELRES:
+      attributes:
+        id: ADC4TIME__SELRES
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: '3'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    ADC5TIME__SAMC:
+      attributes:
+        id: ADC5TIME__SAMC
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '1'
+          type: User
+        type: Values
+      type: Long
+    ADC5TIME__SELRES:
+      attributes:
+        id: ADC5TIME__SELRES
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '3'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCCON1__SELRES:
+      attributes:
+        id: ADCCON1__SELRES
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: '3'
+          type: Dynamic
+        type: Values
+      type: KeyValueSet
+    ADCCON1__STRGSRC:
+      attributes:
+        id: ADCCON1__STRGSRC
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '30'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCCON2__EOSIEN:
+      attributes:
+        id: ADCCON2__EOSIEN
+      children:
+      - children:
+        - attributes:
+            value: 'true'
+          type: User
+        type: Values
+      type: Boolean
+    ADCCON2__SAMC:
+      attributes:
+        id: ADCCON2__SAMC
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '1'
+          type: User
+        type: Values
+      type: Long
+    ADCCON3__CONCLKDIV:
+      attributes:
+        id: ADCCON3__CONCLKDIV
+      children:
+      - children:
+        - attributes:
+            value: '1'
+          type: User
+        type: Values
+      type: Long
+    ADCCSS1__CSS0:
+      attributes:
+        id: ADCCSS1__CSS0
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    ADCCSS1__CSS1:
+      attributes:
+        id: ADCCSS1__CSS1
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    ADCCSS1__CSS10:
+      attributes:
+        id: ADCCSS1__CSS10
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    ADCCSS1__CSS24:
+      attributes:
+        id: ADCCSS1__CSS24
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    ADCCSS1__CSS7:
+      attributes:
+        id: ADCCSS1__CSS7
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    ADCCSS1__CSS8:
+      attributes:
+        id: ADCCSS1__CSS8
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    ADCCSS1__CSS9:
+      attributes:
+        id: ADCCSS1__CSS9
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    ADCCSS2__CSS50:
+      attributes:
+        id: ADCCSS2__CSS50
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: 'true'
+          type: User
+        type: Values
+      type: Boolean
+    ADCGIRQEN1__AGIEN0:
+      attributes:
+        id: ADCGIRQEN1__AGIEN0
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: 'false'
+          type: Dynamic
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    ADCGIRQEN1__AGIEN24:
+      attributes:
+        id: ADCGIRQEN1__AGIEN24
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    ADCGIRQEN1__AGIEN3:
+      attributes:
+        id: ADCGIRQEN1__AGIEN3
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: 'true'
+          type: Dynamic
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    ADCGIRQEN1__AGIEN4:
+      attributes:
+        id: ADCGIRQEN1__AGIEN4
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    ADCGIRQEN1__AGIEN5:
+      attributes:
+        id: ADCGIRQEN1__AGIEN5
+      children:
+      - children:
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    ADCGIRQEN2__AGIEN50:
+      attributes:
+        id: ADCGIRQEN2__AGIEN50
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    ADCHS_0_ENABLE:
+      attributes:
+        id: ADCHS_0_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: 'false'
+          type: Dynamic
+        - attributes:
+            value: 'true'
+          type: User
+        type: Values
+      type: Boolean
+    ADCHS_1_ENABLE:
+      attributes:
+        id: ADCHS_1_ENABLE
+      children:
+      - children:
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    ADCHS_2_ENABLE:
+      attributes:
+        id: ADCHS_2_ENABLE
+      children:
+      - children:
+        - attributes:
+            value: 'true'
+          type: User
+        type: Values
+      type: Boolean
+    ADCHS_3_ENABLE:
+      attributes:
+        id: ADCHS_3_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: 'true'
+          type: Dynamic
+        - attributes:
+            value: 'true'
+          type: User
+        type: Values
+      type: Boolean
+    ADCHS_4_ENABLE:
+      attributes:
+        id: ADCHS_4_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: 'false'
+          type: Dynamic
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    ADCHS_5_ENABLE:
+      attributes:
+        id: ADCHS_5_ENABLE
+      children:
+      - children:
+        - attributes:
+            value: 'true'
+          type: User
+        type: Values
+      type: Boolean
+    ADCHS_7_ENABLE:
+      attributes:
+        id: ADCHS_7_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: 'false'
+          type: Dynamic
+        - attributes:
+            value: 'true'
+          type: User
+        type: Values
+      type: Boolean
+    ADCHS_ADCCON1:
+      attributes:
+        id: ADCHS_ADCCON1
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '8257536'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCCON2:
+      attributes:
+        id: ADCHS_ADCCON2
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '73729'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCCON3:
+      attributes:
+        id: ADCHS_ADCCON3
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCCSS1:
+      attributes:
+        id: ADCHS_ADCCSS1
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCCSS2:
+      attributes:
+        id: ADCHS_ADCCSS2
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '262144'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCGIRQEN1:
+      attributes:
+        id: ADCHS_ADCGIRQEN1
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCGIRQEN2:
+      attributes:
+        id: ADCHS_ADCGIRQEN2
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCTIME0:
+      attributes:
+        id: ADCHS_ADCTIME0
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '50397185'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCTIME1:
+      attributes:
+        id: ADCHS_ADCTIME1
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '50397185'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCTIME2:
+      attributes:
+        id: ADCHS_ADCTIME2
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '50397185'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCTIME3:
+      attributes:
+        id: ADCHS_ADCTIME3
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '50397185'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCTIME4:
+      attributes:
+        id: ADCHS_ADCTIME4
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '50397185'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCTIME5:
+      attributes:
+        id: ADCHS_ADCTIME5
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '50397185'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCTRG1:
+      attributes:
+        id: ADCHS_ADCTRG1
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '505290270'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCTRG2:
+      attributes:
+        id: ADCHS_ADCTRG2
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '7710'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCTRG3:
+      attributes:
+        id: ADCHS_ADCTRG3
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCTRG7:
+      attributes:
+        id: ADCHS_ADCTRG7
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_ADCTRGMODE:
+      attributes:
+        id: ADCHS_ADCTRGMODE
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '146997248'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_CONV_RATE0:
+      attributes:
+        id: ADCHS_CONV_RATE0
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '3750.0002'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCHS_CONV_RATE1:
+      attributes:
+        id: ADCHS_CONV_RATE1
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'false'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: '3750.0002'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCHS_CONV_RATE2:
+      attributes:
+        id: ADCHS_CONV_RATE2
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '3750.0002'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCHS_CONV_RATE3:
+      attributes:
+        id: ADCHS_CONV_RATE3
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '3750.0002'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCHS_CONV_RATE4:
+      attributes:
+        id: ADCHS_CONV_RATE4
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'false'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: '3750.0002'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCHS_CONV_RATE5:
+      attributes:
+        id: ADCHS_CONV_RATE5
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '3750.0002'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCHS_CONV_RATE7:
+      attributes:
+        id: ADCHS_CONV_RATE7
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: '3750.0002'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCHS_DMA_STATUS_REG:
+      attributes:
+        id: ADCHS_DMA_STATUS_REG
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: ADCDSTAT
+          type: Dynamic
+        type: Values
+      type: String
+    ADCHS_IEC0:
+      attributes:
+        id: ADCHS_IEC0
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_IEC1:
+      attributes:
+        id: ADCHS_IEC1
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADCHS_INTERRUPT:
+      attributes:
+        id: ADCHS_INTERRUPT
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    ADCHS_TADC0:
+      attributes:
+        id: ADCHS_TADC0
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '16.666666'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCHS_TADC1:
+      attributes:
+        id: ADCHS_TADC1
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'false'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: '16.666666'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCHS_TADC2:
+      attributes:
+        id: ADCHS_TADC2
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '16.666666'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCHS_TADC3:
+      attributes:
+        id: ADCHS_TADC3
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '16.666666'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCHS_TADC4:
+      attributes:
+        id: ADCHS_TADC4
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'false'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: '16.666666'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCHS_TADC5:
+      attributes:
+        id: ADCHS_TADC5
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '16.666666'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCHS_TADC7:
+      attributes:
+        id: ADCHS_TADC7
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '16.666666'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCHS_TCLK:
+      attributes:
+        id: ADCHS_TCLK
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '8.333333'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCHS_TQ:
+      attributes:
+        id: ADCHS_TQ
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: '8.333333'
+          type: Dynamic
+        type: Values
+      type: Float
+    ADCTRG1__TRGSRC0:
+      attributes:
+        id: ADCTRG1__TRGSRC0
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '30'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRG1__TRGSRC1:
+      attributes:
+        id: ADCTRG1__TRGSRC1
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '30'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRG1__TRGSRC2:
+      attributes:
+        id: ADCTRG1__TRGSRC2
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '30'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRG1__TRGSRC3:
+      attributes:
+        id: ADCTRG1__TRGSRC3
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: '10'
+          type: Dynamic
+        - attributes:
+            value: '30'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRG2__TRGSRC4:
+      attributes:
+        id: ADCTRG2__TRGSRC4
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: '10'
+          type: Dynamic
+        - attributes:
+            value: '30'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRG2__TRGSRC5:
+      attributes:
+        id: ADCTRG2__TRGSRC5
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '30'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRG2__TRGSRC7:
+      attributes:
+        id: ADCTRG2__TRGSRC7
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '0'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRG3__TRGSRC10:
+      attributes:
+        id: ADCTRG3__TRGSRC10
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: '10'
+          type: Dynamic
+        - attributes:
+            value: '0'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRG3__TRGSRC8:
+      attributes:
+        id: ADCTRG3__TRGSRC8
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '0'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRG3__TRGSRC9:
+      attributes:
+        id: ADCTRG3__TRGSRC9
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '0'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRG7__TRGSRC24:
+      attributes:
+        id: ADCTRG7__TRGSRC24
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: '10'
+          type: Dynamic
+        - attributes:
+            value: '0'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRGMODE__SH0ALT:
+      attributes:
+        id: ADCTRGMODE__SH0ALT
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '3'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRGMODE__SH1ALT:
+      attributes:
+        id: ADCTRGMODE__SH1ALT
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '0'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRGMODE__SH2ALT:
+      attributes:
+        id: ADCTRGMODE__SH2ALT
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '0'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRGMODE__SH3ALT:
+      attributes:
+        id: ADCTRGMODE__SH3ALT
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: '1'
+          type: Dynamic
+        - attributes:
+            value: '3'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRGMODE__SH4ALT:
+      attributes:
+        id: ADCTRGMODE__SH4ALT
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            id: adchs
+            value: '1'
+          type: Dynamic
+        - attributes:
+            value: '2'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADCTRGMODE__SH5ALT:
+      attributes:
+        id: ADCTRGMODE__SH5ALT
+      children:
+      - children:
+        - attributes:
+            id: visible
+          children:
+          - type: Value
+            value: 'true'
+          type: Boolean
+        type: Attributes
+      - children:
+        - attributes:
+            value: '2'
+          type: User
+        type: Values
+      type: KeyValueSet
+    ADC_CALLBACK_API:
+      attributes:
+        id: ADC_CALLBACK_API
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: ADCHS_CallbackRegister
+          type: Dynamic
+        type: Values
+      type: String
+    ADC_CH_PHASE_U:
+      attributes:
+        id: ADC_CH_PHASE_U
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: ADCHS_CH0
+          type: Dynamic
+        type: Values
+      type: String
+    ADC_CH_PHASE_V:
+      attributes:
+        id: ADC_CH_PHASE_V
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: ADCHS_CH4
+          type: Dynamic
+        type: Values
+      type: String
+    ADC_CH_POT:
+      attributes:
+        id: ADC_CH_POT
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: ADCHS_CH15
+          type: Dynamic
+        type: Values
+      type: String
+    ADC_CH_VDC_BUS:
+      attributes:
+        id: ADC_CH_VDC_BUS
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: ADCHS_CH10
+          type: Dynamic
+        type: Values
+      type: String
+    ADC_GET_RESULT_API:
+      attributes:
+        id: ADC_GET_RESULT_API
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: ADCHS_ChannelResultGet
+          type: Dynamic
+        type: Values
+      type: String
+    ADC_IS_RESULT_READY_API:
+      attributes:
+        id: ADC_IS_RESULT_READY_API
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: ADCHS_ChannelResultIsReady
+          type: Dynamic
+        type: Values
+      type: String
+    ADC_START_CONV_API:
+      attributes:
+        id: ADC_START_CONV_API
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: ADCHS_ChannelConversionStart
+          type: Dynamic
+        type: Values
+      type: String
+    AN0:
+      attributes:
+        id: AN0
+      children:
+      - children:
+        - attributes:
+            value: 'true'
+          type: User
+        type: Values
+      type: Boolean
+    AN1:
+      attributes:
+        id: AN1
+      children:
+      - children:
+        - attributes:
+            value: 'true'
+          type: User
+        type: Values
+      type: Boolean
+    AN10:
+      attributes:
+        id: AN10
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: 'true'
+          type: Dynamic
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    AN24:
+      attributes:
+        id: AN24
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: 'true'
+          type: Dynamic
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    AN3:
+      attributes:
+        id: AN3
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    AN4:
+      attributes:
+        id: AN4
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    AN50:
+      attributes:
+        id: AN50
+      children:
+      - children:
+        - attributes:
+            value: 'true'
+          type: User
+        type: Values
+      type: Boolean
+    AN7:
+      attributes:
+        id: AN7
+      children:
+      - children:
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    AN8:
+      attributes:
+        id: AN8
+      children:
+      - children:
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    AN9:
+      attributes:
+        id: AN9
+      children:
+      - children:
+        - attributes:
+            value: 'false'
+          type: User
+        type: Values
+      type: Boolean
+    INTERRUPT_ADC_RESULT:
+      attributes:
+        id: INTERRUPT_ADC_RESULT
+      children:
+      - children:
+        - attributes:
+            id: adchs
+            value: INT_SOURCE_ADC_DATA24
+          type: Dynamic
+        type: Values
+      type: String
+  userData: {}
