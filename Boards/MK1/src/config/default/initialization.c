@@ -214,13 +214,15 @@ void SYS_Initialize ( void* data )
 	GPIO_Initialize();
 
     CORETIMER_Initialize();
-    QEI1_Initialize();
-
     ADCHS_Initialize();
+
+    QEI1_Initialize();
 
 	UART1_Initialize();
 
 	UART2_Initialize();
+
+    DMAC_Initialize();
 
     MCPWM_Initialize();
 

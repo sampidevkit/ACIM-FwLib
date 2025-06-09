@@ -15,11 +15,30 @@ inv_cxt_t InvCxt={
     .Source.Vol.Offset=3 // ADC value
 };
 
+#define TRANSFER_SIZE (DV_NUM_OF_VAR*4)
+
+static char __attribute__((coherent)) srcBuffer[TRANSFER_SIZE]={};
+static volatile bool completeStatus=false;
+static volatile bool errorStatus=false;
+
+void DMA_UsrCallback(DMAC_TRANSFER_EVENT status, uintptr_t context)
+{
+    if(status==DMAC_TRANSFER_EVENT_COMPLETE)
+        completeStatus=true;
+    else
+        errorStatus=true;
+
+    DMAC_ChannelDisable(DMAC_CHANNEL_0);
+}
+
 /* ******************************************************************* System */
 bool System_Init(void) // <editor-fold defaultstate="collapsed" desc="System initialize">
 {
     SYS_Initialize(NULL);
     QEI1_Start();
+    DMAC_ChannelCallbackRegister(DMAC_CHANNEL_0, DMA_UsrCallback, 0);
+    DMAC_ChannelTransfer(DMAC_CHANNEL_0, &srcBuffer, TRANSFER_SIZE, (void*) &U2TXREG, 1, 1);
+
     printf("\r\n\r\nLABHAU ACIM INVERTER");
     printf("\r\nPCB: HW.ACIM-MK1");
     printf("\r\nMCU: %s", DEVICE_NAME);
@@ -156,7 +175,15 @@ inline bool Button_Get(void)
 /* ********************************************************** Data visualizer */
 inline size_t DV_Write(uint8_t* pWrBuffer, const size_t size)
 {
+#if(0)
     return UART2_Write(pWrBuffer, size);
+#else // Use DMA to transfer data
+    while(DMAC_ChannelIsBusy(DMAC_CHANNEL_0));
+    memcpy(srcBuffer, pWrBuffer, size);
+    DMAC_ChannelEnable(DMAC_CHANNEL_0);
+
+    return size;
+#endif
 }
 
 /* ************************************************************** INV encoder */
