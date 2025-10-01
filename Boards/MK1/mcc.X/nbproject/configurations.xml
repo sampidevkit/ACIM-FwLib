@@ -66,8 +66,23 @@
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="true">
+      <logicalFolder name="mcc_default" displayName="mcc_default" projectFiles="true">
+        <logicalFolder name="components" displayName="components" projectFiles="true">
+          <itemPath>mcc_default/components/stdio.yml</itemPath>
+          <itemPath>mcc_default/components/tmr1.yml</itemPath>
+          <itemPath>mcc_default/components/core_timer.yml</itemPath>
+          <itemPath>mcc_default/components/uart1.yml</itemPath>
+          <itemPath>mcc_default/components/dfp.yml</itemPath>
+          <itemPath>mcc_default/components/rcon.yml</itemPath>
+          <itemPath>mcc_default/components/qei1.yml</itemPath>
+          <itemPath>mcc_default/components/adchs.yml</itemPath>
+          <itemPath>mcc_default/components/uart2.yml</itemPath>
+          <itemPath>mcc_default/components/mcpwm.yml</itemPath>
+          <itemPath>mcc_default/components/core.yml</itemPath>
+        </logicalFolder>
+        <itemPath>mcc_default/mcc-config.mc4</itemPath>
+      </logicalFolder>
       <itemPath>Makefile</itemPath>
-      <itemPath>MK1.mc3</itemPath>
     </logicalFolder>
     <logicalFolder name="LibraryFiles"
                    displayName="LibraryFiles"
@@ -155,7 +170,7 @@
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="PIC32MK-MC_DFP" vendor="Microchip" version="1.11.151"/>
+        <pack name="PIC32MK-MC_DFP" vendor="Microchip" version="1.12.263"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>

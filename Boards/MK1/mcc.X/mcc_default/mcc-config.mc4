@@ -19,41 +19,45 @@ modules:
 - uart2
 generatedFileHashHistoryMap:
 - file: ..\src\config\default\definitions.h
-  hash: c05d96af69e47907b826070a244be2bd964092a388a16ba1ec4b3fb143302317
+  hash: ab5e7a19f3d327235bddb2ed24b3cf1507dcbc454fed094b81b731951be6b13a
 - file: ..\src\config\default\device.h
   hash: 4d4341a6f9628cea0bf73f980b639f7cb81089e55a60ad7e434be2a71e477442
 - file: ..\src\config\default\exceptions.c
   hash: 265c985839caadb2fa9e8fc76e7bc3c160e31e9b2c96dc4006add33e5d7ee212
 - file: ..\src\config\default\initialization.c
-  hash: 379b7432748d3ea15a094613f1012a44a07d6808d1ad8d2075d6e424bb3daeb7
+  hash: e00ca304f344f6aab3dfe73bafaa1d8e1f69966ed0015e1260ea3a58f6f5e493
 - file: ..\src\config\default\interrupts.c
-  hash: 81d392ca975a5fb016f362045e540c5a5f6fe7b730736575ac86f8df1e947adf
+  hash: d447655640e3d5938c7e6cf9a522fc6b13d75920114f1a2b92f7e57d9b6ea102
 - file: ..\src\config\default\interrupts.h
-  hash: 2595ab8f1f1540f53f3bfaa6cc303a793f949b28b2c82e8f202100abd7ce5f65
+  hash: 5d1ac69aa9d6ad756686dc51e51122a8b9b9c3149874d01fd1980aec91bc2924
 - file: ..\src\config\default\p32MK1024MCM064.ld
   hash: b8998b4af35d2554f3852d6ba6d8ef3bf0307efef8938c0cb4ea4194182da098
 - file: ..\src\config\default\peripheral\adchs\plib_adchs.c
-  hash: 7c86cb4a4e987b96899291b9fbf3c34b2be7164e8eae276a0db3b58f4f5569df
+  hash: bf4f37d537e0ad18830f7232dffa1e969bbda81058b07f32b747b3070b4dcc3c
 - file: ..\src\config\default\peripheral\adchs\plib_adchs.h
   hash: 29dd760d2511791c3a31168ec01ef774a83272942c0b0aab57228fb49be64706
 - file: ..\src\config\default\peripheral\adchs\plib_adchs_common.h
   hash: dd5ab056c45fde6d45c65e87abf1b86d05c0e696ee3bac54a1ebc921ee2e26ff
 - file: ..\src\config\default\peripheral\clk\plib_clk.c
-  hash: fb4ae639322536327f3f722efe1b95d5bc3907fc498649876d3f3110ea42c760
+  hash: 3524f06ccef0690ebf4d3c2d6d1fb51131298fa5a4f20f568c7c887265be5b89
 - file: ..\src\config\default\peripheral\clk\plib_clk.h
   hash: 35384f2e13e59b7190bf77f6996baf3ea2377ec42df94979a6f793326def5255
 - file: ..\src\config\default\peripheral\coretimer\plib_coretimer.c
   hash: fffd0d46d7d9a9ed96d7946c68d1f0084d5c1d0248ccbabc72b28b1767f902a1
 - file: ..\src\config\default\peripheral\coretimer\plib_coretimer.h
   hash: d34b7063ef1a236b9af04cfb49df2e60e3f1e5a74e5c2018d2f9c0208b9657f8
+- file: ..\src\config\default\peripheral\dmac\plib_dmac.c
+  hash: 62ad5c9eda49dea0ffc3ed173b82e2adb9ecd0fffe25385301021d3dcc513bc8
+- file: ..\src\config\default\peripheral\dmac\plib_dmac.h
+  hash: 78b9533671371600d12031eb6280ef51c292677cc636c809bb1b16ab772a4f8d
 - file: ..\src\config\default\peripheral\evic\plib_evic.c
-  hash: 8dc6cf9131f5b72ea57b7899897486e351fe68ca8c24a8d6496f20b482cf9026
+  hash: 480e5648a774dd9cc5c4abf727b5e6586c74a831ea2b2f8e3c8c858e9225f978
 - file: ..\src\config\default\peripheral\evic\plib_evic.h
   hash: 7ca2c90979d4e8932f07e4dc6bcea310c2a9404bb0eb5bcfb3712b362db61eac
 - file: ..\src\config\default\peripheral\gpio\plib_gpio.c
   hash: 53e24b9cab8d9745e36a4b6e045f65799f022d6bdf6e4584a19f79c4c9c4daaa
 - file: ..\src\config\default\peripheral\gpio\plib_gpio.h
-  hash: b4f2d2f670346e4bb523effa7c05fb3bdbe69fef5555b5a8f60501e4b86b4d51
+  hash: 227619d6a8c344b0fd0bd88c56e8283eb0e31d8b2d05e199a4c8ba8df3396bbc
 - file: ..\src\config\default\peripheral\mcpwm\plib_mcpwm.c
   hash: c0cb50f7432779ac7d6a09c6849d054bb2dc768cd6e0506b8e39109ea7481ada
 - file: ..\src\config\default\peripheral\mcpwm\plib_mcpwm.h
@@ -71,7 +75,7 @@ generatedFileHashHistoryMap:
 - file: ..\src\config\default\peripheral\rcon\plib_rcon.h
   hash: a084c64ee55ab7c21ca5e828a57225172c29700fa03ec8048542b9718dfea64e
 - file: ..\src\config\default\peripheral\tmr1\plib_tmr1.c
-  hash: 8c0213aec2de6340a333b2b5a65657dd8e6c723e2f5135ce909caac341622b42
+  hash: 7db4c1c475991b876a8f8ddd35f9e0cf5497f66be2022348fc57d37f20e45464
 - file: ..\src\config\default\peripheral\tmr1\plib_tmr1.h
   hash: 3e1ae49682c4b1b0f0d329f2b76d9e9f9a2a32bb42f25049a897e05c85270626
 - file: ..\src\config\default\peripheral\tmr1\plib_tmr1_common.h
@@ -81,9 +85,9 @@ generatedFileHashHistoryMap:
 - file: ..\src\config\default\peripheral\uart\plib_uart1.h
   hash: 3293f92da9c8c056d90d5b14f0ccfb14e57d61f8a35611ded3fce1e0c91b92bc
 - file: ..\src\config\default\peripheral\uart\plib_uart2.c
-  hash: 8e61aa14871ee0b0855140c25440b9108d083725ee1bdd3c4861460057f4bbeb
+  hash: 21437066835e6af246b5c482da92c0a32679523a8e63f41379e9ff55fdbf99b7
 - file: ..\src\config\default\peripheral\uart\plib_uart2.h
-  hash: 872a6e57f6178641639fe1e874433259f91e198132b44817d26333c8aa5a29c7
+  hash: fb195cabb660b4710089863d970408e077272ee55ead8a4d50cd36ff6f860061
 - file: ..\src\config\default\peripheral\uart\plib_uart_common.h
   hash: 70213cd740b3ff9a591d93ad6aac9493335851db084dd862275effacdebf710d
 - file: ..\src\config\default\peripheral\wdt\plib_wdt.c

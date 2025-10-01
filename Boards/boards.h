@@ -50,7 +50,9 @@ void INV_ADC_SetInterruptCallback(void (*fnc)(void));
 uint16_t INV_ADC_GetInternalVrefChannel(void);
 uint16_t INV_ADC_GetVdcChannel(void);
 uint16_t INV_ADC_GetIdcChannel(void);
+uint16_t INV_ADC_GetUuChannel(void);
 uint16_t INV_ADC_GetIuChannel(void);
+uint16_t INV_ADC_GetUvChannel(void);
 uint16_t INV_ADC_GetIvChannel(void);
 uint16_t INV_ADC_GetSpeedRef(void);
 /* ****************************************************************** INV PWM */

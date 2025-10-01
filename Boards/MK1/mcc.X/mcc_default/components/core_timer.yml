@@ -39,6 +39,19 @@ data:
           type: Dynamic
         type: Values
       type: Integer
+    CORE_TIMER_PERIOD_MS:
+      attributes:
+        id: CORE_TIMER_PERIOD_MS
+      children:
+      - children:
+        - attributes:
+            id: max
+          children:
+          - type: Value
+            value: '71582.79'
+          type: Float
+        type: Attributes
+      type: Float
     CORE_TIMER_PERIOD_US:
       attributes:
         id: CORE_TIMER_PERIOD_US

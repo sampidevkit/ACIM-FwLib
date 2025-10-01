@@ -112,7 +112,7 @@ uint16_t TMR1_CounterGet(void)
 
 uint32_t TMR1_FrequencyGet(void)
 {
-    return (7500000);
+    return (15000000);
 }
 
 void __attribute__((used)) TIMER_1_InterruptHandler (void)

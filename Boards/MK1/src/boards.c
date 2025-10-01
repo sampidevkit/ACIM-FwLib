@@ -8,8 +8,15 @@ inv_cxt_t InvCxt={
     .AdcReso=4096, // 12bit
     .Encoder.Reso=2000, // 2000 pulses per round
     .InterVref.Gain=(float) 1200, // for Vband gap=1.2V
+
     .PhaseU.Cur.Gain=(float) 10.0, // 100mV/A
+    .PhaseU.Vol.Gain=(float) 751.753507, // See in schematic page 5
+    .PhaseU.Vol.Offset=3, // ADC value
+
     .PhaseV.Cur.Gain=(float) 10.0, // 100mV/A
+    .PhaseV.Vol.Gain=(float) 751.753507, // See in schematic page 5
+    .PhaseV.Vol.Offset=3, // ADC value
+
     .Source.Cur.Gain=(float) 10.0, // 100mV/A
     .Source.Vol.Gain=(float) 751.753507, // See in schematic page 5
     .Source.Vol.Offset=3 // ADC value
@@ -114,7 +121,7 @@ void DevMode_Enable(void)
 
 void DevMode_Disable(void)
 {
-    //DEV_RELAY_Set();
+    DEV_RELAY_Set();
     printf("\r\nDisable DevMode");
 }
 
@@ -231,14 +238,30 @@ inline void INV_ADC_InterruptDisable(void)
     IEC3CLR=_IEC3_AD1EOSIE_MASK;
 }
 
+#define ADCHS_VBG   ADCHS_CH50
+
+#define ADCHS_IDC   ADCHS_CH2
+#define ADCHS_UDC   ADCHS_CH6
+
+#define ADCHS_IU    ADCHS_CH0
+#define ADCHS_UU    ADCHS_CH1
+
+#define ADCHS_IW    ADCHS_CH3
+#define ADCHS_UW    ADCHS_CH5
+
 inline bool INV_ADC_ResultIsReady(void)
 {
-    bool ready=ADCHS_ChannelResultIsReady(ADCHS_CH50);
-    ready&=ADCHS_ChannelResultIsReady(ADCHS_CH0);
-    ready&=ADCHS_ChannelResultIsReady(ADCHS_CH2);
-    ready&=ADCHS_ChannelResultIsReady(ADCHS_CH3);
-    ready&=ADCHS_ChannelResultIsReady(ADCHS_CH5);
-
+    bool ready=ADCHS_ChannelResultIsReady(ADCHS_VBG); // VBG channel
+    
+    ready&=ADCHS_ChannelResultIsReady(ADCHS_IDC); // IDC channel
+    ready&=ADCHS_ChannelResultIsReady(ADCHS_UDC); // UDC channel
+    
+    ready&=ADCHS_ChannelResultIsReady(ADCHS_IU); // IU channel
+    ready&=ADCHS_ChannelResultIsReady(ADCHS_UU); // UU channel
+    
+    ready&=ADCHS_ChannelResultIsReady(ADCHS_IW); // IW channel
+    ready&=ADCHS_ChannelResultIsReady(ADCHS_UW); // UW channel
+    
     return ready;
 }
 
@@ -249,27 +272,37 @@ inline void INV_ADC_SetInterruptCallback(void (*fnc)(void))
 
 inline uint16_t INV_ADC_GetInternalVrefChannel(void)
 {
-    return ADCHS_ChannelResultGet(ADCHS_CH50); // AN50 - Internal Vref=1200mV
+    return ADCHS_ChannelResultGet(ADCHS_VBG); // VBG - Internal Vref=1200mV
 }
 
 inline uint16_t INV_ADC_GetVdcChannel(void)
 {
-    return ADCHS_ChannelResultGet(ADCHS_CH5); // AN6
+    return ADCHS_ChannelResultGet(ADCHS_UDC);
 }
 
 inline uint16_t INV_ADC_GetIdcChannel(void)
 {
-    return ADCHS_ChannelResultGet(ADCHS_CH2); // AN2
+    return ADCHS_ChannelResultGet(ADCHS_IDC);
 }
 
 inline uint16_t INV_ADC_GetIuChannel(void)
 {
-    return ADCHS_ChannelResultGet(ADCHS_CH0); // AN24
+    return ADCHS_ChannelResultGet(ADCHS_IU);
+}
+
+inline uint16_t INV_ADC_GetUuChannel(void)
+{
+    return ADCHS_ChannelResultGet(ADCHS_UU);
 }
 
 inline uint16_t INV_ADC_GetIvChannel(void)
 {
-    return ADCHS_ChannelResultGet(ADCHS_CH3); // AN26
+    return ADCHS_ChannelResultGet(ADCHS_IW);
+}
+
+inline uint16_t INV_ADC_GetUvChannel(void)
+{
+    return ADCHS_ChannelResultGet(ADCHS_UW);
 }
 
 /* ****************************************************************** INV PWM */

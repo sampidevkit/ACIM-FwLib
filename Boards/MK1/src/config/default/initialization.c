@@ -85,10 +85,10 @@
 #pragma config FDMTEN =     OFF
 
 /*** DEVCFG2 ***/
-#pragma config FPLLIDIV =   DIV_1
-#pragma config FPLLRNG =    RANGE_13_26_MHZ
+#pragma config FPLLIDIV =   DIV_4
+#pragma config FPLLRNG =    RANGE_5_10_MHZ
 #pragma config FPLLICLK =   PLL_POSC
-#pragma config FPLLMULT =   MUL_20
+#pragma config FPLLMULT =   MUL_80
 #pragma config FPLLODIV =   DIV_4
 #pragma config BORSEL =     HIGH
 #pragma config UPLLEN =     ON
@@ -214,9 +214,9 @@ void SYS_Initialize ( void* data )
 	GPIO_Initialize();
 
     CORETIMER_Initialize();
-    ADCHS_Initialize();
-
     QEI1_Initialize();
+
+    ADCHS_Initialize();
 
 	UART1_Initialize();
 

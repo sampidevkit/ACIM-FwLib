@@ -72,6 +72,16 @@
 #define ENC_B_GetLatch()          ((LATG >> 7) & 0x1U)
 #define ENC_B_PIN                  GPIO_PIN_RG7
 
+/*** Macros for MC_UU_DIV pin ***/
+#define MC_UU_DIV_Get()               ((PORTA >> 0) & 0x1U)
+#define MC_UU_DIV_GetLatch()          ((LATA >> 0) & 0x1U)
+#define MC_UU_DIV_PIN                  GPIO_PIN_RA0
+
+/*** Macros for MC_UV_DIV pin ***/
+#define MC_UV_DIV_Get()               ((PORTA >> 1) & 0x1U)
+#define MC_UV_DIV_GetLatch()          ((LATA >> 1) & 0x1U)
+#define MC_UV_DIV_PIN                  GPIO_PIN_RA1
+
 /*** Macros for IDC_SEN pin ***/
 #define IDC_SEN_Get()               ((PORTB >> 0) & 0x1U)
 #define IDC_SEN_GetLatch()          ((LATB >> 0) & 0x1U)
@@ -86,6 +96,11 @@
 #define DEV_RELAY_Get()               ((PORTB >> 2) & 0x1U)
 #define DEV_RELAY_GetLatch()          ((LATB >> 2) & 0x1U)
 #define DEV_RELAY_PIN                  GPIO_PIN_RB2
+
+/*** Macros for MC_UW_DIV pin ***/
+#define MC_UW_DIV_Get()               ((PORTB >> 3) & 0x1U)
+#define MC_UW_DIV_GetLatch()          ((LATB >> 3) & 0x1U)
+#define MC_UW_DIV_PIN                  GPIO_PIN_RB3
 
 /*** Macros for VDC_DIV pin ***/
 #define VDC_DIV_Get()               ((PORTC >> 0) & 0x1U)

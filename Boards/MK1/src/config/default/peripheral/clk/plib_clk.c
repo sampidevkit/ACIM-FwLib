@@ -115,14 +115,17 @@ void CLK_Initialize( void )
 
     /* Peripheral Bus 1 is by default enabled, set its divisor */
     PB1DIVbits.PBDIV = 0;
+    /* Peripheral Bus 2 is by default enabled, set its divisor */
+    PB2DIVbits.PBDIV = 0;
+
     /* Peripheral Bus 3 is by default enabled, set its divisor */
-    PB3DIVbits.PBDIV = 3;
+    PB3DIVbits.PBDIV = 0;
 
     /* Peripheral Bus 4 is by default enabled, set its divisor */
-    PB4DIVbits.PBDIV = 7;
+    PB4DIVbits.PBDIV = 0;
 
     /* Peripheral Bus 6 is by default enabled, set its divisor */
-    PB6DIVbits.PBDIV = 15;
+    PB6DIVbits.PBDIV = 119;
 
   
 

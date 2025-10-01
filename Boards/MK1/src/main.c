@@ -55,7 +55,7 @@ int main(void)
     SumVal[4]=0;
     SumCnt=0;
     PlotEn=0;
-    ADCHS_EOSCallbackRegister((ADCHS_EOS_CALLBACK) ADC_IsrCallback, (uintptr_t)NULL);
+    ADCHS_EOSCallbackRegister((ADCHS_EOS_CALLBACK) ADC_IsrCallback, (uintptr_t) NULL);
     MCPWM_ChannelPrimaryDutySet(MCPWM_CH_12, 0);
     MCPWM_ChannelPrimaryDutySet(MCPWM_CH_5, 0);
     MCPWM_ChannelPrimaryDutySet(MCPWM_CH_6, 0);
@@ -64,6 +64,7 @@ int main(void)
     MCPWM_ChannelPinsOwnershipEnable(MCPWM_CH_6);
     MCPWM_Start();
     printf("\rRUNNING\n");
+    //uint32_t tk=CORETIMER_CounterGet();
 
     while(true)
     {
@@ -71,8 +72,11 @@ int main(void)
         SYS_Tasks();
 
         if(PlotEn==1)
+            //if((CORETIMER_CounterGet()-tk)>=(4000*500))
         {
+            //tk=CORETIMER_CounterGet();
             PlotEn=0;
+            SLED_Toggle();
             printf("\r\nVbg=%d", Vbg);
             printf(", Vdc=%d", Vdc);
             printf(", Idc=%d", Idc);

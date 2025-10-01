@@ -44,7 +44,7 @@ data:
     - children:
       - attributes:
           id: stdio
-          x: '211'
+          x: '224'
           y: '163'
         type: ElementPosition
       type: ElementPositions

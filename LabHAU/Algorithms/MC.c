@@ -27,7 +27,9 @@ static void AdcCalib_IntCb(void) // <editor-fold defaultstate="collapsed" desc="
         iir(&InvCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
         iir(&InvCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
         iir(&InvCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
+        iir(&InvCxt.PhaseU.Vol.Iir, (int16_t) INV_ADC_GetUuChannel(), INV_IIR_FILTER_HARDNESS);
         iir(&InvCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
+        iir(&InvCxt.PhaseV.Vol.Iir, (int16_t) INV_ADC_GetUvChannel(), INV_IIR_FILTER_HARDNESS);
     }
     else if(CalibCnt<16384) // calibrate in 16384 PWM cycles x50us = 819200us= 819.2ms
     {
@@ -37,7 +39,9 @@ static void AdcCalib_IntCb(void) // <editor-fold defaultstate="collapsed" desc="
         InvCxt.Source.Vol.Val+=iir(&InvCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
         InvCxt.Source.Cur.Val+=iir(&InvCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
         InvCxt.PhaseU.Cur.Val+=iir(&InvCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
+        InvCxt.PhaseU.Vol.Val+=iir(&InvCxt.PhaseU.Vol.Iir, (int16_t) INV_ADC_GetUuChannel(), INV_IIR_FILTER_HARDNESS);
         InvCxt.PhaseV.Cur.Val+=iir(&InvCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
+        InvCxt.PhaseV.Vol.Val+=iir(&InvCxt.PhaseV.Vol.Iir, (int16_t) INV_ADC_GetUvChannel(), INV_IIR_FILTER_HARDNESS);
 
         if(CalibCnt==16384)
         {
@@ -58,7 +62,9 @@ static void AdcRunning_IntCb(void) // <editor-fold defaultstate="collapsed" desc
     InvCxt.Source.Vol.Val=iir(&InvCxt.Source.Vol.Iir, (int16_t) INV_ADC_GetVdcChannel(), INV_IIR_FILTER_HARDNESS);
     InvCxt.Source.Cur.Val=iir(&InvCxt.Source.Cur.Iir, (int16_t) INV_ADC_GetIdcChannel(), INV_IIR_FILTER_HARDNESS);
     InvCxt.PhaseU.Cur.Val=iir(&InvCxt.PhaseU.Cur.Iir, (int16_t) INV_ADC_GetIuChannel(), INV_IIR_FILTER_HARDNESS);
+    InvCxt.PhaseU.Vol.Val=iir(&InvCxt.PhaseU.Vol.Iir, (int16_t) INV_ADC_GetUuChannel(), INV_IIR_FILTER_HARDNESS);
     InvCxt.PhaseV.Cur.Val=iir(&InvCxt.PhaseV.Cur.Iir, (int16_t) INV_ADC_GetIvChannel(), INV_IIR_FILTER_HARDNESS);
+    InvCxt.PhaseV.Vol.Val=iir(&InvCxt.PhaseV.Vol.Iir, (int16_t) INV_ADC_GetUvChannel(), INV_IIR_FILTER_HARDNESS);
     InvCxt.Encoder.Val=iir(&InvCxt.Encoder.Iir, (int16_t) INV_ENC_GetSpeed(), INV_IIR_FILTER_HARDNESS);
     // Recalculate Vref
     tmp=InvCxt.AdcReso;
@@ -78,11 +84,20 @@ static void AdcRunning_IntCb(void) // <editor-fold defaultstate="collapsed" desc
     tmp/=(float) InvCxt.AdcReso;
     McInputs.PhaseU.I=(int32_t) (tmp*InvCxt.PhaseU.Cur.Gain);
 
+    tmp=(InvCxt.PhaseU.Vol.Val-InvCxt.PhaseU.Vol.Offset)*InvCxt.AdcVref;
+    tmp/=(float) InvCxt.AdcReso;
+    McInputs.PhaseU.U=(int32_t) (tmp*InvCxt.PhaseU.Vol.Gain);
+
     tmp=(InvCxt.PhaseV.Cur.Val-InvCxt.PhaseV.Cur.Offset)*InvCxt.AdcVref;
     tmp/=(float) InvCxt.AdcReso;
     McInputs.PhaseV.I=(int32_t) (tmp*InvCxt.PhaseV.Cur.Gain);
 
-    McInputs.PhaseW.I=-McInputs.PhaseU.I-McInputs.PhaseV.I;
+    tmp=(InvCxt.PhaseV.Vol.Val-InvCxt.PhaseV.Vol.Offset)*InvCxt.AdcVref;
+    tmp/=(float) InvCxt.AdcReso;
+    McInputs.PhaseV.U=(int32_t) (tmp*InvCxt.PhaseV.Vol.Gain);
+
+    McInputs.PhaseW.I=McInputs.Source.I-McInputs.PhaseU.I-McInputs.PhaseV.I;
+    McInputs.PhaseW.U=McInputs.Source.U-McInputs.PhaseU.U-McInputs.PhaseV.U;
     McInputs.Speed=InvCxt.Encoder.Val;
 
     McInputs.dt=INV_TMR_GetUs();
@@ -140,12 +155,16 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
             InvCxt.Source.Vol.Val=0;
             InvCxt.Source.Cur.Val=0;
             InvCxt.PhaseU.Cur.Val=0;
+            InvCxt.PhaseU.Vol.Val=0;
             InvCxt.PhaseV.Cur.Val=0;
+            InvCxt.PhaseV.Vol.Val=0;
             InvCxt.Encoder.Val=0;
 
             InvCxt.Encoder.Iir=0;
             InvCxt.PhaseU.Cur.Iir=0;
+            InvCxt.PhaseU.Vol.Iir=0;
             InvCxt.PhaseV.Cur.Iir=0;
+            InvCxt.PhaseV.Vol.Iir=0;
             InvCxt.Source.Cur.Iir=0;
             InvCxt.Source.Vol.Iir=0;
             InvCxt.InterVref.Iir=0;
@@ -177,13 +196,17 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
             Tick_Reset(&McTick);
             // Calculate average ADC value
             InvCxt.PhaseU.Cur.Offset=InvCxt.PhaseU.Cur.Val/16384;
+            InvCxt.PhaseU.Vol.Offset=InvCxt.PhaseU.Vol.Val/16384;
             InvCxt.PhaseV.Cur.Offset=InvCxt.PhaseV.Cur.Val/16384;
+            InvCxt.PhaseV.Vol.Offset=InvCxt.PhaseV.Vol.Val/16384;
             InvCxt.Source.Cur.Offset=InvCxt.Source.Cur.Val/16384;
 
             printf("\r\nOFFSET VALUES:");
             printf("\r\n->Vdco Adc=%d", InvCxt.Source.Vol.Offset);
             printf("\r\n->Idco Adc=%d", InvCxt.Source.Cur.Offset);
+            printf("\r\n->Uuo Adc=%d", InvCxt.PhaseU.Vol.Offset);
             printf("\r\n->Iuo Adc=%d", InvCxt.PhaseU.Cur.Offset);
+            printf("\r\n->Uvo Adc=%d", InvCxt.PhaseV.Vol.Offset);
             printf("\r\n->Ivo Adc=%d", InvCxt.PhaseV.Cur.Offset);
             break;
         }
@@ -225,7 +248,9 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
                     printf("\r\nVdc=%d mV, ADC=%d", McInputs.Source.U, InvCxt.Source.Vol.Val);
                     printf("\r\nIdc=%d mA, ADC=%d", McInputs.Source.I, InvCxt.Source.Cur.Val);
                     printf("\r\nIu=%d mA, ADC=%d", McInputs.PhaseU.I, InvCxt.PhaseU.Cur.Val);
+                    printf("\r\nUu=%d mV, ADC=%d", McInputs.PhaseU.U, InvCxt.PhaseU.Vol.Val);
                     printf("\r\nIv=%d mA, ADC=%d\r\n", McInputs.PhaseV.I, InvCxt.PhaseV.Cur.Val);
+                    printf("\r\nUv=%d mV, ADC=%d\r\n", McInputs.PhaseV.U, InvCxt.PhaseV.Vol.Val);
                 }
             }
             break;
