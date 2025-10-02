@@ -204,9 +204,9 @@ void MC_Task(void) // <editor-fold defaultstate="collapsed" desc="Motor controll
             printf("\r\nOFFSET VALUES:");
             printf("\r\n->Vdco Adc=%d", InvCxt.Source.Vol.Offset);
             printf("\r\n->Idco Adc=%d", InvCxt.Source.Cur.Offset);
-            printf("\r\n->Uuo Adc=%d", InvCxt.PhaseU.Vol.Offset);
+            printf("\r\n->Vuo Adc=%d", InvCxt.PhaseU.Vol.Offset);
             printf("\r\n->Iuo Adc=%d", InvCxt.PhaseU.Cur.Offset);
-            printf("\r\n->Uvo Adc=%d", InvCxt.PhaseV.Vol.Offset);
+            printf("\r\n->Vvo Adc=%d", InvCxt.PhaseV.Vol.Offset);
             printf("\r\n->Ivo Adc=%d", InvCxt.PhaseV.Cur.Offset);
             break;
         }

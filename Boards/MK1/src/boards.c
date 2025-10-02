@@ -254,7 +254,7 @@ inline bool INV_ADC_ResultIsReady(void)
     bool ready=ADCHS_ChannelResultIsReady(ADCHS_VBG); // VBG channel
     
     ready&=ADCHS_ChannelResultIsReady(ADCHS_IDC); // IDC channel
-    ready&=ADCHS_ChannelResultIsReady(ADCHS_UDC); // UDC channel
+    //ready&=ADCHS_ChannelResultIsReady(ADCHS_UDC); // UDC channel
     
     ready&=ADCHS_ChannelResultIsReady(ADCHS_IU); // IU channel
     ready&=ADCHS_ChannelResultIsReady(ADCHS_UU); // UU channel
